@@ -142,7 +142,12 @@ def settings_box():
                 st.session_state[column] = not st.session_state[column]
                 # Check
                 if table == "user":
-                    user.update(column, st.session_state[column])
+                    if st.session_state[column] and not None:
+                        user.update(column, True)
+                        st.session_state[column] = True
+                    else:
+                        user.update(column, False)
+                        st.session_state[column] = False
                 if table == "page_config":
                     page_config.update(column, st.session_state[column])
 
