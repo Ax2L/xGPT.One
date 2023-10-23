@@ -2,9 +2,10 @@
 
 import os
 import json
+import time
 from PIL import Image
 import streamlit as st
-from streamlit_elements import elements, mui, sync, html
+from streamlit_elements import elements, mui, sync, html, lazy
 from components.xhelper import display_session_data
 from components.xdatastore import UserSettings, PageSettings, ColorSettings
 
@@ -119,11 +120,21 @@ def settings_box():
         page_config = PageSettings(username=st.session_state["username"])
         page_config.load()
 
-        # Callback functions:
+        #* Callback functions:
         # Save change in Session State
         def handle_change(event):
-            st.session_state.openai_key = event.target.value
+            current_time = time.time()
+            last_time_key = "last_time_handle_change"
+            
+            if last_time_key not in st.session_state:
+                st.session_state[last_time_key] = current_time
 
+            # Check if 5 seconds have passed
+            if current_time - st.session_state[last_time_key] >= 5:
+                st.session_state.openai_key = event.target.value
+                user.update("openai_key", st.session_state["openai_key"])  # Update the database with the OpenAI key.
+                st.session_state[last_time_key] = current_time  # Update the last run time
+        
         # Save change in Session State when clicked
         def handle_boolean(table, column):
             def wrapper(event):
@@ -137,14 +148,14 @@ def settings_box():
 
             return wrapper
 
-        # List settings
+        #* Settings Material Section
         mui.List(
             # `Input` for (OpenAI Key)
             mui.ListItem(
                 mui.TextField(
                     label="OpenAI Key",
                     value=st.session_state["openai_key"],
-                    onChange=handle_change,
+                    onChange=(handle_change),
                     sx={
                         "min-width": "100%",
                     },
@@ -179,86 +190,7 @@ def settings_box():
         )
 
 
-
-def settings_box_Old():
-    """Renders the settings box in the sidebar."""
-    st.header("Settings")
-
-    try:
-        # Using a button for #? Dev Mode
-        # dev_mode = st.empty()
-        # dev_mode_disabled = dev_mode.button(f"Dev-view disabled",type="secondary",help="This is help")
-        # if dev_mode_disabled:
-        #    dev_mode = st.empty()
-        #    dev_mode_disabled = dev_mode.button('Dev-view enabled', type="secondary", help="help here")
-        #    st.session_state["dev_mode"] = not st.session_state["dev_mode"]
-        # st.write(f"Dev Mode is {'ON' if st.session_state['dev_mode'] else 'OFF'}")
-
-        #
-        #
-        ## Using a button for #? Session State
-        # session_states_button = st.button("Show session-states")
-        # if session_states_button:
-        #    st.session_state["show_session_state"] = not st.session_state["show_session_state"]
-        # st.write(f"Show Session States is {'ON' if st.session_state['show_session_state'] else 'OFF'}")
-        # Load Postgres data.
-        user = UserSettings(username=st.session_state["username"])
-        user.load()
-        page_config = PageSettings(username=st.session_state["username"])
-        page_config.load()
-        #! Test:
-        gen_toggle(user, "dev_mode", "Developer Mode")
-        gen_toggle(page_config, "show_session_data", "Show Session Data")
-
-        # Getting #? OpenAI key input
-        new_openai_key = st.text_input(
-            "OpenAI Key", value=st.session_state["openai_key"]
-        )
-        # Button to update the database
-        update_button = st.button("Update Settings")
-        if update_button:
-            # Update the session state and the database
-            st.session_state["openai_key"] = new_openai_key
-            user.update("dev_mode", st.session_state["dev_mode"])
-            user.update("openai_key", st.session_state["openai_key"])
-        st.write("Session state values:")
-        st.write(st.session_state)
-    except Exception as e:
-        st.error(f"Error: {str(e)} ❌")
-
-    # try:
-    #    # Using a button for #? Dev Mode
-    #    dev_mode_button = st.button("Toggle Dev Mode")
-    #    if dev_mode_button:
-    #        st.session_state["dev_mode"] = not st.session_state["dev_mode"]
-    #    st.write(f"Dev Mode is {'ON' if st.session_state['dev_mode'] else 'OFF'}")
-
-    #    # Getting #? OpenAI key input
-    #    openai_key = st.text_input("OpenAI Key", value=st.session_state["openai_key"])
-    #    # Button to update the database
-    #    update_button = st.button("Update Settings")
-    #    if update_button:
-    #        # Update the session state and the database
-    #        st.session_state["openai_key"] = openai_key
-    #        user = UserSettings(username="admin")
-    #        user.update("dev_mode", st.session_state["dev_mode"])
-    #        user.update("openai_key", st.session_state["openai_key"])
-    #    st.write("Session state values:")
-    #    st.write(st.session_state)
-
-    # except Exception as e:
-    #    st.error(f"Error: {str(e)} ❌")
-    # try:
-    #    # Send data and excecute
-    #    if st.form_submit_button("Update", on_click=update_user_settings):
-    #        st.success("Settings updated successfully!")
-
-    # except Exception as e:
-    #    st.error(f"Error: {str(e)} ❌")
-
-
 # * === Menu Content Box ---------------> Datastore
-
 
 def datastore_box():
     """Renders the datastore box in the sidebar."""
