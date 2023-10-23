@@ -1,0 +1,15 @@
+version: '3'
+volumes:
+  data:
+services:
+  db:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: strongpassword
+      MYSQL_DATABASE: xgpt
+      MYSQL_USER: xgptuser
+      MYSQL_PASSWORD: strongpassword
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - "3306:3306"

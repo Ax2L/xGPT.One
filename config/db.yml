@@ -1,0 +1,21 @@
+qdrant:
+  url: http://qdrant
+  # url: http://localhost
+  port: 6333
+  prefer_grpc: false
+  collection_name_aa: aleph_alpha
+  collection_name_gpt4all: gpt4all
+  collection_name_openai: openai
+
+milvus:
+  url: http://localhost
+  # url: http://localhost
+  port: 19530
+  prefer_grpc: false
+  collection_name_aa: aleph_alpha
+  collection_name_gpt4all: gpt4all
+  collection_name_openai: openai
+
+aleph_alpha_embeddings:
+  normalize: True
+  compress_to_size: 128

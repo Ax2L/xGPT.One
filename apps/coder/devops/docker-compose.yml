@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  devopsgpt:
+    image: kuafuai/devopsgpt:latest
+    ports:
+      - "8008:8080"
+      - "8018:8081"
+    volumes:
+      - "./workspace:/app/workspace"
+      - "./env.yaml:/app/env.yaml"
+    stdin_open: true
+    tty: true

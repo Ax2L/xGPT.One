@@ -1,0 +1,16 @@
+# /frontend/config.yaml
+
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: some_cookie_name
+  unique_token: 477a9ddd-161f-4f4f-9fba-00573a79e730
+credentials:
+  usernames:
+    admin:
+      email: admin@xgpt.one
+      name: admin
+      password: $2b$12$K7McVwRrS0X9RnutP7aiDOAITUdxA2wZkWvtHJwz5kLZeY0jSoeUS
+preauthorized:
+  emails: 
+  - admin@xgpt.one

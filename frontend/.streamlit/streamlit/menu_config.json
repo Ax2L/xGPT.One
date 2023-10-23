@@ -1,0 +1,37 @@
+[
+    {
+        "name": "datastore",
+        "icon": "Storage",
+        "description": "",
+        "color": "#334155",
+        "active_color": "#4F378B"
+    },
+    {
+        "name": "mlearning",
+        "icon": "School",
+        "description": "",
+        "color": "#334155",
+        "active_color": "#4F378B"
+    },
+    {
+        "name": "apps",
+        "icon": "SmartToy",
+        "description": "",
+        "color": "#334155",
+        "active_color": "#4F378B"
+    },
+    {
+        "name": "tools",
+        "icon": "Handyman",
+        "description": "",
+        "color": "#334155",
+        "active_color": "#4F378B"
+    },
+    {
+        "name": "dashboard",
+        "icon": "Assistant",
+        "description": "",
+        "color": "#334155",
+        "active_color": "#4F378B"
+    }
+]

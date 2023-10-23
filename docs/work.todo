@@ -1,0 +1,424 @@
+# Development Notes
+
+> **Note**: These are internal notes for use during the build-up phase of the project.
+
+---
+
+## Table of Contents
+
+- [Development Notes](#development-notes)
+  - [Table of Contents](#table-of-contents)
+  - [Ongoing Tasks](#ongoing-tasks)
+  - [Backlog](#backlog)
+  - [Upcoming Integrations](#upcoming-integrations)
+  - [Upcoming System Updates](#upcoming-system-updates)
+  - [Should Take A Look Into](#should-take-a-look-into)
+  - [Processing](#processing)
+      - [TODO #### 29.09](#todo--2909)
+- [ADD TO Installer:](#add-to-installer)
+  - [Used technology:](#used-technology)
+    - [Python:](#python)
+    - [GO:](#go)
+  - [Archived Tasks](#archived-tasks)
+  - [Dated Notes](#dated-notes)
+  - [ChatGPT Update Prompt](#chatgpt-update-prompt)
+    - [Instructions for the next ChatGPT Instance](#instructions-for-the-next-chatgpt-instance)
+
+---
+
+## Ongoing Tasks
+
+- [ ] Build a configuration/settings page. This will eliminate the need for constant file changes.
+- [ ] Implement a SQL Database to store user data.
+
+---
+
+## Backlog
+
+- [ ] Store Secrets and use with Python.
+- [ ] Create a dashboard to manage applications (Start and Stop each separately).
+
+---
+
+## Upcoming Integrations
+
+- [ ] **Flowise**: Good for chains and complex flows. [API: Available]
+- [ ] **Langflow**: Good for chatbots and simple tasks. [API: Available]
+- [ ] **GPT-Engineer**: Python-based GPT-powered coder, very efficient.
+- [ ] **SuperAGI**: AGI with nearly every feature that an AGI currently can have. [API: Available]
+- [ ] **Midjourney UI**
+- [ ] **More...**
+
+---
+
+## Upcoming System Updates
+
+- [ ] Example clips and data for every function.
+- [ ] Documentation based on an LLM. A chatbot will later handle documentation queries.
+- [ ] Centralized logging, task, and issue interface.
+- [ ] Support for SAML and OAuth.
+
+---
+
+## Should Take A Look Into
+
+- [ ] [Train Generator](https://traingenerator.streamlit.app/)
+- [ ] [Chat with Github Repo](https://github.com/peterw/Chat-with-Github-Repo)
+- [ ] [Trubrics SDK](https://github.com/trubrics/trubrics-sdk/)
+- [ ] [Frogbase Audio Generator](https://github.com/hayabhay/frogbase)
+- [ ] [Pygwalker](https://github.com/Kanaries/pygwalker/tree/main)
+- [ ] [Hiplot](https://github.com/facebookresearch/hiplot)
+
+---
+
+## Processing
+
+✅ 1. Reduce the unneeded script files  
+✅ 2. Remove every file for `.env` and replace it with a custom loader  
+✅ 3. Redesign `docker.init.py`  
+✅ 4. Redesign `init.py` and `run.py`  
+⬛ Implement system monitoring  
+⬛ Integrate [FastAPI with Streamlit](https://testdriven.io/blog/fastapi-streamlit/)  
+   - #?Help: https://blog.jcharistech.com/2022/08/05/deploying-streamlit-and-fastapi-apps-using-docker-and-docker-compose/
+⬛ Integrate [Streamlit Train Generator](https://github.com/Ax2L/streamlit-traingenerator)  
+⬛ Integrate [Streamlit Key to Text](https://github.com/Ax2L/streamlit-keytotext)  
+⬛ Integrate [Streamlit Snow Chat](https://github.com/Ax2L/streamlit-snowChat)  
+⬛ Create Docker image and use it in the production `docker-compose.yml`
+  integ: [ydantic](https://github.com/pydantic/pydantic)
+  PRIO 1: 
+  1. - **https://milvus.io/** | 
+  2. - **Towhee** | https://github.com/towhee-io/examples
+  3. - **haystack** | https://github.com/deepset-ai/haystack/
+  4. - **GPTCache** | https://github.com/zilliztech/GPTCache
+  5. - **Redis** | 
+  6. - **BOTS** | https://github.com/langchain-ai/langchain
+                  - https://github.com/langchain-ai/chat-langchain
+                  - 
+
+
+  - **https://docs.docarray.org/**
+  check more:
+  - https://github.com/Redocly/redoc
+  - https://github.com/Ax2L/opyrator
+  - https://sqlmodel.tiangolo.com/db-to-code/
+  - [MAYBE GOOD FOR Apps Start/Stop ](https://github.com/asehmi/simple-streamlit-fastapi-integration)
+  - [Could usefull for a AI Agents Dashboard](https://docs.evidentlyai.com/)
+  - [Have some CHats we can check](https://github.com/Ax2L/declarai)
+
+
+
+# DONE:
+✅ redesign Login Page
+  ✅ Create a Settings Page 
+  ✅ Shift User Settings to Settings page.
+  ✅ Create Logout Button on the bottom in the sidebar.
+  ✅ change or create a default.py to store there the logout button and all other code we need on every page.
+  ✅ try to combine the styles auth and others which makes sense to have them in one file.
+
+
+[x] Create a Overview about the available VectorDB
+  [x] Add to each the information about why i should need it
+  [x] Add the columns: 
+    [x] supported languages
+
+
+[x] loading UserData based on username, 
+[x] the username should always be available during the session.
+
+[x] Extra-Steps:
+ - [x] A function that always use the username session_state to load data from the postgres-db by handover it only the parameter.
+
+✅ Design logic for dynamic Header.
+✅ Implement Submenus/Toolbar (Should be below the Navibar as dropdown {sticky = optional})
+✅ Add Settings Page/Widget:
+  ✅ Bind postgresdb, and store the data.
+  ✅ Create a init_db.sh with the task to create tables.
+  ✅ Create a streamlit python file for the settings page.
+    ✅ Create the function for read, change and create data in the postgresdb.
+    ✅ Write some example widgets in the settings.py streamlit file where we can change some values in the settings-db 
+  [X] Create a function which can handle all the basic stuff that every page needs:
+    [X] Load Background, Spinner, Sidebar_Menu, 
+
+
+
+ TODO: Function for Sidebar Menu
+   [ ] Add first a grid structure:
+        Two Rows, in the 
+        1.Row: Colomns: ["Loading","Placeholder(Later Health Status)","Logo"]
+        2.Row: Colums: ["the 5 Button"]
+
+
+   [ ]After the Button, create the Frame for each Button:
+       1.create them with "styleable_container" and set display=none,
+       2.create the function for contol that status and attache them both on the button.
+   [ ]Finish the design of the Sidebar Menu:
+       1.remove all css that is not needed first.
+       2.find out which components are available (ants,elements, material etc..)
+       3.create try to use only the styles.css, then we can be sure that everything affected.
+   [ ] Add GPT-Pilot CLI to your Page
+       1.Make the CLI available as own window in the Page, best case, Dashboard.
+       2.Document all information and add a markdown reader that sits behind the Help button in the sidebar.
+       3.Rewite Assistant before you continue with the UI.
+   [ ] Add more Apps as showcase:
+       1.Reactivate the Documentator
+       2.Update DemoGPT and provide an Example
+       3.Create your own Bots into the Asisstant Character list.
+   [ ] Create a Stateful dynamic Dashboard:
+       1.Build the Dashboard Layout, based on the logic of the empty Fields, and Resolution of the Viewer.
+       2.Add a Apps List/Folder that can be used in the Fields.
+       3.Add a close, options and header to the box logic in the dashboard.
+   [ ] Create a Docker Container.
+       1.Create a Docker Version of xGPT, test and upload it to Docker.
+       2.Use xGPT to update its own Readme, API Docs, codebase comments and beautyfing with a brainless 3.5-GPT.
+       3.Record that in best case.
+
+
+
+
+# Dependencies i really use at the end:
+- https://github.com/bouzidanas/streamlit-float
+
+
+
+
+
+
+
+
+### NOTES:
+```css
+
+
+/* 
+=== Button ===
+= Material UI
+*/
+button[class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButtonBase-root MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedContained MuiButtonGroup-groupedContainedHorizontal MuiButtonGroup-groupedContainedPrimary css-v4rusa"]
+/*
+= Streamlit */
+/* button[class="st-emotion-cache-1gvxj09 ef3psqc11"] /* I cant use this one */
+button[data-testid="baseButton-secondary"] 
+button[kind="secondary"]
+
+
+
+
+
+
+
+button[kind="primary"] {
+  --primary-color: #7792E3;
+  --background-color: #1A202C;
+  --secondary-background-color: #1A202C;
+  --text-color: #FFFFFF;
+  --font: "Source Sans Pro", sans-serif;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  outline: 0px;
+  border: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 4px;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, order-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: transparent;
+  color: rgb(51, 65, 85);
+  min-width: 40px;
+  box-shadow: none;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+
+
+```
+
+
+
+
+###### #################################################################################################################################
+For chad:
+I want you to update my following Streamlit frontend file "home.py", so that it:
+- the function display_user_form(), is able to update, or create if not available each table and parameter alone.
+- The goal is, to have a seperated function for postgres, which can handle, creation if not available and update. Which i can also use for all the other upcoming components.
+
+! Ignore everything that have a '#', this are comments in the code.
+
+Here my home.py
+```
+
+
+```
+
+and here our current postgres.py (which have currently our functions for postgres, but i dont really like those solutions.)
+```
+
+
+```
+
+##### ADD TO MAIN.SH:
+- 
+
+## Coder Pilot
+
+------------------ STARTING NEW PROJECT ----------------------
+If you wish to continue with this project in future run:
+python main.py app_id=dd4a116d-4170-477d-ac4e-c2bffcab6d20
+--------------------------------------------------------------
+
+## TOOLS:
+https://dbdiagram.io/d/xGPT-651ed8efffbf5169f01d0f14
+
+
+##### ISSUE:
+- 
+
+
+
+---
+# ADD TO Installer:
+- brew install git-lfs
+- docker, docker-compose
+- brew install poetry (DEV) 
+- go, python3.11, etc...
+
+## Used technology:
+
+### Python:
+ -  [pterm](https://docs.pterm.sh/)
+ -  []()
+ -  []()
+ -  []()
+ -  []()
+ -  []()
+ -  []()
+ -  []()
+
+
+### GO:
+ -  [pterm](https://docs.pterm.sh/)
+ -  []()
+ -  []()
+ -  []()
+ -  []()
+ -  []()
+ -  []()
+
+---
+## Mindmap of Frontend
+```mermaid
+mindmap
+  root((home.py))
+    setup
+      Set page configuration
+      ::icon(fa fa-cogs)
+      Load configuration
+      Initialize authenticator
+      Setup if initial
+        Define default session state
+      Display according to authentication status
+    navigation
+      NavBar
+      ::icon(fa fa-map-signs)
+      Define Navbar function
+        Build navbar
+        Switch page if not Home
+    user_management
+      Authenticated Display
+      ::icon(fa fa-user)
+      Sidebar Header Menu
+        Notification Button
+        Assistant Button
+        Settings Button
+        etc.
+      Sidebar Settings Menu Content
+        Database interaction
+        Display User Dashboard
+          Header and subheader
+          Container
+            User data management
+              Form
+                API Key
+                Notes
+                Dev Mode
+    database_interaction
+      PostgreSQL Database Management
+      ::icon(fa fa-database)
+      Functions
+        Set value in database
+        Get value from database
+        Add column to table
+    visual_aesthetics
+      Appearance and Styles
+      ::icon(fa fa-paint-brush)
+      Set background image
+      Apply styles
+    session_initialization
+      Initialize application state
+      ::icon(fa fa-power-off)
+      Define initial session state
+      Setup
+        Apply styles if initial
+    main_function
+      Main Entry Point
+      ::icon(fa fa-play)
+      Run setup
+      Perform login
+      Update session state if authenticated
+      Setup navbar
+      Display authenticated UI
+
+```
+
+
+---
+
+## Archived Tasks
+
+_(Completed tasks along with their completion dates go here.)_
+
+---
+
+## Dated Notes
+
+_(Major updates or milestones with dates for tracking.)_
+
+---
+
+## ChatGPT Update Prompt
+
+### Instructions for the next ChatGPT Instance
+
+Hello ChatGPT instance! Your task is to maintain and update this Development Tracker Markdown file, adhering to the following guidelines:
+
+1. **Update Existing Tasks**: Check the current state of tasks under the sections "Ongoing Tasks," "Backlog," "Upcoming Integrations," and "Upcoming System Updates." Update them based on the latest developments.
+  
+2. **Archive Completed Tasks**: Any tasks that are marked as completed (✅) should be moved to an "Archive" section at the end of the document. Include the date of completion next to each archived task.
+  
+3. **Add Dated Notes**: For any major changes or milestones reached, add a note under a new section called "Dated Notes." Make sure each note has the current date for easy tracking.
+  
+4. **Integrate New Data**: If there are any new tasks, features, or integrations to be added, include them in the appropriate section.
+  
+5. **File Output**: After all the changes, provide the new version of the Markdown file.
+
+6. **Insert this Prompt**: Before finalizing, include this same prompt at the end of the updated Markdown file to instruct the next ChatGPT instance in this update cycle.
+
+Your mission is to keep this file as a living document, continually updated and easily navigable. Thank you!
+
+

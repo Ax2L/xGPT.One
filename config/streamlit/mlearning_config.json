@@ -1,0 +1,101 @@
+{
+    "filename": "config/streamlit/mlearning_config.json",
+    "categories": [
+        {
+            "category_name": "Preprocessing",
+            "category_color": "#935D5B",
+            "icon": "FilterList",
+            "text_color": "#7065C9",
+            "mlearning": [
+                {
+                    "icon": "Launch",
+                    "title": "Data Cleanser",
+                    "page_name": "DataCleanser_Page",
+                    "description": "Clean and preprocess raw data.",
+                    "color": "#935D5B"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Feature Engineer",
+                    "page_name": "FeatureEngineer_Page",
+                    "description": "Create and select optimal features.",
+                    "color": "#935D5B"
+                }
+            ]
+        },
+        {
+            "category_name": "Modeling",
+            "category_color": "#49475C",
+            "icon": "TrendingUp",
+            "text_color": "#EDA559",
+            "mlearning": [
+                {
+                    "icon": "Launch",
+                    "title": "Classifier Builder",
+                    "page_name": "ClassifierBuilder_Page",
+                    "description": "Build classification models.",
+                    "color": "#49475C"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Regressor Studio",
+                    "page_name": "RegressorStudio_Page",
+                    "description": "Construct regression models.",
+                    "color": "#49475C"
+                }
+            ]
+        },
+        {
+            "category_name": "Evaluation",
+            "category_color": "#47414F",
+            "icon": "BarChart",
+            "text_color": "#0CA7A8",
+            "mlearning": [
+                {
+                    "icon": "Launch",
+                    "title": "Model Metrics",
+                    "page_name": "ModelMetrics_Page",
+                    "description": "Analyze model performance metrics.",
+                    "color": "#47414F"
+                }
+            ]
+        },
+        {
+            "category_name": "Deployment",
+            "category_color": "#47545C",
+            "icon": "CloudUpload",
+            "text_color": "#0C8AA6",
+            "mlearning": [
+                {
+                    "icon": "Launch",
+                    "title": "Model Deployer",
+                    "page_name": "ModelDeployer_Page",
+                    "description": "Deploy models to production.",
+                    "color": "#47545C"
+                }
+            ]
+        },
+        {
+            "category_name": "Visualization",
+            "category_color": "#92725B",
+            "icon": "PieChart",
+            "text_color": "#D95A6E",
+            "mlearning": [
+                {
+                    "icon": "Launch",
+                    "title": "Data Visualizer",
+                    "page_name": "DataVisualizer_Page",
+                    "description": "Visualize data distributions and patterns.",
+                    "color": "#92725B"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Model Insights",
+                    "page_name": "ModelInsights_Page",
+                    "description": "Gain insights from trained models.",
+                    "color": "#92725B"
+                }
+            ]
+        }
+    ]
+}

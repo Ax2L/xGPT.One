@@ -1,0 +1,114 @@
+{
+    "categories": [
+        {
+            "category_name": "Productivity",
+            "category_color": "#3D445F",
+            "icon": "Work",
+            "text_color": "#7065C9",
+            "tools": [
+                {
+                    "icon": "Launch",
+                    "title": "Document Editor",
+                    "page_name": "DocEditor_Page",
+                    "description": "Edit and collaborate on documents.",
+                    "color": "#7065c9"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Calendar Manager",
+                    "page_name": "CalendarManager_Page",
+                    "description": "Organize and schedule events.",
+                    "color": "#938bd6"
+                }
+            ]
+        },
+        {
+            "category_name": "Communication",
+            "category_color": "#45747B",
+            "icon": "Chat",
+            "text_color": "#EDA559",
+            "tools": [
+                {
+                    "icon": "Launch",
+                    "title": "Email Client",
+                    "page_name": "EmailClient_Page",
+                    "description": "Send and receive emails.",
+                    "color": "#518283"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Video Conferencing",
+                    "page_name": "VideoConferencing_Page",
+                    "description": "Host and join video calls.",
+                    "color": "#518283"
+                }
+            ]
+        },
+        {
+            "category_name": "Development",
+            "category_color": "#868773",
+            "icon": "Code",
+            "text_color": "#0CA7A8",
+            "tools": [
+                {
+                    "icon": "Launch",
+                    "title": "IDE",
+                    "page_name": "IDE_Page",
+                    "description": "Develop and debug code.",
+                    "color": "#0CA7A8"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Version Control",
+                    "page_name": "VersionControl_Page",
+                    "description": "Manage code versions and collaboration.",
+                    "color": "#0CA7A8"
+                }
+            ]
+        },
+        {
+            "category_name": "Design",
+            "category_color": "#47545C",
+            "icon": "Palette",
+            "text_color": "#0C8AA6",
+            "tools": [
+                {
+                    "icon": "Launch",
+                    "title": "Graphic Design",
+                    "page_name": "GraphicDesign_Page",
+                    "description": "Create and edit visuals.",
+                    "color": "#0C8AA6"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "UX/UI Design",
+                    "page_name": "UXUIDesign_Page",
+                    "description": "Design user interfaces and experiences.",
+                    "color": "#0C8AA6"
+                }
+            ]
+        },
+        {
+            "category_name": "Cloud & Operations",
+            "category_color": "#92725B",
+            "icon": "Cloud",
+            "text_color": "#D95A6E",
+            "tools": [
+                {
+                    "icon": "Launch",
+                    "title": "Cloud Management",
+                    "page_name": "CloudManagement_Page",
+                    "description": "Manage cloud resources and services.",
+                    "color": "#A78067"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Server Monitoring",
+                    "page_name": "ServerMonitoring_Page",
+                    "description": "Monitor and manage server health.",
+                    "color": "#A78067"
+                }
+            ]
+        }
+    ]
+}

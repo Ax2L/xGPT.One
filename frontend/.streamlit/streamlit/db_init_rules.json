@@ -1,0 +1,303 @@
+{
+    "filename": "config/streamlit/db_init_rules.json",
+    "tables": [
+        {
+            "table_name": "user_settings",
+            "columns": [
+                {
+                    "column_name": "username",
+                    "data_type": "VARCHAR(255)",
+                    "constraints": "PRIMARY KEY"
+                },
+                {
+                    "column_name": "openai_key",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "init_db",
+                    "data_type": "BOOLEAN"
+                },
+                {
+                    "column_name": "dev_mode",
+                    "data_type": "BOOLEAN"
+                },
+                {
+                    "column_name": "notes",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "authentication_status",
+                    "data_type": "BOOLEAN"
+                },
+                {
+                    "column_name": "name",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "authenticator",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "current_page",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "initial_main",
+                    "data_type": "BOOLEAN"
+                },
+                {
+                    "column_name": "shared",
+                    "data_type": "BOOLEAN"
+                }
+            ],
+            "initial_data": {
+                "username": "admin",
+                "openai_key": "Enter your Key",
+                "init_db": true,
+                "dev_mode": true,
+                "notes": "Note it down.",
+                "authentication_status": false,
+                "name": "",
+                "authenticator": false,
+                "current_page": "",
+                "initial_main": true,
+                "shared": true
+            }
+        },
+        {
+            "table_name": "color_settings",
+            "columns": [
+                {
+                    "column_name": "username",
+                    "data_type": "VARCHAR(255)",
+                    "constraints": "PRIMARY KEY"
+                },
+                {
+                    "column_name": "color_active_settings_button",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "color_active_help_button",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "color_active_datastore_button",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "color_active_tools_button",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "color_active_dashboard_button",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "color_active_apps_button",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "color_active_mlearning_button",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "color_active_upload_button",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "button_color_settings",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "button_color_help",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "button_color_datastore",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "button_color_tools",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "button_color_dashboard",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "button_color_apps",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "button_color_mlearning",
+                    "data_type": "VARCHAR(7)"
+                },
+                {
+                    "column_name": "button_color_upload",
+                    "data_type": "VARCHAR(7)"
+                }
+            ],
+            "initial_data": {
+                "username": "admin",
+                "color_active_settings_button": "#1E1E1E",
+                "color_active_help_button": "#1E1E1E",
+                "color_active_datastore_button": "#1E1E1E",
+                "color_active_tools_button": "#1E1E1E",
+                "color_active_dashboard_button": "#1E1E1E",
+                "color_active_apps_button": "#4F378B",
+                "color_active_mlearning_button": "#1E1E1E",
+                "color_active_upload_button": "#1E1E1E",
+                "button_color_settings": "#4F378B",
+                "button_color_help": "#4F378B",
+                "button_color_datastore": "#4F378B",
+                "button_color_tools": "#4F378B",
+                "button_color_dashboard": "#4F378B",
+                "button_color_apps": "#4F378B",
+                "button_color_mlearning": "#4F378B",
+                "button_color_upload": "#4F378B"
+            }
+        },
+        {
+            "table_name": "chat_settings",
+            "columns": [
+                {
+                    "column_name": "username",
+                    "data_type": "VARCHAR(255)",
+                    "constraints": "PRIMARY KEY"
+                },
+                {
+                    "column_name": "menu_active_button",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "menu_previous_button",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "active_section",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "ai_apps_accordion_active",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "show_session_data",
+                    "data_type": "BOOLEAN"
+                },
+                {
+                    "column_name": "chat_database",
+                    "data_type": "JSONB"
+                }
+            ],
+            "initial_data": {
+                "username": "admin",
+                "menu_active_button": "apps",
+                "menu_previous_button": "",
+                "active_section": "",
+                "ai_apps_accordion_active": "",
+                "show_session_data": false,
+                "chat_database": []
+            }
+        },
+        {
+            "table_name": "chats",
+            "columns": [
+                {
+                    "column_name": "chat_id",
+                    "data_type": "SERIAL",
+                    "constraints": "PRIMARY KEY"
+                },
+                {
+                    "column_name": "username",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "start_time",
+                    "data_type": "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP"
+                },
+                {
+                    "column_name": "end_time",
+                    "data_type": "TIMESTAMP WITH TIME ZONE"
+                },
+                {
+                    "column_name": "chat_name",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "data",
+                    "data_type": "JSONB"
+                }
+            ],
+            "initial_data": [
+                {
+                    "username": "admin",
+                    "chat_name": "Sample Chat",
+                    "data": {}
+                }
+            ]
+        },
+        {
+            "table_name": "messages",
+            "columns": [
+                {
+                    "column_name": "message_id",
+                    "data_type": "SERIAL",
+                    "constraints": "PRIMARY KEY"
+                },
+                {
+                    "column_name": "chat_id",
+                    "data_type": "INTEGER"
+                },
+                {
+                    "column_name": "username",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "content",
+                    "data_type": "TEXT"
+                },
+                {
+                    "column_name": "timestamp",
+                    "data_type": "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP"
+                },
+                {
+                    "column_name": "sent_by",
+                    "data_type": "VARCHAR(50)"
+                }
+            ],
+            "initial_data": {
+                "chat_id": 1,
+                "username": "admin",
+                "content": "Sample message content",
+                "sent_by": "admin"
+            }
+        },
+        {
+            "table_name": "history_chats",
+            "columns": [
+                {
+                    "column_name": "history_chat_id",
+                    "data_type": "SERIAL",
+                    "constraints": "PRIMARY KEY"
+                },
+                {
+                    "column_name": "username",
+                    "data_type": "VARCHAR(255)"
+                },
+                {
+                    "column_name": "chat_content",
+                    "data_type": "TEXT"
+                },
+                {
+                    "column_name": "timestamp",
+                    "data_type": "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP"
+                }
+            ],
+            "initial_data": {
+                "username": "admin",
+                "chat_content": "Sample historical chat content"
+            }
+        }
+    ]
+}

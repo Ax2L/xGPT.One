@@ -1,0 +1,109 @@
+
+{   
+    "filename": "config/streamlit/apps_config.json",
+    "categories": [
+        {
+            "category_name": "Chats",
+            "category_color": "#355070",
+            "icon": "QuestionAnswer",
+            "text_color": "#7065C9",
+            "apps": [
+                {
+                    "icon": "SupportAgent",
+                    "title": "Assistant",
+                    "page_name": "assistant",
+                    "description": "Engage with the Assistant bot.",
+                    "color": "#355070"
+                },
+                {
+                    "icon": "QuestionAnswer",
+                    "title": "LLMs",
+                    "page_name": "LLMs_Page",
+                    "description": "Interact with LLMs.",
+                    "color": "#355070"
+                }
+            ]
+        },
+        {
+            "category_name": "Coder",
+            "category_color": "#6d597a",
+            "icon": "Code",
+            "text_color": "#EDA559",
+            "apps": [
+                {
+                    "icon": "FlightTakeoffSharp",
+                    "title": "Pilot",
+                    "page_name": "Pilot_Page",
+                    "description": "Navigate with the Pilot.",
+                    "color": "#6d597a"
+                },
+                {
+                    "icon": "DynamicFormSharp",
+                    "title": "DemoGPT",
+                    "page_name": "DemoGPT_Page",
+                    "description": "Try out DemoGPT.",
+                    "color": "#6d597a"
+                }
+            ]
+        },
+        {
+            "category_name": "Helper",
+            "category_color": "#b56576",
+            "icon": "SupportAgent",
+            "text_color": "#0CA7A8",
+            "apps": [
+                {
+                    "icon": "MenuBook",
+                    "title": "Readme-AI",
+                    "page_name": "ReadmeAI_Page",
+                    "description": "Generate docs with Readme-AI.",
+                    "color": "#b56576"
+                }
+            ]
+        },
+        {
+            "category_name": "AGI",
+            "category_color": "#e56b6f",
+            "icon": "MotionPhotosAuto",
+            "text_color": "#0C8AA6",
+            "apps": [
+                {
+                    "icon": "AutoMode",
+                    "title": "SuperAGI",
+                    "page_name": "SuperAGI_Page",
+                    "description": "Explore the SuperAGI.",
+                    "color": "#e56b6f"
+                }
+            ]
+        },
+        {
+            "category_name": "Media",
+            "category_color": "#eaac8b",
+            "icon": "VideoCameraBack",
+            "text_color": "#D95A6E",
+            "apps": [
+                {
+                    "icon": "Launch",
+                    "title": "Midjourney",
+                    "page_name": "Midjourney_Page",
+                    "description": "Visualize with Midjourney.",
+                    "color": "#eaac8b"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Dall-E 2.0",
+                    "page_name": "DallE2_Page",
+                    "description": "Interact with Dall-E 2.0.",
+                    "color": "#eaac8b"
+                },
+                {
+                    "icon": "Launch",
+                    "title": "Stable Diffusion",
+                    "page_name": "StableDiffusion_Page",
+                    "description": "Experience Stable Diffusion.",
+                    "color": "#eaac8b"
+                }
+            ]
+        }
+    ]
+}
