@@ -49,5 +49,13 @@
         "workspaceRoot": "/Users/I543745/Code/ax2/xGPT-streamlit",
         "workspacePath": "frontend",
         "id": "K69cMSOPqmhATdo3"
+    },
+    {
+        "type": "Directory",
+        "name": "/Users/I543745/Code/ax2/xGPT-streamlit/config",
+        "parent_id": "VwQzdiZtybP6uxUK",
+        "workspaceRoot": "/Users/I543745/Code/ax2/xGPT-streamlit",
+        "workspacePath": "config",
+        "id": "aWvHpuxY3IgXEtnM"
     }
 ]

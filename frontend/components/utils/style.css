@@ -8,9 +8,49 @@
 -------------------------------------------------------
 */
 
+/* Fullscreen overlay */
+#loadingOverlay {
+    position: fixed;          /* Fixed position */
+    top: 0;                   /* Position the overlay at the very top */
+    left: 0;                  /* Position the overlay at the very left */
+    width: 100%;              /* Full width */
+    height: 100%;             /* Full height */
+    background-color: rgba(255, 255, 255, 0.8);   /* White background with opacity */
+    z-index: 9999;            /* Make sure it sits on top of everything else */
+    cursor: progress;         /* Change the cursor to the progress mode */
+}
+
+/* The loader itself */
+.loader {
+    position: absolute;       /* Absolute positioning */
+    top: 50%;                 /* Center it vertically */
+    left: 50%;                /* Center it horizontally */
+    border: 16px solid #f3f3f3;   /* Light grey ring */
+    border-top: 16px solid #3498db;   /* Blue spinner */
+    border-radius: 50%;              /* Circular loader */
+    width: 80px;
+    height: 80px;
+    animation: spin 2s linear infinite;   /* Animation named "spin" */
+}
+
+/* Spin animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Blurring the background when the loader is active */
+body.loading {
+    overflow: hidden;     /* Prevent any user interaction while loading */
+    pointer-events: none;
+    user-select: none;
+    filter: blur(5px);    /* Blur effect */
+}
+ 
+
 
 /* ================================== */
-/*              Tests                 */
+/*?             Tests                 */
 /* ================================== */
 /*  ------------------------------------------------------------------------------ */
 /*  Headings */
@@ -43,7 +83,7 @@ h2
 
 
 /* ================================== */
-/*            Global                  */
+/*?           Global                  */
 /* ================================== */
 
 /* Material 2/Title */
@@ -61,7 +101,7 @@ h2
 }
 
 /* ================================== */
-/*            Sidebar                 */
+/*?           Sidebar                 */
 /* ================================== */
 
 section[data-testid='stSidebar'] {
@@ -143,7 +183,7 @@ iframe[title="streamlit_elements.core.render.streamlit_elements"] {
 }
 
 /* ================================== */
-/*            Footer Styles           */
+/*?           Footer Styles           */
 /* ================================== */
 
 /* Sidebar Footer */
@@ -159,7 +199,7 @@ iframe[height="81"]:first-of-type {
     font-size: 14px;
 }
 
-/* Streamlit Footer Adjustment */
+/*  Streamlit Footer Adjustment */
 
 .contfddfainer {
     border-radius: 28px 28px 0px 0px;
@@ -171,7 +211,7 @@ iframe[height="81"]:first-of-type {
 
 
 /* ================================== */
-/*          Expander Styles           */
+/*?         Expander Styles           */
 /* ================================== */
 
 
@@ -186,7 +226,7 @@ iframe[height="81"]:first-of-type {
 
 
 /* ================================== */
-/*          Input Box Styles          */
+/*?         Input Box Styles          */
 /* ================================== */
 
 div[data-testid="stForm"] {

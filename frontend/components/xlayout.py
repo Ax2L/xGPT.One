@@ -2,10 +2,9 @@
 
 import os
 import json
-import time
 from PIL import Image
 import streamlit as st
-from streamlit_elements import elements, mui, sync, html, lazy
+from streamlit_elements import elements, mui
 from components.xhelper import display_session_data
 from components.xdatastore import UserSettings, PageSettings, ColorSettings
 
@@ -15,7 +14,6 @@ try:
     username = st.session_state["username"]
 except Exception as e:
     st.error(f"Error: {str(e)} ❌")
-
 
 # & === CONFIG SECTION =====================
 LOGO_PATH = "images/logo/logo_long.png"
@@ -83,31 +81,6 @@ def change_page_extended(next_page):
         st.error(f"Error: {str(e)} ❌")
 
 
-def gen_toggle(db_data, column, label):
-    # Check if update is needed
-    if st.session_state[column] != db_data.data.get(column) and not None:
-        
-        # Update the correct boolean Status
-        if st.session_state[column]:
-            db_data.update(column, False)
-            st.toast(body="Database update successful")
-        else:
-            db_data.update(column, True)
-            st.toast(body="Database update successful")
-
-
-
-def sync_db_session(table, column):
-    init_indicator = f"{column}_init"
-    # load initialy DB Values
-    if init_indicator not in st.session_state:
-        # Run initial load from DB
-        st.session_state[column] = table.data.get(column)
-        st.session_state[init_indicator] = True
-    else:
-        table.monitor(column)
-
-
 # * === Menu Content Box ---------------> Settings
 
 def settings_box():
@@ -115,57 +88,69 @@ def settings_box():
     st.header("Settings")
 
     with elements("Settings"):
+        if "input_openai_key" not in st.session_state:
+            st.session_state.input_openai_key = ""
         user = UserSettings(username=st.session_state["username"])
         user.load()
         page_config = PageSettings(username=st.session_state["username"])
         page_config.load()
+        if "openaik" not in st.session_state:
+            st.session_state.openaik = user.data.get("openai_key")
 
-        #* Callback functions:
-        # Save change in Session State
-        def handle_change(event):
-            current_time = time.time()
-            last_time_key = "last_time_handle_change"
-            
-            if last_time_key not in st.session_state:
-                st.session_state[last_time_key] = current_time
 
-            # Check if 5 seconds have passed
-            if current_time - st.session_state[last_time_key] >= 5:
-                st.session_state.openai_key = event.target.value
-                user.update("openai_key", st.session_state["openai_key"])  # Update the database with the OpenAI key.
-                st.session_state[last_time_key] = current_time  # Update the last run time
-        
+        def update_changes():
+            def wrapper(event):
+                try:
+                    # Ensure the existence of session state variables
+                    st.session_state.setdefault("dev_mode", False)
+                    st.session_state.setdefault("show_session_data", False)
+
+                    # ? `openai_key`______________________________________
+                    user.update("openai_key", st.session_state["openaik"])  # Update the database
+
+                    # ? `dev_mode`________________________________________
+                    user.update("dev_mode", bool(st.session_state["dev_mode"]))
+
+                    # ? `show_session_data`_______________________________
+                    page_config.update("show_session_data", bool(st.session_state["show_session_data"]))
+                    st.toast(':green["Changes saved!"]')
+                except Exception as e:
+                    st.error(f"Error: {str(e)} ❌")
+                    st.toast(f"Error: {str(e)} ❌")
+
+            return wrapper  # Invoke the inner function
+
+
         # Save change in Session State when clicked
-        def handle_boolean(table, column):
+        def handle_boolean(column):
             def wrapper(event):
                 # Swap the boolean status
                 st.session_state[column] = not st.session_state[column]
-                # Check
-                if table == "user":
-                    if st.session_state[column] and not None:
-                        user.update(column, True)
-                        st.session_state[column] = True
-                    else:
-                        user.update(column, False)
-                        st.session_state[column] = False
-                if table == "page_config":
-                    page_config.update(column, st.session_state[column])
 
             return wrapper
+        
 
-        #* Settings Material Section
+        # * Settings Material Section
+        
+        def handle_change():
+            def wrapper(event):
+                st.session_state.openaik = event.target.value
+            return wrapper  # Invoke the inner function
+            
         mui.List(
             # `Input` for (OpenAI Key)
             mui.ListItem(
                 mui.TextField(
                     label="OpenAI Key",
-                    value=st.session_state["openai_key"],
-                    onChange=(handle_change),
+                    value=st.session_state.openaik,
+                    onChange=handle_change(),
+                    placeholder="Enter OpenAI-Key",
+                    type="password",
                     sx={
                         "min-width": "100%",
                     },
                 ),
-                width="100%"
+                width="100%",
             ),
             # Toggle for Developer View (enabled everything)
             mui.ListItem(
@@ -174,7 +159,7 @@ def settings_box():
                 ),
                 mui.Switch(
                     "dev_mode_switch",
-                    onChange=handle_boolean("user", "dev_mode"),
+                    onChange=handle_boolean("dev_mode"),
                     inputProps=("aria-labelledby", "switch-list-label-dev_mode_switch"),
                 ),
             ),
@@ -185,11 +170,33 @@ def settings_box():
                 ),
                 mui.Switch(
                     "show_session_data_switch",
-                    onChange=handle_boolean("page_config", "show_session_data"),
+                    onChange=handle_boolean("show_session_data"),
                     inputProps=(
                         "aria-labelledby",
                         "switch-list-label-show_session_data",
                     ),
+                ),
+            ),
+            # `Save changes` Button
+            mui.ListItem(
+                mui.ListItemButton(
+                    "Save changes",
+                    alignItems="center",
+                    sx={
+                        "p": 1.5,
+                        "mb": 0.8,
+                        #"bgcolor": app["color"],
+                        #"background": f"linear-gradient(90deg, {app['color']}, 17%, rgba(0,0,0,0) 17%), linear-gradient     (180deg, #243B55 50%, #141E30 50%)",
+                        "cursor": "pointer",
+                        "display": "flex",
+                        "flex-direction": "column",
+                        "align-items": "center",
+                        "box-shadow": "0px 4px 4px rgba(0, 0, 0, 0.30)",
+                        "&:hover": {
+                            "backgroundColor": "#A5B4FC0A",  # Button hover effect
+                        },
+                    },
+                    onClick=update_changes(),
                 ),
             ),
         )
@@ -234,9 +241,11 @@ def datastore_box():
 
 # * === Menu Content Box ---------------> Apps, MLearning, Tools
 
+
 def create_missing_states(name, value):
     if name not in st.session_state:
         st.session_state.setdefault(name, value)
+
 
 def reset_active_card_color():
     # configs_list = [apps_config,mlearning_config,tools_config]

@@ -1,3 +1,21 @@
+Can you please:
+- restructure my main.py, 
+    - in an order that is the most efficient, 
+    - easy to understand, 
+    - beautiful to read 
+    - and with better reporting, I want for example that we use more often st. toast to display updates of actions,
+    - use more often 
+    - rewrite the text to make them better formatted and professional.
+    - and as well as st.Exception(e), please use therefore the following Streamlit Script that you should provide me updated, 
+
+
+- ! but without removing any logic! Otherwise, I will freak out!.:
+
+
+
+
+
+```python
 from components.utils import first
 import json
 from PIL import Image
@@ -88,5 +106,4 @@ if authentication_status:
         "username": username,
     })
     authenticated_display()
-
-
+```
