@@ -37,6 +37,8 @@ source $PROJECT_DIR/helper/setup/build_docker.sh
 source $PROJECT_DIR/helper/setup/run_docker.sh
 source $PROJECT_DIR/helper/setup/run_local_dev.sh
 source $PROJECT_DIR/helper/setup/run_local_db.sh
+source $PROJECT_DIR/helper/setup/run_local_assist.sh
+
 
 reset_postgres() {
     echo "🔄 Resetting Postgres..."
@@ -62,6 +64,29 @@ initiate_postgres() {
     # Call the create_tables() function from the Python script
     python "xinit_db.py"
     echo "✅ Tables initiated in Postgres!"
+}
+
+
+# Additional Functions
+build_assistant() {
+    echo "🔄 Building Assistant Docker container..."
+    docker build -t xgpt-assistant -f $PROJECT_DIR/apps/assistant/build/Dockerfile .
+    echo "✅ Assistant Docker container built successfully!"
+}
+
+restart_assistant() {
+    echo "🔄 Restarting Assistant..."
+    cd $PROJECT_DIR/apps/assistant/build/
+    
+    # Deleting the old container
+    docker-compose -f docker-compose.yaml down
+
+    # Rerun docker-compose up
+    docker-compose -f docker-compose.yaml up -d
+
+    # Return to the original directory
+    cd -
+    echo "✅ Assistant restarted successfully!"
 }
 
 #* ==============================================
@@ -109,22 +134,28 @@ while true; do
             display_header "Developer Menu"
             echo "║ [1] Run Local Dev"
             echo "║ [2] Run Local DB"
-            echo "║ [3] Show FastAPI"
-            echo "║ [4] Restart FastAPI"
-            echo "║ [5] Stop FastAPI"
-            echo "║ [6] Reset Postgres"
-            echo "║ [7] initiate postgres"
+            echo "║ [3] Run Local Assistant"
+            echo "║ [4] Show FastAPI"
+            echo "║ [5] Restart FastAPI"
+            echo "║ [6] Stop FastAPI"
+            echo "║ [7] Reset Postgres"
+            echo "║ [8] initiate postgres"
+            echo "║ [9] Build Assistant"
+            echo "║ [10] Restart Assistant"
             echo "║ [E]xit"
             echo "╚════════════════════════════════════════════════════════════════════════╝"
             read -r -p "Developer choice: " dev_choice
             case "$dev_choice" in
             1) run_local_dev ;;
             2) run_local_db ;;
-            3) show_fastapi ;;
-            4) restart_fastapi ;;
-            5) stop_fastapi ;;
-            6) reset_postgres ;;
-            7) initiate_postgres ;;
+            3) run_local_assist ;;
+            4) show_fastapi ;;
+            5) restart_fastapi ;;
+            6) stop_fastapi ;;
+            7) reset_postgres ;;
+            8) initiate_postgres ;;
+            9) build_assistant ;;
+            10) restart_assistant ;;
             E|e) break ;;
             *) echo "🔴 Invalid choice. Please try again. 🔴" ;;
             esac
