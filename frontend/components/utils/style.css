@@ -213,7 +213,9 @@ iframe[height="81"]:first-of-type {
 /* ================================== */
 /*?         Expander Styles           */
 /* ================================== */
-
+.streamlit-expander {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
 
 .streamlit-expanderHeader {
     background: linear-gradient(0deg, #6750A41C 0%, #262730 11%), linear-gradient(0deg, rgba(208, 188, 255, 0.11) 0%, rgba(208, 188, 255, 0.11) 100%);
@@ -221,7 +223,6 @@ iframe[height="81"]:first-of-type {
 
 .streamlit-expanderContent {
     background: linear-gradient(0deg, #6750A41C 0%,  #262730  100%), linear-gradient(0deg, rgba(103, 80, 164, 0.14) 0%, rgba(103, 80, 164, 0.14) 100%);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.30);
 }
 
 
@@ -231,6 +232,13 @@ iframe[height="81"]:first-of-type {
 
 div[data-testid="stForm"] {
     background: linear-gradient(0deg,#262730  0%,  #334154  100%), linear-gradient(0deg, rgba(103, 80, 164, 0.14) 0%, rgba(103, 80, 164, 0.14) 100%);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.30);
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+}
+
+
+div[class="st-emotion-cache-1fyphr1 e1f1d6gn0"] {
+    width: 100% !important;
+    height: 100% !important;
 
 }

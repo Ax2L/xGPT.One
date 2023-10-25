@@ -1,0 +1,45 @@
+{
+    "markup": {
+        "test-background": "[234 grey]"
+    },
+    "config": {
+        "Splitter": {
+            "styles": {
+                "separator": "[test-background]{item}"
+            }
+        },
+        "Window": {
+            "chars": {
+                "border": ["a", "b", "c", "d"]
+            },
+            "styles": {
+                "corner": "[test-background]{item}",
+                "border": "[test-background]{item}",
+                "fill": "[test-background]{item}"
+            }
+        }
+    },
+    "widgets": {
+        "Window": {
+            "pos": [30, 5],
+            "widgets": [
+                {
+                    "Label": {
+                        "value": "[test-background]Hello"
+                    }
+                },
+                {
+                    "Label": {
+                        "value": ""
+                    }
+                },
+                {
+                    "Button": {}
+                },
+                {
+                    "ColorPicker": {}
+                }
+            ]
+        }
+    }
+}

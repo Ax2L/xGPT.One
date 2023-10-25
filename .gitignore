@@ -7,26 +7,13 @@
 *$py.class
 .backup
 .env
-DATA_LAKE*
-LOGS
 *.log
 history*
-.env
-.env
-.env
 *ne.e*
 .DS_Store
-configs_clone
-tests
 tmp.txt
-fastxgpt/
 .vscode
-OLD/
-env.yaml
-frontend/pages/.test
-apps/xgpt/.env
-apps/xgpt/docker/.env
-apps/xgpt/config.yaml
+*.test
 
 
 # Database
@@ -137,20 +124,22 @@ frontend/cypress/snapshots/linux/1x
 ########################################################################
 # VSCode
 ########################################################################
+.pnotes/*.md 
+.vscode
 
 
 ########################################################################
 # Ax2
 ########################################################################
 .history
-
+.favorites.json
 
 
 ########################################################################
 # Coder
 ########################################################################
 apps/coder/*/workspace*
-
+apps/chat-ui/workspace*
 
 ########################################################################
 # Datastore

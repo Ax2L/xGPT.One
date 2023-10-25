@@ -1,5 +1,4 @@
 import streamlit as st
-from components.utils import first
 
 from components.xdatastore import UserSettings, PageSettings, ColorSettings
 from streamlit_extras.switch_page_button import switch_page
