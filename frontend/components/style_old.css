@@ -1,0 +1,234 @@
+/** Base Colors */
+:root {
+    --base-primary: #007BFF;
+    --base-secondary: #6C757D;
+    --base-success: #28A745;
+    --base-danger: #DC3545;
+    --base-warning: #FFC107;
+    --base-info: #17A2B8;
+}
+
+/** Base Typography */
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+/** Base Layout Objects */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex: 1;
+}
+
+/** Enhanced Headers */
+.stHeader {
+    background-color: var(--base-primary);
+    filter: brightness(0.9);
+    /* Slightly darken */
+    padding: 15px 0;
+}
+
+.Header {
+    background-color: var(--base-info);
+    filter: brightness(1.1);
+    /* Slightly lighten */
+    padding: 20px 0;
+    text-align: center;
+}
+
+/** Enhanced Button Styles */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.stButton {
+    background-color: var(--base-warning);
+    filter: hue-rotate(10deg);
+    /* Rotate hue */
+    color: #fff;
+}
+
+.MuiButton {
+    background-color: var(--base-danger);
+    filter: saturate(1.2);
+    /* Increase saturation */
+    color: #fff;
+}
+
+/** Containers */
+.special-container {
+    background-color: var(--base-secondary);
+    filter: contrast(1.2);
+    /* Increase contrast */
+    border: 2px solid var(--base-danger);
+}
+
+/** Promotion Buttons */
+.promo-button {
+    background-color: var(--base-success);
+    filter: grayscale(50%);
+    /* Apply some grayscale */
+    font-size: 1.25em;
+}
+
+
+/*! Special Container for Specific Sections */
+.special-container {
+    background-color: var(--base-secondary);
+    filter: contrast(1.2);
+    /* Increase contrast */
+    border: 2px solid var(--base-danger);
+}
+
+/*! Special Button for Promotions */
+.promo-button {
+    background-color: var(--base-success);
+    filter: grayscale(50%);
+    /* Apply some grayscale */
+    font-size: 1.25em;
+}
+
+
+/*! HEADER_STYLES */
+.header_frame {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    vertical-align: middle;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 100px;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+    position: flex;
+    top: 0 !important;
+    left: 0 !important;
+    min-width: 100%;
+    height: 100px;
+    background-color: #334155;
+    z-index: 100;
+}
+
+.container_bg_normal {
+    background-color: #334155;
+}
+
+.container_bg_hover {
+    background-color: #A5B4FC0A;
+}
+
+.button_box_shadow {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.30);
+}
+
+.button_normal {
+    background-color: #1E1E1E;
+}
+
+.button_hover {
+    background-color: #A5B4FC0A;
+}
+
+.button_click {
+    background-color: #4F378B;
+}
+
+.button_active {
+    background-color: #1E1E1E;
+}
+
+.button_bg_normal {
+    background-color: #334155;
+}
+
+.button_bg_hover {
+    background-color: #A5B4FC0A;
+}
+
+.button_bg_active {
+    background-color: #4F378B;
+}
+
+.button_sx_basic {
+    background-color: #1E1E1E;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.30);
+    align-items: center;
+    vertical-align: middle;
+}
+
+.button_group_basic {
+    background-color: #1E1E1E;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.30);
+    align-items: center;
+    vertical-align: middle;
+}
+
+.button_icon_basic {
+    background-color: #1E1E1E;
+    color: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.30);
+    align-items: center;
+    vertical-align: middle;
+}
+
+.logo_sx {
+    height: min-content;
+    margin-right: 16px;
+    align-items: center;
+    vertical-align: middle;
+}
+
+/* Default Typography */
+.default-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* Default Container */
+.default-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Default Row */
+.default-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Default Column */
+.default-column {
+    flex: 1;
+}
+
+/* Default Button */
+.default-button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    background-color: var(--base-primary);
+}

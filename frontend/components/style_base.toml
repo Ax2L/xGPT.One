@@ -1,0 +1,73 @@
+[base_colors]
+primary = "#007BFF"
+secondary = "#6C757D"
+success = "#28A745"
+danger = "#DC3545"
+warning = "#FFC107"
+info = "#17A2B8"
+
+[typography]
+font_family = "Arial, sans-serif"
+font_size = "16px"
+color = "#333"
+line_height = "1.5"
+
+[layout]
+container_max_width = "1200px"
+container_padding = "0 15px"
+row_display = "flex"
+row_flex_wrap = "wrap"
+column_flex = "1"
+
+[headers]
+stHeader_background_color = "#007BFF"
+stHeader_filter = "brightness(0.9)"
+stHeader_padding = "15px 0"
+Header_background_color = "#17A2B8"
+Header_filter = "brightness(1.1)"
+Header_padding = "20px 0"
+Header_text_align = "center"
+
+[buttons]
+button_display = "inline-block"
+button_padding = "10px 20px"
+button_border = "none"
+button_cursor = "pointer"
+button_transition = "all 0.3s"
+stButton_background_color = "#FFC107"
+stButton_filter = "hue-rotate(10deg)"
+stButton_color = "#fff"
+MuiButton_background_color = "#DC3545"
+MuiButton_filter = "saturate(1.2)"
+MuiButton_color = "#fff"
+promo_button_background_color = "#28A745"
+promo_button_filter = "grayscale(50%)"
+promo_button_font_size = "1.25em"
+
+[containers]
+special_container_background_color = "#6C757D"
+special_container_filter = "contrast(1.2)"
+special_container_border = "2px solid #DC3545"
+
+[HEADER_STYLES]
+header_frame_background_color = "#334155"
+container_bg_normal = "#334155"
+container_bg_hover = "#A5B4FC0A"
+button_box_shadow = "0px 4px 4px rgba(0, 0, 0, 0.30)"
+button_normal = "#1E1E1E"
+button_hover = "#A5B4FC0A"
+button_click = "#4F378B"
+button_active = "#1E1E1E"
+button_bg_normal = "#334155"
+button_bg_hover = "#A5B4FC0A"
+button_bg_active = "#4F378B"
+button_sx_basic_background_color = "#1E1E1E"
+button_sx_basic_color = "#FFFFFF"
+button_sx_basic_box_shadow = "0px 4px 4px rgba(0, 0, 0, 0.30)"
+button_group_basic_background_color = "#1E1E1E"
+button_group_basic_color = "#FFFFFF"
+button_group_basic_box_shadow = "0px 4px 4px rgba(0, 0, 0, 0.30)"
+button_icon_basic_background_color = "#1E1E1E"
+button_icon_basic_color = "#FFFFFF"
+button_icon_basic_box_shadow = "0px 4px 4px rgba(0, 0, 0, 0.30)"
+logo_sx_margin_right = "16px"

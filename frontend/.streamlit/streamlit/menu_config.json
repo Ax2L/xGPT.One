@@ -1,51 +1,364 @@
 [
     {
         "id": "datastore",
+        "place": 1,
         "name": "Datastore",
         "icon": "Storage",
-        "description": ""
+        "description": "",
+        "place_center": false,
+        "place_side": true,
+        "subheader": [
+            {
+                "id": "file_browser",
+                "place": 0,
+                "name": "File Browser",
+                "icon": "FolderOpen",
+                "description": ""
+            },
+            {
+                "id": "file_upload",
+                "place": 1,
+                "name": "Upload",
+                "icon": "CloudUpload",
+                "description": ""
+            },
+            {
+                "id": "milvus",
+                "place": 2,
+                "name": "Milvus",
+                "icon": "Database",
+                "description": "Distributed vector data management platform."
+            }
+        ]
     },
     {
         "id": "machine_learning",
+        "place": 0,
         "name": "Machine Learning",
-        "icon": "School",
-        "description": ""
-    },
-    {
-        "id": "apps",
-        "name": "Apps",
-        "icon": "SmartToy",
-        "description": ""
+        "icon": "Brain",
+        "description": "Manage and setup machine learning models.",
+        "place_center": true,
+        "place_side": false,
+        "subheader": [
+            {
+                "id": "mls",
+                "place": 0,
+                "name": "Setup ML",
+                "icon": "Settings",
+                "description": "Configurations for machine learning setups."
+            },
+            {
+                "id": "datasets",
+                "place": 1,
+                "name": "Datasets",
+                "icon": "Dataset",
+                "description": "Manage and view your datasets."
+            },
+            {
+                "id": "ml_training",
+                "place": 2,
+                "name": "Training",
+                "icon": "PlayCircleFilled",
+                "description": "Start and monitor ML training sessions."
+            }
+        ]
     },
     {
         "id": "tools",
+        "place": 0,
         "name": "Tools",
         "icon": "Handyman",
-        "description": ""
+        "description": "",
+        "place_center": false,
+        "place_side": true,
+        "subheader": [
+            {
+                "id": "tool_helper",
+                "place": 0,
+                "name": "Helper",
+                "icon": "Help",
+                "description": ""
+            },
+            {
+                "id": "tool_coder",
+                "place": 1,
+                "name": "Code Editor",
+                "icon": "CodeEditor",
+                "description": ""
+            },
+            {
+                "id": "tool_analytics",
+                "place": 2,
+                "name": "Analytics",
+                "icon": "BarChart",
+                "description": ""
+            }
+        ]
     },
     {
         "id": "chats",
+        "place": 4,
         "name": "Chats",
         "icon": "Chat",
-        "description": ""
+        "description": "",
+        "place_center": true,
+        "place_side": false,
+        "subheader": [
+            {
+                "id": "chat_single",
+                "place": 0,
+                "name": "Single Chat",
+                "icon": "ChatBubble",
+                "description": ""
+            },
+            {
+                "id": "chat_group",
+                "place": 1,
+                "name": "Group Chat",
+                "icon": "GroupChat",
+                "description": ""
+            },
+            {
+                "id": "chat_knowledge",
+                "place": 2,
+                "name": "Knowledge Base",
+                "icon": "LibraryBooks",
+                "description": ""
+            }
+        ]
     },
-    {        
-        
+    {
+        "id": "apps",
+        "place": 1,
+        "name": "Apps",
+        "icon": "SmartToy",
+        "description": "",
+        "place_center": true,
+        "place_side": false,
+        "subheader": [
+            {
+                "id": "app_agi",
+                "place": 0,
+                "name": "AGI",
+                "icon": "Brain",
+                "description": ""
+            },
+            {
+                "id": "app_images",
+                "place": 1,
+                "name": "Image Gallery",
+                "icon": "PhotoGallery",
+                "description": ""
+            },
+            {
+                "id": "app_video",
+                "place": 2,
+                "name": "Video Player",
+                "icon": "PlayCircle",
+                "description": ""
+            },
+            {
+                "id": "app_sound",
+                "place": 3,
+                "name": "Soundboard",
+                "icon": "MusicNote",
+                "description": ""
+            }
+        ]
+    },
+    {
         "id": "documentation",
+        "place": 4,
         "name": "Documentation",
         "icon": "HelpCenter",
-        "description": ""
+        "description": "",
+        "place_center": false,
+        "place_side": true,
+        "subheader": [
+            {
+                "id": "docs",
+                "place": 0,
+                "name": "Docs",
+                "icon": "Book",
+                "description": ""
+            },
+            {
+                "id": "faq",
+                "place": 1,
+                "name": "FAQ",
+                "icon": "QuestionAnswer",
+                "description": ""
+            },
+            {
+                "id": "external_links",
+                "place": 2,
+                "name": "Helpful Links",
+                "icon": "Link",
+                "description": ""
+            }
+        ]
     },
-    {        
+    {
         "id": "settings",
+        "place": 2,
         "name": "Settings",
         "icon": "Tune",
-        "description": ""
+        "description": "",
+        "place_center": false,
+        "place_side": true,
+        "subheader": [
+            {
+                "id": "global_settings",
+                "place": 0,
+                "name": "Global",
+                "icon": "Settings",
+                "description": ""
+            },
+            {
+                "id": "edit_user",
+                "place": 1,
+                "name": "User Profile",
+                "icon": "Person",
+                "description": ""
+            },
+            {
+                "id": "style",
+                "place": 2,
+                "name": "Theme & Style",
+                "icon": "Palette",
+                "description": ""
+            },
+            {
+                "id": "supervisior",
+                "place": 3,
+                "name": "Supervisor",
+                "icon": "SupervisorAccount",
+                "description": ""
+            },
+            {
+                "id": "updates",
+                "place": 4,
+                "name": "Updates & Changelog",
+                "icon": "Update",
+                "description": ""
+            }
+        ]
     },
-    {        
+    {
         "id": "assistant",
+        "place": 99,
         "name": "Assistant",
         "icon": "Assistant",
-        "description": ""
-    }
+        "description": "",
+        "place_center": false,
+        "place_side": false,
+        "subheader": [
+            {
+                "id": "assist_chat",
+                "place": 0,
+                "name": "Chat",
+                "icon": "Chat",
+                "description": ""
+            },
+            {
+                "id": "assist_jobs",
+                "place": 1,
+                "name": "Job Queue",
+                "icon": "Queue",
+                "description": ""
+            },
+            {
+                "id": "assist_todo",
+                "place": 2,
+                "name": "Tasks & ToDo",
+                "icon": "Task",
+                "description": ""
+            },
+            {
+                "id": "assist_help",
+                "place": 3,
+                "name": "Help",
+                "icon": "Help",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "id": "builder",
+        "place": 2,
+        "name": "Builder",
+        "icon": "Build",
+        "description": "Low-Code Builder for AI-driven solutions.",
+        "place_center": true,
+        "place_side": false,
+        "subheader": [
+            {
+                "id": "chatbot_builder",
+                "place": 0,
+                "name": "ChatBot Builder",
+                "icon": "ChatBubble",
+                "description": "Design and deploy chatbots with ease."
+            },
+            {
+                "id": "ai_app_builder",
+                "place": 1,
+                "name": "AI App Builder",
+                "icon": "Smartphone",
+                "description": "Build AI-driven applications without the coding hassle."
+            },
+            {
+                "id": "template_gallery",
+                "place": 2,
+                "name": "Template Gallery",
+                "icon": "Gallery",
+                "description": "Browse and use pre-built templates for various AI solutions."
+            },
+            {
+                "id": "documentation",
+                "place": 3,
+                "name": "Documentation",
+                "icon": "Book",
+                "description": "Guides and references to help you get started."
+            }
+        ]
+    },
+    {
+        "id": "coder",
+        "place": 3,
+        "name": "Coder",
+        "icon": "CodeIcon",
+        "description": "AI-driven coding solutions and assistance.",
+        "place_center": true,
+        "place_side": false,
+        "subheader": [
+            {
+                "id": "code_gen",
+                "place": 0,
+                "name": "Script Generator",
+                "icon": "ScriptIcon",
+                "description": "Automated script creation with AI."
+            },
+            {
+                "id": "code_reader",
+                "place": 1,
+                "name": "Codebase Reader",
+                "icon": "ReaderIcon",
+                "description": "AI tool to analyze and understand your codebase."
+            },
+            {
+                "id": "code_assist",
+                "place": 2,
+                "name": "Coding Assistant",
+                "icon": "AssistantIcon",
+                "description": "Provides real-time coding assistance and suggestions."
+            },
+            {
+                "id": "task_processor",
+                "place": 3,
+                "name": "Task Processor",
+                "icon": "ProcessorIcon",
+                "description": "Handles and processes coding tasks efficiently."
+            }
+        ]
+    }    
 ]

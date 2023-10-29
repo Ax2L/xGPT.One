@@ -26,7 +26,7 @@ if "current_page" not in st.session_state:
     switch_page("main")
 
 # Import custom CSS Style
-with open("components/utils/style.css") as f:
+with open("components/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # session_data = xds.db_get_value(username, "session_data" , "*")

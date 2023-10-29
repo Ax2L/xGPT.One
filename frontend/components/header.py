@@ -123,6 +123,27 @@ def handle_click_close():
     st.session_state["active_section"] = None
 
 
+def toggle_sidebar():
+    # Load the custom CSS
+    st.markdown('<link rel="stylesheet" href="styles.css">', unsafe_allow_html=True)
+    
+    # Check if sidebar is currently displayed
+    is_sidebar_visible = st.session_state.get("is_sidebar_visible", True)
+    
+    # Button to toggle the sidebar visibility
+    if st.button("Toggle Sidebar"):
+        is_sidebar_visible = not is_sidebar_visible
+        st.session_state["is_sidebar_visible"] = is_sidebar_visible
+    
+    # Applying the CSS class based on the button click
+    if is_sidebar_visible:
+        st.markdown('<script>document.querySelector("section[data-testid=\'stSidebar\']").classList.add("show-sidebar");</script>', unsafe_allow_html=True)
+        st.markdown('<script>document.querySelector("section[data-testid=\'stSidebar\']").classList.remove("hide-sidebar");</script>', unsafe_allow_html=True)
+    else:
+        st.markdown('<script>document.querySelector("section[data-testid=\'stSidebar\']").classList.add("hide-sidebar");</script>', unsafe_allow_html=True)
+        st.markdown('<script>document.querySelector("section[data-testid=\'stSidebar\']").classList.remove("show-sidebar");</script>', unsafe_allow_html=True)
+
+
 def header_button(menu_config, page_name):
     if f"color_active_{page_name}_card" not in st.session_state:
         st.session_state[f"color_active_{page_name}_card"] = ""

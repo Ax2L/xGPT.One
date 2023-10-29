@@ -2,12 +2,17 @@
 
 import os
 import yaml
+import toml
 import smtplib
 from email.message import EmailMessage
 from yaml.loader import SafeLoader
 import streamlit as st
+from components import style_process
+style_process
 from streamlit_extras.switch_page_button import switch_page
 LOGO_PATH = "images/logo/xgpt.png"
+# Determine the directory of this script
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def find_config_file(filename=f"../../config/streamlit/config.yaml"):
     """Search for the config file and return its path."""
@@ -118,4 +123,71 @@ def check_current_page(page_name):
         switch_page(current_site)
 
 
+
+def find_file(target_name, start_dir):
+    """
+    Search for a file with a given name, diving one level deeper each time.
+    
+    Parameters:
+        target_name (str): The name of the file to search for.
+        start_dir (str): The directory from which the search begins.
+    
+    Returns:
+        str: The full path of the found file, or None if not found.
+    """
+    
+    # Check current directory first
+    for root, dirs, files in os.walk(start_dir):
+        if target_name in files:
+            return os.path.join(root, target_name)
+        break  # Only check current directory
+    
+    # Check subdirectories, one level deeper
+    for dir_name in os.listdir(start_dir):
+        dir_path = os.path.join(start_dir, dir_name)
+        if os.path.isdir(dir_path):
+            for root, dirs, files in os.walk(dir_path):
+                if target_name in files:
+                    return os.path.join(root, target_name)
+                break  # Only check current directory within the subdir
+
+    return None
+
+
+
+def get_styles_toml_path():
+    file_name_to_search = "style_base.toml"
+    start_directory = "."
+    result = find_file(file_name_to_search, start_directory)
+    if result:
+        print(f"Found {file_name_to_search} at: {result}")
+        return result
+    else:
+        print(f"{file_name_to_search} not found.")
+        return None
+
+
+def load_styles_from_toml():
+    # Check if the TOML content is already in the session state.
+    if 'base_style' not in st.session_state:
+        styles_path = get_styles_toml_path()
+
+        # Ensure that styles_path is not None before proceeding
+        if styles_path is None:
+            print("Error: xstyles.toml not found.")
+            return {}
+
+        with open(styles_path, 'r') as toml_file:
+            st.session_state.base_style = toml.load(toml_file)
+
+    # Convert the TOML content to styles.
+    styles = {}
+    for key, value in st.session_state["style_blocks"]["BASE_COLORS"].items():
+        if isinstance(value, dict):
+            for sub_key, sub_value in value.items():
+                styles[f"{key}--{sub_key}"] = sub_value
+        else:
+            styles[key] = value
+
+    return styles
 

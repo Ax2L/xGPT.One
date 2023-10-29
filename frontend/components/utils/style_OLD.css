@@ -126,10 +126,49 @@ h2
 /*?           Sidebar                 */
 /* ================================== */
 
-section[data-testid='stSidebar'] {
-    width: 335px !important;
-    top: 65px;
+section[data-testid='stSidebar'] {}
 
+/** Adjust the layout of the main content area and sidebar */
+section[data-testid="stSidebar"] {}
+
+/** Adjust the layout of the main content area */
+.stApp {
+    margin-left: 0;
+    margin-top: 150px;
+    /* Adjust based on the height of your header and sidebar */
+}
+
+/*? Optional: Style for the header */
+.custom-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    /* Adjust based on your needs */
+    background-color: #f1f1f1;
+    z-index: 20;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+section[data-testid="stSidebar"] {
+    position: absolute;
+    top: 300px;
+    background-color: green;
+
+}
+
+
+
+li {
+    font-family: 'Arvo', serif;
 }
 
 .stApp {
@@ -143,8 +182,8 @@ div[class="MuiCardContent-root"] {}
 div[data-testid="stSidebarUserContent"] iframe {}
 
 div[data-testid="stSidebarNav"] {
-    display: block;
-    height: 40px;
+    display: none;
+    height: 0px;
     width: 0px;
 }
 
@@ -278,17 +317,14 @@ header[z-index="999990"] {
 
 
 section[tabindex="0"] div[data-testid="block-container"] {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    padding-bottom: 0 !important;
-    margin-right: 0 !important;
-    padding-top: 0px !important;
 }
 
+section[tabindex="0"] div[data-testid="block-container"] a:hover {
+
+}
 
 .block-container {}
 
 
 div[data-testid="block-container"] {
-    height: 200px;
 }
