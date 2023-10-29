@@ -20,12 +20,19 @@ row_flex_wrap = "wrap"
 column_flex = "1"
 
 [headers]
-stHeader_background_color = "#007BFF"
+stHeader_background_color = "#26292F"
 stHeader_filter = "brightness(0.9)"
 stHeader_padding = "15px 0"
-Header_background_color = "#17A2B8"
+Header_background_color = "#26292F"
+Header_border= "0"
+Header_position= "static"
+Header_align-items= "center"
+Header_padding= "8px 20px"
+Header_border-bottom= "var(--te-container-border)"
+Header_background= "var(--te-container-bg)"
+Header_z-index= "21"
+Header_transition-duration= "0s"
 Header_filter = "brightness(1.1)"
-Header_padding = "20px 0"
 Header_text_align = "center"
 
 [buttons]

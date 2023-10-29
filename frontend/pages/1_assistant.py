@@ -38,7 +38,7 @@ if "initialized" not in st.session_state:
 
 # ⁡⁢⁣⁣+++| STYLE SECTION |++++++++++++++++++++++++++++++++++++++++++⁡
 # Import custom CSS Style
-with open("components/style.css") as f:
+with open("components/utils/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 

@@ -15,7 +15,11 @@ import streamlit as st
 from streamlit_elements import elements, mui
 
 # ? Local modules
-from components.xhelper import display_session_data, load_styles_from_toml, get_styles_toml_path
+from components.xhelper import (
+    display_session_data,
+    load_styles_from_toml,
+    get_styles_toml_path,
+)
 from components.xdatastore import ColorSettings
 from streamlit_extras.switch_page_button import switch_page
 
@@ -31,16 +35,21 @@ CONFIG_PATHS = {
     "color": "../config/streamlit/color_config.json",
 }
 
+from components import style_process
+
+HEADERS = style_process.HEADERS
+
 
 # * Header Styles
 # Load STYLES from TOML file
 if "base_style" not in st.session_state:
-    st.session_state.base_style = ""    
+    st.session_state.base_style = ""
 STYLES = load_styles_from_toml()
 print(f"{STYLES}")
 
 # Session State
 username = st.session_state.get("username", "admin")
+
 
 # Cache the data
 @st.cache_data
@@ -51,6 +60,7 @@ def load_config(path: str) -> dict:
     except Exception as e:
         st.error(f"Error loading configuration: {e}")
         return {}
+
 
 # * Session State
 username = st.session_state.get("username", "admin")
@@ -96,7 +106,7 @@ def handle_click(item_id, idx):
 
 def reset_active_button_color():
     for item in menu_config:
-        st.session_state[f"color_active_{item['name']}_button"] = HEADER_STYLES[
+        st.session_state[f"color_active_{item['name']}_button"] = HEADERS[
             "button_active"
         ]
 
@@ -108,7 +118,7 @@ def create_subheader_buttons(menu_item):
         sub_element = mui.Button(
             label=sub_item["name"],
             onClick=partial(switch_page, sub_item["id"]),
-            sx=HEADER_STYLES["button_sx_basic"],
+            sx=HEADERS["button_sx_basic"],
         )
         subheader_elements.append(sub_element)
     # Subheader navigation
@@ -122,7 +132,7 @@ def create_subheader_buttons(menu_item):
         centered=True,
         classes="header",
         visibleScrollbar=False,
-        sx=HEADER_STYLES["button_group_basic"],
+        sx=HEADERS["button_group_basic"],
     )
     return subheader_elements
 
@@ -141,11 +151,14 @@ def load_svg(svg_path: str) -> str:
 def header_button(menu_config, page_name):
     # ^ Header frame
     with mui.Box(
-        bgcolor=HEADER_STYLES.get(
-            ".container_bg_normal--background-color", "#334155"
-        ),  # Fallback to default color if key is not found
+        classes="flex-container",
+        bgcolor=HEADERS["header_flex"]["background-color"],
+        filter=HEADERS["header_flex"]["filter"],  
+        padding=HEADERS["header_flex"]["padding"],  
+        textAlign=HEADERS["header_flex"]["text-align"],  
+        bgcolor=HEADERS["header_flex"]["background-color"], 
         fullWidth=True,
-        sx=HEADER_STYLES["header"],
+        sx=HEADERS["header_flex"],
     ):
         # ^ Logo
         with mui.Grid(height="60", width="100"):
@@ -165,7 +178,7 @@ def header_button(menu_config, page_name):
                     onClick=partial(handle_click, item["place"], idx),
                     sx={
                         "&:hover": {"backgroundColor": "#A5B4FC0A"},
-                        **HEADER_STYLES["button_sx_basic"],
+                        **HEADERS["button_sx_basic"],
                     },
                 )
                 button_elements.append(button_element)
@@ -193,11 +206,11 @@ def header_button(menu_config, page_name):
                     onClick=partial(handle_icon_click, item["place"], idx),
                     sx={
                         "&:hover": {
-                            "backgroundColor": HEADER_STYLES.get(
+                            "backgroundColor": HEADERS.get(
                                 ":root--base-danger", "#FF0000"
                             )
                         },
-                        **HEADER_STYLES["button_sx_basic"],
+                        **HEADERS["button_sx_basic"],
                     },
                 )
                 icon_elements.append(icon_element)
@@ -208,11 +221,11 @@ def header_button(menu_config, page_name):
                     icon=icon,
                     sx={
                         "&:hover": {
-                            "backgroundColor": HEADER_STYLES.get(
+                            "backgroundColor": HEADERS.get(
                                 ":root--base-danger", "#FF0000"
                             )
                         },
-                        **HEADER_STYLES["button_sx_basic"],
+                        **HEADERS["button_sx_basic"],
                     },
                 )
     # ^ Subheader navigation for each main header item
@@ -249,6 +262,7 @@ def create_menu(source_page):
                 display_session_data()
     except Exception as e:
         st.error(f"Error: {str(e)} ❌")
+
 
 
 # ! Main Execution

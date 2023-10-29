@@ -29,8 +29,6 @@ def initiate_session_states_from_json():
     for key, value in initial_states.items():
         st.session_state.setdefault(key, value)
 
-if "toml_data" not in st.session_state:
-    st.session_state.setdefault("toml_data", load_toml_data())
 
 def authenticated_display():
     """Display the authenticated user's view."""

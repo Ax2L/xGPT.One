@@ -1,4 +1,10 @@
 import os
+
+
+
+
+
+
 import streamlit as st
 from pathlib import Path
 from st_click_detector import click_detector as did_click
@@ -181,5 +187,5 @@ with elements("monaco_editors"):
 
 
 #* Add custom CSS Style
-with open('components/style.css') as f:
+with open('components/utils/style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)

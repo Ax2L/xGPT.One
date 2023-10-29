@@ -1,4 +1,6 @@
 # pages/assistant.py
+
+
 import streamlit as st
 import os
 import uuid
@@ -22,7 +24,7 @@ if "current_page" not in st.session_state:
     st.session_state.current_page = page_name
     switch_page("main")
 
-with open("components/style.css") as f:
+with open("components/utils/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     
     
