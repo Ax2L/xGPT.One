@@ -9,8 +9,8 @@ from components import postgres
 import json
 
 # Check if the image exists before trying to open it.
-if os.path.exists("images/logo/logo_long.png"):
-    image = Image.open("images/logo/logo_long.png")
+if os.path.exists("images/logo/xgpt.png"):
+    image = Image.open("images/logo/xgpt.png")
 else:
     image = None
     st.warning("Logo image not found!")

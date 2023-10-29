@@ -22,7 +22,6 @@ with open('components/utils/style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # Load Dependencies
-from components import xlayout
 
 # Generate Menu
 menu = xlayout.sidebar_header_button()
@@ -31,28 +30,6 @@ if "selected_menu_button" not in st.session_state:
 
 
 selected_menu_button = st.session_state['selected_menu_button']
-
-
-if menu == "settings":
-    menu_button = xlayout.settings_box()
-    if menu_button != page_name:
-        st.write("IM ABOUT TO SWITCHING PAGE TO:"+menu_button+"waiting 10 Seconds from now...")
-        time.sleep(10)
-        switch_page()
-elif menu == "help":
-    xlayout.settings_box()
-
-elif menu == "datastore":
-    xlayout.datastore_box()
-
-elif menu == "bots":
-    xlayout.bots_box()
-
-elif menu == "tools":
-    xlayout.tools_box()
-
-elif menu == "mlearning":
-    xlayout.mlearning_box()
 
 
 

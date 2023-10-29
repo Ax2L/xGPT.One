@@ -4,9 +4,21 @@ from components import xhelper
 from components.xdatastore import UserSettings
 from components.utils import streamlit_authenticator as stauth
 from streamlit_extras.switch_page_button import switch_page
+from PIL import Image
+LOGO_PATH = "images/logo/logo_long.png"
+from os import path
+
+
+def check_for_logo_image(logo_path: str):
+    """Checks for the existence of the logo image and returns it."""
+    if path.exists(logo_path):
+        return Image.open(logo_path)
+    st.warning("Logo image not found!")
+    return None
+
 
 # Constants and Configurations
-default_np = "assistant"
+default_np = "apps"
 next_page = default_np
 
 # Helper Functions
@@ -38,6 +50,27 @@ def display_login_sidebar_info():
     with st.sidebar:
         st.markdown(new_user_info)
 
+# Set Page settings and Icon
+im = Image.open("static/images/logo/xgpt.png")
+st.set_page_config(
+    page_title="xGPT.One",
+    page_icon=im,
+    layout="wide",
+    initial_sidebar_state="collapsed",
+    menu_items={
+        'Get Help': 'https://github.com/Ax2L/xGPT.One/help',
+        'Report a bug': "https://github.com/Ax2L/xGPT.One/bug",
+        'About': "# Unveil the Universe of AI: Your Own AI-Driven Sidekick at Your Fingertips!"
+    }
+)
+st.markdown(
+    """
+    <head>
+        <link rel="icon" href="images/logo/favicon.ico"  type="image/x-icon">
+    </head>
+    """,
+    unsafe_allow_html=True,
+)
 
 new_user_info = """
 ## Important Information for New Users

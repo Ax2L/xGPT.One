@@ -17,3 +17,5 @@ textColor = '#F9F9F9'
 # Default: "sans serif"
 font = "sans serif"
 
+[server]
+enableStaticServing = true

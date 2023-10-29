@@ -1,37 +1,51 @@
 [
     {
-        "name": "datastore",
+        "id": "datastore",
+        "name": "Datastore",
         "icon": "Storage",
-        "description": "",
-        "color": "#334155",
-        "active_color": "#4F378B"
+        "description": ""
     },
     {
-        "name": "mlearning",
+        "id": "machine_learning",
+        "name": "Machine Learning",
         "icon": "School",
-        "description": "",
-        "color": "#334155",
-        "active_color": "#4F378B"
+        "description": ""
     },
     {
-        "name": "apps",
+        "id": "apps",
+        "name": "Apps",
         "icon": "SmartToy",
-        "description": "",
-        "color": "#334155",
-        "active_color": "#4F378B"
+        "description": ""
     },
     {
-        "name": "tools",
+        "id": "tools",
+        "name": "Tools",
         "icon": "Handyman",
-        "description": "",
-        "color": "#334155",
-        "active_color": "#4F378B"
+        "description": ""
     },
     {
-        "name": "dashboard",
+        "id": "chats",
+        "name": "Chats",
+        "icon": "Chat",
+        "description": ""
+    },
+    {        
+        
+        "id": "documentation",
+        "name": "Documentation",
+        "icon": "HelpCenter",
+        "description": ""
+    },
+    {        
+        "id": "settings",
+        "name": "Settings",
+        "icon": "Tune",
+        "description": ""
+    },
+    {        
+        "id": "assistant",
+        "name": "Assistant",
         "icon": "Assistant",
-        "description": "",
-        "color": "#334155",
-        "active_color": "#4F378B"
+        "description": ""
     }
 ]

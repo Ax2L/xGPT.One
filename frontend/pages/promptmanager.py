@@ -10,7 +10,6 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 from datasets import get_dataset_infos
-from datasets import get_dataset_infos
 from datasets.info import DatasetInfosDict
 from pygments import highlight
 from pygments.formatters import HtmlFormatter

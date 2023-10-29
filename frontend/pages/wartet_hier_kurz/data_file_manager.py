@@ -34,7 +34,7 @@ if menu == "dashboard":
 
 
 # Load Config
-logo = Image.open('images/logo/logo_long.png')
+logo = Image.open('images/logo/xgpt.png')
 ######### THIS ABOVE NOT! #######
 
 

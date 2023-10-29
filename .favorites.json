@@ -1,61 +1,27 @@
 [
     {
-        "type": "File",
-        "name": "/Users/I543745/Code/ax2/xGPT-streamlit/resources/styleguides/AxCodeStyleGuide.md",
-        "parent_id": null,
-        "workspaceRoot": "/Users/I543745/Code/ax2/xGPT-streamlit",
-        "workspacePath": "resources/styleguides/AxCodeStyleGuide.md",
-        "id": "cKVZNfGU68uyPEv1",
-        "label": "StyleguideAx2"
-    },
-    {
         "type": "Group",
         "name": "xGPT.One",
         "parent_id": null,
         "workspaceRoot": null,
         "workspacePath": null,
-        "id": "VwQzdiZtybP6uxUK",
-        "iconColor": "rgb(0, 0, 255)"
-    },
-    {
-        "type": "Group",
-        "name": "Ax2",
-        "parent_id": null,
-        "workspaceRoot": null,
-        "workspacePath": null,
-        "id": "5412LZmRaBsrVbTK",
-        "iconColor": "rgb(72, 209, 204)"
-    },
-    {
-        "type": "File",
-        "name": "/Users/I543745/Code/ax2/xGPT-streamlit/resources/styleguides/AxCodeStyleGuide.md",
-        "parent_id": "5412LZmRaBsrVbTK",
-        "workspaceRoot": "/Users/I543745/Code/ax2/xGPT-streamlit",
-        "workspacePath": "resources/styleguides/AxCodeStyleGuide.md",
-        "id": "cxe4VCdTwI5FuWrP"
+        "id": "3Y9nSPukqKQfxNvT",
+        "iconColor": "rgb(139, 0, 139)"
     },
     {
         "type": "Directory",
-        "name": "/Users/I543745/Code/ax2/xGPT-streamlit/helper/setup",
-        "parent_id": "VwQzdiZtybP6uxUK",
-        "workspaceRoot": "/Users/I543745/Code/ax2/xGPT-streamlit",
-        "workspacePath": "helper/setup",
-        "id": "VYhvImxek7c9T1nl"
-    },
-    {
-        "type": "Directory",
-        "name": "/Users/I543745/Code/ax2/xGPT-streamlit/frontend",
-        "parent_id": "VwQzdiZtybP6uxUK",
-        "workspaceRoot": "/Users/I543745/Code/ax2/xGPT-streamlit",
+        "name": "/Users/I543745/Code/ax2/xGPT.One/frontend",
+        "parent_id": "3Y9nSPukqKQfxNvT",
+        "workspaceRoot": "/Users/I543745/Code/ax2/xGPT.One",
         "workspacePath": "frontend",
-        "id": "K69cMSOPqmhATdo3"
+        "id": "xFO2tkVQTcRzH0Y3"
     },
     {
         "type": "Directory",
-        "name": "/Users/I543745/Code/ax2/xGPT-streamlit/config",
-        "parent_id": "VwQzdiZtybP6uxUK",
-        "workspaceRoot": "/Users/I543745/Code/ax2/xGPT-streamlit",
-        "workspacePath": "config",
-        "id": "aWvHpuxY3IgXEtnM"
+        "name": "/Users/I543745/Code/ax2/xGPT.One/apps/assistant",
+        "parent_id": "3Y9nSPukqKQfxNvT",
+        "workspaceRoot": "/Users/I543745/Code/ax2/xGPT.One",
+        "workspacePath": "apps/assistant",
+        "id": "HRINSKMWJdrwlpBP"
     }
 ]

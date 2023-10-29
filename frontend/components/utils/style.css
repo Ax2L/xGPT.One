@@ -10,43 +10,65 @@
 
 /* Fullscreen overlay */
 #loadingOverlay {
-    position: fixed;          /* Fixed position */
-    top: 0;                   /* Position the overlay at the very top */
-    left: 0;                  /* Position the overlay at the very left */
-    width: 100%;              /* Full width */
-    height: 100%;             /* Full height */
-    background-color: rgba(255, 255, 255, 0.8);   /* White background with opacity */
-    z-index: 9999;            /* Make sure it sits on top of everything else */
-    cursor: progress;         /* Change the cursor to the progress mode */
+    position: fixed;
+    /* Fixed position */
+    top: 0;
+    /* Position the overlay at the very top */
+    left: 0;
+    /* Position the overlay at the very left */
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    background-color: rgba(255, 255, 255, 0.8);
+    /* White background with opacity */
+    z-index: 9999;
+    /* Make sure it sits on top of everything else */
+    cursor: progress;
+    /* Change the cursor to the progress mode */
 }
 
 /* The loader itself */
 .loader {
-    position: absolute;       /* Absolute positioning */
-    top: 50%;                 /* Center it vertically */
-    left: 50%;                /* Center it horizontally */
-    border: 16px solid #f3f3f3;   /* Light grey ring */
-    border-top: 16px solid #3498db;   /* Blue spinner */
-    border-radius: 50%;              /* Circular loader */
+    position: absolute;
+    /* Absolute positioning */
+    top: 50%;
+    /* Center it vertically */
+    left: 50%;
+    /* Center it horizontally */
+    border: 16px solid #f3f3f3;
+    /* Light grey ring */
+    border-top: 16px solid #3498db;
+    /* Blue spinner */
+    border-radius: 50%;
+    /* Circular loader */
     width: 80px;
     height: 80px;
-    animation: spin 2s linear infinite;   /* Animation named "spin" */
+    animation: spin 2s linear infinite;
+    /* Animation named "spin" */
 }
 
 /* Spin animation */
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* Blurring the background when the loader is active */
 body.loading {
-    overflow: hidden;     /* Prevent any user interaction while loading */
+    overflow: hidden;
+    /* Prevent any user interaction while loading */
     pointer-events: none;
     user-select: none;
-    filter: blur(5px);    /* Blur effect */
+    filter: blur(5px);
+    /* Blur effect */
 }
- 
+
 
 
 /* ================================== */
@@ -106,6 +128,8 @@ h2
 
 section[data-testid='stSidebar'] {
     width: 335px !important;
+    top: 65px;
+
 }
 
 .stApp {
@@ -222,7 +246,7 @@ iframe[height="81"]:first-of-type {
 }
 
 .streamlit-expanderContent {
-    background: linear-gradient(0deg, #6750A41C 0%,  #262730  100%), linear-gradient(0deg, rgba(103, 80, 164, 0.14) 0%, rgba(103, 80, 164, 0.14) 100%);
+    background: linear-gradient(0deg, #6750A41C 0%, #262730 100%), linear-gradient(0deg, rgba(103, 80, 164, 0.14) 0%, rgba(103, 80, 164, 0.14) 100%);
 }
 
 
@@ -231,7 +255,7 @@ iframe[height="81"]:first-of-type {
 /* ================================== */
 
 div[data-testid="stForm"] {
-    background: linear-gradient(0deg,#262730  0%,  #334154  100%), linear-gradient(0deg, rgba(103, 80, 164, 0.14) 0%, rgba(103, 80, 164, 0.14) 100%);
+    background: linear-gradient(0deg, #262730 0%, #334154 100%), linear-gradient(0deg, rgba(103, 80, 164, 0.14) 0%, rgba(103, 80, 164, 0.14) 100%);
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
 }
@@ -241,4 +265,30 @@ div[class="st-emotion-cache-1fyphr1 e1f1d6gn0"] {
     width: 100% !important;
     height: 100% !important;
 
+}
+
+header[data-testid="stHeader"] {
+    display: none;
+}
+
+header[z-index="999990"] {
+    padding: 0% !important;
+
+}
+
+
+section[tabindex="0"] div[data-testid="block-container"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+    margin-right: 0 !important;
+    padding-top: 0px !important;
+}
+
+
+.block-container {}
+
+
+div[data-testid="block-container"] {
+    height: 200px;
 }

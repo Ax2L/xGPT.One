@@ -7,6 +7,7 @@ import streamlit as st
 from streamlit_elements import elements, mui
 from components.xhelper import display_session_data
 from components.xdatastore import UserSettings, PageSettings, ColorSettings
+from streamlit_extras.switch_page_button import switch_page
 
 # & === SET COMPONENT PARAMETER =====================
 username = "admin"
@@ -16,7 +17,7 @@ except Exception as e:
     st.error(f"Error: {str(e)} ❌")
 
 # & === CONFIG SECTION =====================
-LOGO_PATH = "images/logo/logo_long.png"
+LOGO_PATH = "images/logo/xgpt.png"
 CONFIG_PATHS = {
     "menu": "../config/streamlit/menu_config.json",
     "mlearning": "../config/streamlit/mlearning_config.json",
@@ -396,122 +397,130 @@ def handle_click_close():  # Modified to take 'name' argument
 
 
 def sidebar_header_button(menu_config):
-    with st.sidebar:
-        with elements("sideMenuHeader"):
-            """Generate Header Section icons."""
-            mui.CardMedia(
-                image="https://github.com/Ax2L/xGPT.One/blob/main/frontend/images/logo/logo_sidebar.png?raw=true",
-                component="img",
-                height="80",
-                width="100",
-                background="transparent",
-                sx={
-                    "max-height": "50",
-                    "max-width": "50",
-                    "margin-bottom": "10px",
-                    "margin-top": "-10px",
-                },
-            )
-            mui.Divider()
-            with mui.Grid(
-                container=True,
-                direction="row",
-                justifyContent="space-between",
-                alignItems="center",
-                spacing={1},
-            ):
-                # ? Main buttonsGroup row for Menu
-                button_elements = []
-                for item in menu_config:
-                    if item["name"] not in ["settings", "help"]:
-                        icon_n = item["icon"]
-                        button_element = mui.Button(
-                            getattr(mui.icon, icon_n),
-                            onClick=handle_click_universal(item["name"]),
-                            sx={
-                                "background-color": st.session_state[
-                                    f"color_active_{item['name']}_button"
-                                ],
-                                "color": item["color"],
-                                "width": "100%",
-                                "box-shadow": "0px 4px 4px rgba(0, 0, 0, 0.30)",
-                                "&:hover": {
-                                    "backgroundColor": "#A5B4FC0A",  # Button hover effect
-                                },
-                            },
-                        )
-                        button_elements.append(button_element)
-                mui.ButtonGroup(
-                    *button_elements,
-                    variant="outlines",
-                    label="outlined primary button group",
-                    size="medium",
-                    sx={
-                        "width": "100%",
-                        "margin-left": "auto",
-                        "margin-right": "auto",
-                        "align-items": "center",
-                    },
-                )
-                if st.session_state["menu_active_button"] is not None:
-                    mui.IconButton(
-                        mui.icon.Close,
-                        onClick=handle_click_close(),
+    with elements("sideMenuHeader"):
+        """Generate Header Section icons."""
+        #mui.CardMedia(
+        #    image="https://github.com/Ax2L/xGPT.One/blob/main/frontend/images/logo/logo_sidebar.png?raw=true",
+        #    component="img",
+        #    height="80",
+        #    width="100",
+        #    background="transparent",
+        #    sx={
+        #        "max-height": "50",
+        #        "max-width": "50",
+        #        "margin-bottom": "10px",
+        #        "margin-top": "-10px",
+        #    },
+        #)
+        mui.Divider()
+        with mui.Grid(
+            container=True,
+            direction="row",
+            justifyContent="space-between",
+            alignItems="center",
+            spacing={1},
+        ):
+            # ? Main buttonsGroup row for Menu
+            button_elements = []
+            for item in menu_config:
+                if item["name"] not in ["settings", "help"]:
+                    icon_n = item["icon"]
+                    button_element = mui.Button(
+                        getattr(mui.icon, icon_n),
+                        onClick=handle_click_universal(item["name"]),
                         sx={
+                            "background-color": st.session_state[
+                                f"color_active_{item['name']}_button"
+                            ],
                             "color": item["color"],
-                            "margin-left": "80%",
-                            "width": "20%",
+                            "width": "100%",
+                            "box-shadow": "0px 4px 4px rgba(0, 0, 0, 0.30)",
                             "&:hover": {
-                                "color": "#000000",
+                                "backgroundColor": "#A5B4FC0A",  # Button hover effect
                             },
                         },
                     )
+                    button_elements.append(button_element)
+            mui.ButtonGroup(
+                *button_elements,
+                variant="outlines",
+                label="outlined primary button group",
+                size="medium",
+                sx={
+                    "width": "100%",
+                    "margin-left": "auto",
+                    "margin-right": "auto",
+                    "align-items": "center",
+                },
+            )
+            #if st.session_state["menu_active_button"] is not None:
+            #    mui.IconButton(
+            #        mui.icon.Close,
+            #        onClick=handle_click_close(),
+            #        sx={
+            #            "color": item["color"],
+            #            "margin-left": "80%",
+            #            "width": "20%",
+            #            "&:hover": {
+            #                "color": "#000000",
+            #            },
+            #        },
+            #    )
 
 
 # * === Sidebar Bottom ---------------> Settings, Upload, Help
 
 
 def sidebar_footer_button(footer_config):
-    with st.sidebar:
-        with elements("sidebarFooter"):
-            button_elements = []
-            for item in footer_config:
-                # Assuming that item['icon'] is a string, e.g., 'RestoreIcon'
-                # We need to retrieve the actual icon component from the mui.icons module
-                icon_n = item["icon"]
-                icon_component = getattr(mui.icon, icon_n)()
-
-                button_element = mui.BottomNavigationAction(
-                    icon=icon_component,  # This is the corrected part
-                    label=item["name"],
-                    value=item["name"],
-                    onClick=handle_click_universal(item["name"]),
-                    sx={
-                        "background-color": st.session_state[
-                            f"color_active_{item['name']}_button"
-                        ],
-                        "color": item["color"],
-                        "&:hover": {
-                            "backgroundColor": "rgba(255, 255, 255, 0.12)",  # Button hover effect
-                        },
-                    },
-                )
-                button_elements.append(button_element)
-
-            mui.BottomNavigation(
-                *button_elements,
-                variant="contained",
-                label="outlined primary footer button group",
-                size="small",
+    with elements("sidebarFooter"):
+        button_elements = []
+        for item in footer_config:
+            # Assuming that item['icon'] is a string, e.g., 'RestoreIcon'
+            # We need to retrieve the actual icon component from the mui.icons module
+            icon_n = item["icon"]
+            icon_component = getattr(mui.icon, icon_n)()
+            button_element = mui.BottomNavigationAction(
+                icon=icon_component,  # This is the corrected part
+                label=item["name"],
+                value=item["name"],
+                onClick=handle_click_universal(item["name"]),
                 sx={
-                    "width": "100%",
-                    "margin-left": "auto",
-                    "margin-right": "auto",
-                    "bottom": "0 !important",
-                    "align-items": "center",
-                    "box-shadow": "0px 4px 4px rgba(0, 0, 0, 0.30)",
+                    "background-color": st.session_state[
+                        f"color_active_{item['name']}_button"
+                    ],
+                    "color": item["color"],
+                    "&:hover": {
+                        "backgroundColor": "rgba(255, 255, 255, 0.12)",  # Button hover effect
+                    },
                 },
             )
+            button_elements.append(button_element)
+        mui.BottomNavigation(
+            *button_elements,
+            variant="contained",
+            label="outlined primary footer button group",
+            size="small",
+            sx={
+                "width": "100%",
+                "margin-left": "auto",
+                "margin-right": "auto",
+                "bottom": "0 !important",
+                "align-items": "center",
+                "box-shadow": "0px 4px 4px rgba(0, 0, 0, 0.30)",
+            },
+        )
+
+
+def header_menu_button():
+    mui.Button(
+        mui.icon.Menu,
+        mui.Menu(
+            "header_menu",
+            mui.MenuItem(
+                "Test",
+            )
+        )
+    )
 
 
 # * === Main ---------------> Runner
@@ -520,38 +529,45 @@ def create_menu(source_page):
     # Call the function
     sidebar_header_button(menu_config)
     sidebar_footer_button(footer_config)
-    with st.sidebar:
-        with elements("sideMenuContent"):
-            menu = st.session_state.menu_active_button
-            # need to check if a button was pressed and process the selected action.
-            selected_menu_button = st.session_state["menu_active_button"]
+    with elements("sideMenuContent"):
+        header_menu_button()
 
-            if menu == "settings":
-                settings_box()
+        menu = st.session_state.menu_active_button
+        # need to check if a button was pressed and process the selected action.
+        selected_menu_button = st.session_state["menu_active_button"]
 
-            elif menu == "help":
-                settings_box()
+        if menu == "settings":
+            switch_page('1_settings')
+            #settings_box()
 
-            elif menu == "datastore":
-                datastore_box()
+        elif menu == "help":
+            switch_page('1_help')
+            #settings_box()
 
-            elif menu == "apps":
-                cards_box(apps_config, "apps")
+        elif menu == "datastore":
+            switch_page('1_datastore')
+            #datastore_box()
 
-            elif menu == "mlearning":
-                cards_box(mlearning_config, "mlearning")
+        elif menu == "apps":
+            switch_page('1_apps')
+            #cards_box(apps_config, "apps")
 
-            elif menu == "tools":
-                cards_box(tools_config, "tools")
+        elif menu == "mlearning":
+            switch_page('1_machine_learning')
+            #cards_box(mlearning_config, "mlearning")
 
-            # need to check if a button was pressed and process the selected action.
-            selected_menu_button = st.session_state["menu_active_button"]
+        elif menu == "tools":
+            switch_page('1_tools')
+            #cards_box(tools_config, "tools")
 
-            if selected_menu_button != source_page and selected_menu_button:
-                do = "nothing"
-                # st.write(f"OLALA You pressed the buttonue: {selected_menu_button}")
-            else:
-                do = "nothing"
+        # need to check if a button was pressed and process the selected action.
+        selected_menu_button = st.session_state["menu_active_button"]
+
+        if selected_menu_button != source_page and selected_menu_button:
+            do = "nothing"
+            # st.write(f"OLALA You pressed the buttonue: {selected_menu_button}")
+        else:
+            do = "nothing"
                 # st.write("No butonnue is seletectabled.")
     try:
         if display_session_data:

@@ -6,6 +6,8 @@ import smtplib
 from email.message import EmailMessage
 from yaml.loader import SafeLoader
 import streamlit as st
+from streamlit_extras.switch_page_button import switch_page
+LOGO_PATH = "images/logo/xgpt.png"
 
 def find_config_file(filename=f"../../config/streamlit/config.yaml"):
     """Search for the config file and return its path."""
@@ -100,4 +102,20 @@ def display_session_data():
     """Displays session state data if session_state.show_session_data is True."""
     if st.session_state.get("show_session_data", False):
         st.write(st.session_state)
-        
+
+
+def check_logged_in(page_name):
+    # If 'current_page' not in session state, initialize it and redirect to 'main'
+    if "username" not in st.session_state:
+        st.session_state.setdefault("current_page", page_name)
+        switch_page('main')
+
+
+def check_current_page(page_name):
+    # If the current page doesn't match and isn't None, switch to it
+    current_site = st.session_state['current_page']
+    if current_site != page_name and current_site is not None:
+        switch_page(current_site)
+
+
+

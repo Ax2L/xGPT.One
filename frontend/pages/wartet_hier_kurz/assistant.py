@@ -24,18 +24,14 @@ if "current_page" not in st.session_state:
 
 with open("components/utils/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
-new_page = st.session_state["current_page"]
-if new_page == page_name:
-    st.write("Found my own page button:" + new_page)
-else:
-    st.write("Found page button of:" + new_page)
-
-current_site = st.session_state["current_page"]
+    
+    
+# ⁡⁢⁣⁡⁣⁢⁡⁣⁢⁣===| PAGE NAVIGATION SECTION |================================⁡⁡⁡
+# If the current page doesn't match and isn't None, switch to it
+current_site = st.session_state['current_page']
 if current_site != page_name and current_site is not None:
     switch_page(current_site)
 
-xlayout.create_menu(page_name)
 
 current_site = st.session_state["current_page"]
 if current_site != page_name and current_site is not None:
