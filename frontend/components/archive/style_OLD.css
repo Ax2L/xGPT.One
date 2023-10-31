@@ -317,14 +317,12 @@ header[z-index="999990"] {
 
 
 section[tabindex="0"] div[data-testid="block-container"] {
+    padding: 0 !important;
 }
 
-section[tabindex="0"] div[data-testid="block-container"] a:hover {
-
-}
+section[tabindex="0"] div[data-testid="block-container"] a:hover {}
 
 .block-container {}
 
 
-div[data-testid="block-container"] {
-}
+div[data-testid="block-container"] {}

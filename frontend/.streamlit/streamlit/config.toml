@@ -7,7 +7,7 @@ primaryColor = '#7792E3'
 backgroundColor = '#0F0F15'
 
 # Background color for sidebar and most interactive widgets
-secondaryBackgroundColor = '#121212'
+secondaryBackgroundColor = '#282C33'
 
 # Color used for almost all text
 textColor = '#F9F9F9'
@@ -17,3 +17,5 @@ textColor = '#F9F9F9'
 # Default: "sans serif"
 font = "sans serif"
 
+[server]
+enableStaticServing = true

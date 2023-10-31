@@ -1,25 +1,17 @@
+# main.py
 import json
 import streamlit as st
+from components.style import init_style, rawbase_style, prepared_style
 from components import xhelper
 from components.xdatastore import UserSettings
 from components.utils import streamlit_authenticator as stauth
 from streamlit_extras.switch_page_button import switch_page
-from PIL import Image
-LOGO_PATH = "images/logo/logo_long.png"
-from os import path
-
-
-def check_for_logo_image(logo_path: str):
-    """Checks for the existence of the logo image and returns it."""
-    if path.exists(logo_path):
-        return Image.open(logo_path)
-    st.warning("Logo image not found!")
-    return None
-
 
 # Constants and Configurations
-default_np = "apps"
+page_name = "main"
+default_np = "test_style"
 next_page = default_np
+
 
 # Helper Functions
 def initiate_session_states_from_json():
@@ -39,7 +31,8 @@ def authenticated_display():
             user.update("username", st.session_state["username"])
             st.subheader(f'Welcome back, {st.session_state["username"]}!')
             st.session_state["current_page"] = next_page
-            switch_page(next_page)
+            #switch_page(next_page)
+            st.button("testStyle")
         else:
             st.error("Username is not set in the session. Please login again.")
             st.stop()
@@ -51,18 +44,6 @@ def display_login_sidebar_info():
         st.markdown(new_user_info)
 
 # Set Page settings and Icon
-im = Image.open("static/images/logo/xgpt.png")
-st.set_page_config(
-    page_title="xGPT.One",
-    page_icon=im,
-    layout="wide",
-    initial_sidebar_state="collapsed",
-    menu_items={
-        'Get Help': 'https://github.com/Ax2L/xGPT.One/help',
-        'Report a bug': "https://github.com/Ax2L/xGPT.One/bug",
-        'About': "# Unveil the Universe of AI: Your Own AI-Driven Sidekick at Your Fingertips!"
-    }
-)
 st.markdown(
     """
     <head>
@@ -90,7 +71,9 @@ You can also manually install our Email Service. Find more details in the provid
 # Initialization
 if "initial_main" not in st.session_state:
     st.toast("Initializing application...")
+    st.session_state.setdefault("initial_main", True)
     initiate_session_states_from_json()
+    print(f"Main Page initiated and st.session_state.initial_main is:{st.session_state.initial_main}")
 
 if st.session_state['current_page']:
     next_page = st.session_state['current_page']
@@ -125,3 +108,4 @@ if authentication_status:
         "username": username,
     })
     authenticated_display()
+

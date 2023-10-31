@@ -7,7 +7,7 @@ primaryColor = '#7792E3'
 backgroundColor = '#121212'
 
 # Background color for sidebar and most interactive widgets
-secondaryBackgroundColor = '#FFFFFFF'
+secondaryBackgroundColor = '#282C33'
 
 # Color used for almost all text
 textColor = '#FFFFFF'
@@ -16,31 +16,3 @@ textColor = '#FFFFFF'
 # Accepted values (serif | sans serif | monospace) 
 # Default: "sans serif"
 font = "sans serif"
-
-#?## xGPT.Only:
-secondaryColor = '#7792E3'
-
-Chat = '#4F7C7D'
-Category = '#4F7C7D'
-ShadowBox = '#4F7C7D'
-ShadowBox_text = '#4F7C7D'
-
-
-# [theme] OG
-# base = "dark"
-# # Primary accent for interactive elements
-# primaryColor = '#7792E3'
-# 
-# # Background color for the main content area
-# backgroundColor = '#1A202C'
-# 
-# # Background color for sidebar and most interactive widgets
-# secondaryBackgroundColor = '#1A202C'
-# 
-# # Color used for almost all text
-# textColor = '#FFFFFF'
-# 
-# # Font family for all text in the app, except code blocks
-# # Accepted values (serif | sans serif | monospace) 
-# # Default: "sans serif"
-# font = "sans serif"

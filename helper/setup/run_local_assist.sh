@@ -7,8 +7,8 @@ run_local_assist() {
     cd $PROJECT_DIR/apps/assistant/build/
 
     # Execute the commands
-    yarn install
-    yarn dev
+    /opt/homebrew/bin/yarn install
+    /opt/homebrew/bin/yarn dev
 
     # Return to the original directory
     cd -

@@ -1,0 +1,16 @@
+button[kind='secondary'] {
+    position: relative !important;
+    width: 100% !important;
+    background: #FFF !important;
+    color: #FF0000 !important;
+}
+.container {
+    position: relative;
+    width: 100%;
+}
+button[kind='secondary'] {
+    position: relative !important;
+    width: 100% !important;
+    background: #FFF !important;
+    color: #FF0000 !important;
+}

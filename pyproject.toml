@@ -128,6 +128,7 @@ arize-phoenix = "^0.0.49"
 openai = "^0.28.1"
 gcsfs = "^2023.9.2"
 #postgrest-py = "^0.10.6"
+css-generator = "^0.1.1"
 
 
 [tool.poetry.group.dev.dependencies]

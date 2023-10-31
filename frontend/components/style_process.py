@@ -4,57 +4,74 @@ import toml
 import streamlit as st
 import os
 
-# ! ------------------ Default Settings ------------------
-DEFAULT_SETTINGS = {
-    "base_colors": {
-        "primary": "default_primary",
-        "secondary": "default_secondary",
-        "success": "default_success",
-        "danger": "default_danger",
-        "warning": "default_warning",
-        "info": "default_info",
-    },
-    "typography": {
-        "font_family": "default_font",
-        "font_size": "default_size",
-        "color": "default_color",
-        "line_height": "default_line_height",
-    },
-    "layout": {
-        "container_max_width": "default_max_width",
-        "container_padding": "default_padding",
-        "row_display": "default_display",
-        "row_flex_wrap": "default_flex_wrap",
-        "column_flex": "default_flex",
-    },
-    "headers": {
-        "stHeader_background_color": "default_background",
-        "stHeader_filter": "default_filter",
-        "stHeader_padding": "default_padding",
-        "Header_background_color": "default_background",
-        "Header_filter": "default_filter",
-        "Header_padding": "default_padding",
-        "Header_text_align": "default_text_align",
-    },
-    "buttons": {
-        "button_display": "default_display",
-        "button_padding": "default_padding",
-        "button_border": "default_border",
-        "button_cursor": "default_cursor",
-        "button_transition": "default_transition",
-        "stButton_background_color": "default_background",
-        "stButton_filter": "default_filter",
-        "stButton_color": "default_color",
-        "MuiButton_background_color": "default_background",
-        "MuiButton_filter": "default_filter",
-        "MuiButton_color": "default_color",
-    },
-    "containers": {
-        "special_container_background_color": "default_background",
-        "special_container_filter": "default_filter",
-        "special_container_border": "default_border",
-    },
+# First object: Cleanup CSS
+cleanup_css = """
+<html>
+<head>
+<style>
+:root {
+    font-family: Roboto;
+
 }
+.title {
+    font-size: 34px;
+    font-family: "Roboto";
+    font-weight: 400;
+    width: 360px;
+    height: 40px;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+h1, h2, h3, p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+header[data-testid="stHeader"] {
+    display: none !important;
+}
+/* Cleanup the Header Styles */
+section[tabindex="0"] div[data-testid="block-container"] {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+}
+section[data-testid="stSidebar"] {
+    background-color: #262730;
+}
+</style>
+</head>
+</html>
+"""
+
+# Second object: End of Script Components
+end_of_script_components = """
+<html>
+<head>
+<!-- Hypothetical end of script components. Adjust according to your needs. -->
+<script>
+    // Add your JavaScript here.
+    console.log("End of script components loaded.");
+</script>
+<!-- You can also add other components or tags as needed -->
+</head>
+</html>
+"""
+
+# Streamlit functions to apply the above CSS and JavaScript
+def apply_cleanup_css():
+    st.markdown(cleanup_css, unsafe_allow_html=True)
+
+def apply_end_of_script_components():
+    st.markdown(end_of_script_components, unsafe_allow_html=True)
 
 
 # ? ------------------ Helper Functions ------------------
@@ -99,6 +116,27 @@ def get_styles_toml_path():
         print(f"{file_name_to_search} not found.")
         return None
 
+# ! ------------------ Default Settings ------------------
+def toml_to_style_settings(filepath):
+    # Load the TOML content
+    with open(filepath, 'r') as file:
+        content = toml.load(file)
+    
+    # Prepare the style_settings dictionary
+    style_settings = {}
+    
+    for section, attributes in content.items():
+        style_section = {}
+        for attribute, value in attributes.items():
+            style_section[attribute] = f"default_{attribute}"
+        style_settings[section] = style_section
+
+    return style_settings
+
+# Load the styles from 'base_styles.toml' into the style_settings dictionary
+filepath = "./components/style_base.toml"
+DEFAULT_SETTINGS = toml_to_style_settings(filepath)
+
 
 def load_styles_from_toml():
     # Ensure session_state keys are initialized
@@ -110,7 +148,7 @@ def load_styles_from_toml():
 
     # Check if the TOML content is already in the session state.
     if not st.session_state.base_style:
-        styles_path = get_styles_toml_path()
+        styles_path = "./components/style_base.toml"
 
         # Ensure that styles_path is not None before proceeding
         if styles_path is None:
@@ -122,69 +160,60 @@ def load_styles_from_toml():
 
     # Convert the TOML content to styles.
     styles = {}
-    for key, value in st.session_state["style_blocks"]["BASE_COLORS"].items():
+    for key, value in st.session_state.base_style.items():
         if isinstance(value, dict):
             for sub_key, sub_value in value.items():
                 styles[f"{key}--{sub_key}"] = sub_value
         else:
             styles[key] = value
-
+    st.session_state.base_style = styles
     return styles
 
 
 # * ------------------ Main Code Execution ------------------
-if "toml_data" not in st.session_state:
-    st.session_state.setdefault("toml_data", {})
 toml_data = load_styles_from_toml()
-st.session_state["toml_data"] = toml_data
-
-# ^ Update toml_data with missing keys and default values
-for section, defaults in DEFAULT_SETTINGS.items():
-    if section not in toml_data:
-        toml_data[section] = defaults
-    else:
-        for key, default_value in defaults.items():
-            toml_data[section][key] = toml_data[section].get(key, default_value)
+if "toml_data" not in st.session_state:
+    st.session_state.setdefault("toml_data", toml_data)
 
 BASE_COLORS = {
-    "--base-primary": toml_data["base_colors"]["primary"],
-    "--base-secondary": toml_data["base_colors"]["secondary"],
-    "--base-success": toml_data["base_colors"]["success"],
-    "--base-danger": toml_data["base_colors"]["danger"],
-    "--base-warning": toml_data["base_colors"]["warning"],
-    "--base-info": toml_data["base_colors"]["info"],
+    "--base-primary": toml_data["base_colors--primary"],
+    "--base-secondary": toml_data["base_colors--secondary"],
+    "--base-success": toml_data["base_colors--success"],
+    "--base-danger": toml_data["base_colors--danger"],
+    "--base-warning": toml_data["base_colors--warning"],
+    "--base-info": toml_data["base_colors--info"],
 }
 
 TYPOGRAPHY = {
-    "font-family": toml_data["typography"]["font_family"],
-    "font-size": toml_data["typography"]["font_size"],
-    "color": toml_data["typography"]["color"],
-    "line-height": toml_data["typography"]["line_height"],
+    "font-family": toml_data["typography--font_family"],
+    "font-size": toml_data["typography--font_size"],
+    "color": toml_data["typography--color"],
+    "line-height": toml_data["typography--line_height"],
 }
 
 LAYOUT = {
     "container": {
-        "max-width": toml_data["layout"]["container_max_width"],
+        "max-width": toml_data["layout--max_width"],
         "margin": "0 auto",
-        "padding": toml_data["layout"]["container_padding"],
+        "padding": toml_data["layout--padding"],
     },
     "row": {
-        "display": toml_data["layout"]["row_display"],
-        "flex-wrap": toml_data["layout"]["row_flex_wrap"],
+        "display": toml_data["layout--row_display"],
+        "flex-wrap": toml_data["layout--row_flex_wrap"],
     },
-    "column": {"flex": toml_data["layout"]["column_flex"]},
+    "column": {"flex": toml_data["layout--column_flex"]},
 }
 
 
 # ! ------------------ Styles Initialization ------------------
 if "base_colors" in toml_data:
     BASE_COLORS = {
-        "--base-primary": toml_data["base_colors"].get("primary", "default_value"),
-        "--base-secondary": toml_data["base_colors"].get("secondary", "default_value"),
-        "--base-success": toml_data["base_colors"].get("success", "default_value"),
-        "--base-danger": toml_data["base_colors"].get("danger", "default_value"),
-        "--base-warning": toml_data["base_colors"].get("warning", "default_value"),
-        "--base-info": toml_data["base_colors"].get("info", "default_value"),
+        "--base-primary": toml_data["base_colors"]["primary--default_value"],
+        "--base-secondary": toml_data["base_colors"]["secondary--default_value"],
+        "--base-success": toml_data["base_colors"]["success--default_value"],
+        "--base-danger": toml_data["base_colors"]["danger--default_value"],
+        "--base-warning": toml_data["base_colors"]["warning--default_value"],
+        "--base-info": toml_data["base_colors"]["info--default_value"],
     }
 else:
     print("Warning: 'base_colors' not found in toml_data")
@@ -192,101 +221,122 @@ else:
 
 # & Base Typography
 TYPOGRAPHY = {
-    "font-family": toml_data["typography"]["font_family"],
-    "font-size": toml_data["typography"]["font_size"],
-    "color": toml_data["typography"]["color"],
-    "line-height": toml_data["typography"]["line_height"],
+    "font-family": toml_data["typography--font_family"],
+    "font-size": toml_data["typography--font_size"],
+    "color": toml_data["typography--color"],
+    "line-height": toml_data["typography--line_height"],
 }
 
 # ~ Base Layout Objects
 LAYOUT = {
     "container": {
-        "max-width": toml_data["layout"]["container_max_width"],
+        "max-width": toml_data["layout--max_width"],
         "margin": "0 auto",
-        "padding": toml_data["layout"]["container_padding"],
+        "padding": toml_data["layout--padding"],
     },
     "row": {
-        "display": toml_data["layout"]["row_display"],
-        "flex-wrap": toml_data["layout"]["row_flex_wrap"],
+        "display": toml_data["layout--row_display"],
+        "flex-wrap": toml_data["layout--row_flex_wrap"],
     },
-    "column": {"flex": toml_data["layout"]["column_flex"]},
+    "column": {"flex": toml_data["layout--column_flex"]},
 }
 
 # ^ Enhanced Headers
 HEADERS = {
-    "stHeader": {
-        "background-color": toml_data["headers"]["stHeader_background_color"],
-        "filter": toml_data["headers"]["stHeader_filter"],
-        "padding": toml_data["headers"]["stHeader_padding"],
+    "off": {},
+    "main": {
+        "display": "flex",
+        "flex-direction": "row",
+        "align-items": "center",
+        "justify-content": "space-between",
     },
     "header": {
-        "background-color": toml_data["headers"]["Header_background_color"],
-        "filter": toml_data["headers"]["Header_filter"],
-        "padding": toml_data["headers"]["Header_padding"],
-        "text-align": toml_data["headers"]["Header_text_align"],
+        "background-color": toml_data["headers--background_color"],
+        "filter": toml_data["headers--filter"],
+        "padding": toml_data["headers--padding"],
+        "text-align": toml_data["headers--text_align"],
     },
-    "header_flex": {
-        "background-color": toml_data["headers"]["Header_background_color"],
-        "filter": toml_data["headers"]["Header_filter"],
-        "padding": toml_data["headers"]["Header_padding"],
-        "text-align": toml_data["headers"]["Header_text_align"],
+    "logo": {
+        "background-color": toml_data["headers--background_color"],
+        "filter": toml_data["headers--filter"],
+        "padding": toml_data["headers--padding"],
+        "text-align": toml_data["headers--text_align"],
+        "height": "60",
+        "width": "100",
+        "background": "transparent",
     },
-    "button_sx_basic": {
-        "background-color": toml_data["headers"]["Header_background_color"],
-        "filter": toml_data["headers"]["Header_filter"],
-        "padding": toml_data["headers"]["Header_padding"],
-        "text-align": toml_data["headers"]["Header_text_align"],
+    "tabs": {
+        "background-color": toml_data["headers--background_color"],
+        "filter": toml_data["headers--filter"],
+        "padding": toml_data["headers--padding"],
+        "text-align": toml_data["headers--text_align"],
         "display": "flex",
         "align-items": "center",
         "justify-content": "center",
     },
-    "button_group_basic": {
-        "background-color": toml_data["headers"]["Header_background_color"],
-        "filter": toml_data["headers"]["Header_filter"],
-        "padding": toml_data["headers"]["Header_padding"],
-        "text-align": toml_data["headers"]["Header_text_align"],
+    "tabsgroup": {
+        "background-color": toml_data["headers--background_color"],
+        "filter": toml_data["headers--filter"],
+        "padding": toml_data["headers--padding"],
+        "text-align": toml_data["headers--text_align"],
+    },
+    "iconbutton": {
+        "background-color": toml_data["headers--background_color"],
+        "filter": toml_data["headers--filter"],
+        "padding": toml_data["headers--padding"],
+        "text-align": toml_data["headers--text_align"],
+    },
+    "iconbuttongroup": {
+        "background-color": toml_data["headers--background_color"],
+        "filter": toml_data["headers--filter"],
+        "padding": toml_data["headers--padding"],
+        "text-align": toml_data["headers--text_align"],
+    },
+    "submenu_button": {
+        "background-color": toml_data["headers--background_color"],
+        "filter": toml_data["headers--filter"],
+        "padding": toml_data["headers--padding"],
+        "text-align": toml_data["headers--text_align"],
+    },
+        "submenu_buttongroup": {
+        "background-color": toml_data["headers--background_color"],
+        "filter": toml_data["headers--filter"],
+        "padding": toml_data["headers--padding"],
+        "text-align": toml_data["headers--text_align"],
     },
 }
 
 # * Enhanced Button Styles
 BUTTONS = {
     "button": {
-        "display": toml_data["buttons"]["button_display"],
-        "padding": toml_data["buttons"]["button_padding"],
-        "border": toml_data["buttons"]["button_border"],
-        "cursor": toml_data["buttons"]["button_cursor"],
-        "transition": toml_data["buttons"]["button_transition"],
-    },
-    "stButton": {
-        "background-color": toml_data["buttons"]["stButton_background_color"],
-        "filter": toml_data["buttons"]["stButton_filter"],
-        "color": toml_data["buttons"]["stButton_color"],
-    },
-    "MuiButton": {
-        "background-color": toml_data["buttons"]["MuiButton_background_color"],
-        "filter": toml_data["buttons"]["MuiButton_filter"],
-        "color": toml_data["buttons"]["MuiButton_color"],
-    },
+        "display": toml_data["buttons--display"],
+        "padding": toml_data["buttons--padding"],
+        "border": toml_data["buttons--border"],
+        "cursor": toml_data["buttons--cursor"],
+        "transition": toml_data["buttons--transition"],
+    }
 }
 
 # ? Containers
 CONTAINERS = {
     "special-container": {
-        "background-color": toml_data["containers"][
-            "special_container_background_color"
+        "background-color": toml_data["containers--background_color"
         ],
-        "filter": toml_data["containers"]["special_container_filter"],
-        "border": toml_data["containers"]["special_container_border"],
+        "filter": toml_data["containers--filter"],
+        "border": toml_data["containers--border"],
     }
 }
 
+def store_style_block():
+    # ^Storing style blocks in session state'
+    st.session_state["style_blocks"] = {
+        "BASE_COLORS": BASE_COLORS,
+        "TYPOGRAPHY": TYPOGRAPHY,
+        "LAYOUT": LAYOUT,
+        "HEADERS": HEADERS,
+        "BUTTONS": BUTTONS,
+        "CONTAINERS": CONTAINERS,
+    }
 
-# todooo#   Storing style blocks in session state
-st.session_state["style_blocks"] = {
-    "BASE_COLORS": BASE_COLORS,
-    "TYPOGRAPHY": TYPOGRAPHY,
-    "LAYOUT": LAYOUT,
-    "HEADERS": HEADERS,
-    "BUTTONS": BUTTONS,
-    "CONTAINERS": CONTAINERS,
-}
+if "style_blocks" not in st.session_state:
+    store_style_block()

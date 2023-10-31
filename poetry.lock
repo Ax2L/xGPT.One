@@ -1347,6 +1347,17 @@ test = ["pretend", "pytest (>=6.2.0)", "pytest-benchmark", "pytest-cov", "pytest
 test-randomorder = ["pytest-randomly"]
 
 [[package]]
+name = "css-generator"
+version = "0.1.1"
+description = "CSS stylesheet generator"
+optional = false
+python-versions = "*"
+files = [
+    {file = "css-generator-0.1.1.tar.gz", hash = "sha256:d87f1744f20e35035f4458b66004ee07aa115d8c100c721910a0c116c62918aa"},
+    {file = "css_generator-0.1.1-py3-none-any.whl", hash = "sha256:af2b3eb2ab450cef78d2919f78fdaeec7f8a313cc4bcbf1e30cff6a4cacaf17c"},
+]
+
+[[package]]
 name = "cycler"
 version = "0.12.1"
 description = "Composable style cycles"
@@ -10599,4 +10610,4 @@ postgresql = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.11,<3.12"
-content-hash = "6d6b4ff441715e05e86dc71aae3b5f0b9411238e4c8aefd242e553db645f0235"
+content-hash = "bb3e1ced04a5b14261b60d1bea302f6cc07fb82a2732dfda195cbed17bb918ef"

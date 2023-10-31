@@ -1,4 +1,8 @@
-[base_colors]
+# components/css/rawbase_style.py
+# ? ------------------ Imports ------------------
+import streamlit as st
+
+base_colors = """
 primary = "#007BFF"
 primary_hover = "#0056b3"
 primary_active = "#004c99"
@@ -23,21 +27,24 @@ info = "#17A2B8"
 info_hover = "#128192"
 info_active = "#0d607c"
 info_click = "#093f66"
+"""
 
-[typography]
+typography = """
 font_family = "Arial, sans-serif"
 font_size = "16px"
 color = "#333"
 line_height = "1.5"
 
-[layout]
+"""
+layout = """
 max_width = "1200px"
 padding = "0 15px"
 row_display = "flex"
 row_flex_wrap = "wrap"
 column_flex = "1"
+"""
 
-[headers]
+headers = """
 background_color = "#262730"
 background_color_hover = "#202024"
 background_color_active = "#19191d"
@@ -66,17 +73,18 @@ text_align = "center"
 TabsGroup_indicatorColor = "primary"
 TabsGroup_textColor = "primary"
 TabsGroup_variant = "normal"
+"""
 
-
-[logo]
+logo = """
 background = "transparent"
 height = 60
 width = 100
 ml = "70px"
 mr = "-70px"
 background_hover = "#DDDDDD"
+"""
 
-[submenu]
+submenu = """
 align_items = "center"
 background_color = "#334155"
 background_color_hover = "#2a3544"
@@ -121,8 +129,9 @@ margin_left = "0"
 margin_right = "0"
 margin_top = "0"
 margin_bottom = "0"
+"""
 
-[buttons]
+buttons = """
 display = "inline-block"
 padding = "10px 20px"
 border = "none"
@@ -134,13 +143,15 @@ color = "#fff"
 promo_background_color = "#28A745"
 promo_filter = "grayscale(50%)"
 promo_font_size = "1.25em"
+"""
 
-[containers]
+containers = """
 background_color = "#6C757D"
 filter = "contrast(1.2)"
 border = "2px solid #DC3545"
+"""
 
-[unsorted]
+unsorted = """
 header_frame_background_color = "#334155"
 container_bg_normal = "#334155"
 container_bg_hover = "#2a3544"
@@ -156,3 +167,51 @@ button_basic_background_color = "#1E1E1E"
 button_basic_color = "#FFFFFF"
 button_basic_box_shadow = "0px 4px 4px rgba(0, 0, 0, 0.30)"
 logo_margin_right = "16px"
+"""
+
+# ? ------------------ Helper Functions ------------------
+# Convert the block string to a dictionary
+def block_to_dict(block_string):
+    style_dict = {}
+    lines = block_string.strip().split("\n")
+    for line in lines:
+        key, value = line.split("=")
+        key = key.strip()
+        value = value.strip()
+        # remove quotation marks if value is a string
+        if value.startswith('"') and value.endswith('"'):
+            value = value[1:-1]
+        elif "." in value:  # if the value looks like a number with decimal points, convert it
+            try:
+                value = float(value)
+            except ValueError:
+                pass  # it wasn't a float after all
+        else:  # if the value looks like an integer, convert it
+            try:
+                value = int(value)
+            except ValueError:
+                pass  # it wasn't an int after all
+
+        style_dict[key] = value
+
+    return style_dict
+
+def store_style():
+    # Parse each block and store in session_state
+    if "style_settings" not in st.session_state:
+        blocks = {
+            "base_colors": base_colors,
+            "typography": typography,
+            "layout": layout,
+            "headers": headers,
+            "logo": logo,
+            "submenu": submenu,
+            "buttons": buttons,
+            "containers": containers,
+            "unsorted": unsorted
+        }
+
+        for block_name, block_string in blocks.items():
+            st.session_state[block_name] = block_to_dict(block_string)
+
+    print("Styles loaded into st.session_state")

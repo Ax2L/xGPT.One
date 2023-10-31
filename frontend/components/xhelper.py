@@ -8,11 +8,14 @@ from email.message import EmailMessage
 from yaml.loader import SafeLoader
 import streamlit as st
 from components import style_process
-style_process
+
 from streamlit_extras.switch_page_button import switch_page
 LOGO_PATH = "images/logo/xgpt.png"
 # Determine the directory of this script
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+if "style_blocks" not in st.session_state:
+    style_process.store_style_block()
 
 def find_config_file(filename=f"../../config/streamlit/config.yaml"):
     """Search for the config file and return its path."""
