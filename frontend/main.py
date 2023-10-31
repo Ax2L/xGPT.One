@@ -1,7 +1,7 @@
 # main.py
 import json
 import streamlit as st
-from components.style import init_style, rawbase_style, prepared_style
+from components import style
 from components import xhelper
 from components.xdatastore import UserSettings
 from components.utils import streamlit_authenticator as stauth
@@ -12,6 +12,14 @@ page_name = "main"
 default_np = "test_style"
 next_page = default_np
 
+def load_css_once():
+    # Check if CSS has already been loaded for this session
+    if "css_loaded" not in st.session_state:
+        style.apply_css_file()  # your function to apply the CSS
+        st.session_state.css_loaded = True
+
+# In your main app script:
+load_css_once()
 
 # Helper Functions
 def initiate_session_states_from_json():
@@ -31,7 +39,7 @@ def authenticated_display():
             user.update("username", st.session_state["username"])
             st.subheader(f'Welcome back, {st.session_state["username"]}!')
             st.session_state["current_page"] = next_page
-            #switch_page(next_page)
+            switch_page(next_page)
             st.button("testStyle")
         else:
             st.error("Username is not set in the session. Please login again.")
@@ -71,7 +79,7 @@ You can also manually install our Email Service. Find more details in the provid
 # Initialization
 if "initial_main" not in st.session_state:
     st.toast("Initializing application...")
-    st.session_state.setdefault("initial_main", True)
+    st.session_state.initial_main = True
     initiate_session_states_from_json()
     print(f"Main Page initiated and st.session_state.initial_main is:{st.session_state.initial_main}")
 

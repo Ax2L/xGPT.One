@@ -169,6 +169,7 @@ button_basic_box_shadow = "0px 4px 4px rgba(0, 0, 0, 0.30)"
 logo_margin_right = "16px"
 """
 
+
 # ? ------------------ Helper Functions ------------------
 # Convert the block string to a dictionary
 def block_to_dict(block_string):
@@ -181,7 +182,9 @@ def block_to_dict(block_string):
         # remove quotation marks if value is a string
         if value.startswith('"') and value.endswith('"'):
             value = value[1:-1]
-        elif "." in value:  # if the value looks like a number with decimal points, convert it
+        elif (
+            "." in value
+        ):  # if the value looks like a number with decimal points, convert it
             try:
                 value = float(value)
             except ValueError:
@@ -196,6 +199,7 @@ def block_to_dict(block_string):
 
     return style_dict
 
+
 def store_style():
     # Parse each block and store in session_state
     if "style_settings" not in st.session_state:
@@ -208,10 +212,15 @@ def store_style():
             "submenu": submenu,
             "buttons": buttons,
             "containers": containers,
-            "unsorted": unsorted
+            "unsorted": unsorted,
         }
 
         for block_name, block_string in blocks.items():
             st.session_state[block_name] = block_to_dict(block_string)
 
     print("Styles loaded into st.session_state")
+
+
+# Entry point
+if __name__ == "__main__":
+    store_style()

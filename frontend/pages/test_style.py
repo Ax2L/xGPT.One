@@ -2,15 +2,6 @@ import streamlit as st
 
 page_name = "test_style"
 
-if "base_colors" not in st.session_state:
-    from streamlit_extras.switch_page_button import switch_page
-
-    st.session_state.setdefault("current_page", "test_style")
-    switch_page("main")
-# Assuming you have already loaded styles into st.session_state as per the previous code...
-style_apply = ""
-
-
 st.title("Style Test UI")
 
 with st.sidebar:
