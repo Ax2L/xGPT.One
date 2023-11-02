@@ -27,16 +27,112 @@ CONFIG_PATHS = {
     "footer": "../config/streamlit/footer_config.json",
     "color": "../config/streamlit/color_config.json",
 }
+logourl="https://github.com/Ax2L/xGPT.One/blob/main/frontend/static/images/logo/xgpt.png?raw=true",
 
-from components import style_process
+# & CLASS DEFINITIONS ----------------------------------------------------------
+with open('components/style/base.json', 'r') as file:
+    data = json.load(file)
+# ^ Store "Base" values for CSS
+base_colors = data["base_colors"]
+typography = data["typography"]
+layout = data["layout"]
+header_frame = data["header_frame"]
+headers = data["headers"]
+sidebar = data["sidebar"]
+inputs = data["inputs"]
+logo = data["logo"]
+submenu = data["submenu"]
+buttons = data["buttons"]
+containers = data["containers"]
+unsorted = data["unsorted"]
+# & CSS RULE DEFINITIONS -------------------------------------------------------
 
-tomldata = style_process.load_styles_from_toml()
-HEADERS = style_process.HEADERS
+header_frame: {
+    #"position": "fixed",
+    #"display": "flex",
+    #"justify-content": "space-between",
+    #"align-items": "center",
+    #"vertical-align": "middle",
+    #"margin-top": "auto",
+    #"margin-bottom": "auto",
+    #"padding-top": "0 !important",
+    #"margin-left": "-7px !important",
+    #"margin-top": "-7px !important",
+    #"top": "0 !important",
+    #"left": "0 !important",
+    #"right": "0 !important",
+    #"min-width": "101%",
+    "background-color": "#262730",
+    #"z-index": "100",
+}
 
-# * Header Styles
-# Load STYLES from TOML file
-if "style_blocks" not in st.session_state:
-    style_process.store_style_block()
+css_header = {
+    "display": headers["display"],
+    "flex-direction": headers["flex_direction"],
+    "align-items": headers["align_items"],
+    "justify-content":  headers["justify_content"],
+}
+
+css_subheader = {
+    "filter": submenu["filter"],
+    "p": submenu["padding"],
+    "text-align": submenu["text_align"],
+    "display": "flex",
+    "bgcolor": submenu["background_color_active"],
+    "flex-direction": "row",
+    "align-items": "center",
+    "justify-content": "space-between",
+}
+
+css_tabs = {
+    "bgcolor": headers["button_bg"],
+    "color": headers["button_color"],
+    "filter": headers["filter"],
+    "p": headers["padding"],
+    "text-align": headers["text_align"],
+    "box-shadow": buttons["box_shadow"],
+}
+
+css_tabsgroup = {
+    #"bgcolor": headers["button_bg"],
+    "filter": headers["filter"],
+    "padding": headers["padding"],
+    "text-align": headers["text_align"],
+}
+
+css_iconbutton = {
+    #"bgcolor": headers["button_bg"],
+    "color": headers["button_color"],
+    "filter": headers["filter"],
+    "p": headers["padding"],
+    "text-align": headers["text_align"],
+    "box-shadow": buttons["box_shadow"],
+}
+
+css_iconbuttongroup = {
+    #"bgcolor": headers["button_bg"],
+    "color": headers["button_color"],
+    "filter": headers["filter"],
+    "padding": headers["padding"],
+    "textAlign": headers["text_align"],
+}
+
+css_submenu_button = {
+    #"bgcolor": headers["button_bg"],
+    "color": headers["button_color"],
+    "filter": headers["filter"],
+    "padding": headers["padding"],
+    "text-align": headers["text_align"],
+    "boxShadow": buttons["box_shadow"],
+}
+css_submenu_buttongroup = {
+    #"bgcolor": headers["button_bg"],
+    "color": headers["button_color"],
+    "filter": headers["filter"],
+    "padding": headers["padding"],
+    "textAlign": headers["text_align"],
+    "boxShadow": buttons["box_shadow"],
+}
 
 # * Session State
 username = st.session_state.get("username", "admin")
@@ -97,8 +193,8 @@ def handle_click(item_id, idx):
 
 def reset_active_button_color():
     for item in menu_config:
-        st.session_state[f"color_active_{item['name']}_button"] = HEADERS[
-            "button_active"
+        st.session_state[f"color_active_{item['name']}_button"] = headers[
+            "button_color_active"
         ]
 
 # & Subheader Buttons
@@ -109,23 +205,25 @@ def create_subheader_buttons(menu_item):
         sub_element = mui.Button(
             label=sub_item["name"],
             onClick=partial(switch_page, sub_item["id"]),
-            sx=HEADERS["submenu_button"],
+            sx=css_submenu_button,
         )
         subheader_elements.append(sub_element)
     # Subheader navigation
     mui.ButtonGroup(
         *subheader_elements,
-        indicatorColor="primary",
-        textColor="primary",
-        variant="standard",
+        #indicatorColor="primary",
+        #textColor="primary",
         ariaLabel="standard width tabs",
         allowScrollButtonsMobile=True,
         centered=True,
         classes="header",
         visibleScrollbar=False,
-        sx=HEADERS["submenu_buttongroup"],
+        sx=css_submenu_buttongroup,
     )
     return subheader_elements
+
+button_elements = []
+icon_elements = []
 
 
 def handle_icon_click(icon_id, idx):
@@ -152,110 +250,147 @@ def load_svg(svg_path: str) -> str:
     with open(svg_path, "r") as file:
         return file.read()
 
+def create_logo():
+    """Create and display the logo."""
+    with mui.Grid(
+        height=logo["height"],
+        width=logo["width"],
+        ml=logo["ml"],
+        mr=logo["mr"],
+    ):
+        mui.CardMedia(
+            image=logourl,
+            component="img",
+            height=logo["height"],
+            width=logo["width"],
+            background=logo["bg"],
+            sx={
+                "&:hover": {"background-color": logo["bg_hover"]},
+            },
+        )
+
+
+def create_tabs(menu_config):
+    """Create and display the tabs."""
+    button_elements = []
+    for idx, item in enumerate(menu_config):
+        # Central buttons
+        if item["place_center"] is not False:
+            button_element = mui.Tab(
+                label=item["name"],
+                onClick=partial(handle_click, item["id"], idx),
+                sx={
+                    **css_tabs,
+                    "&:hover": {"background-color": headers["button_bg"]},
+                },
+            )
+            button_elements.append(button_element)
+    with mui.Grid():
+        mui.Tabs(
+            *button_elements,
+            textColor="secondary",
+            indicatorColor="secondary",
+            ariaLabel="secondary tabs",
+            #indicatorColor=headers["TabsGroup_indicatorColor"],
+            #textColor=headers["TabsGroup_textColor"],
+            #variant=headers["TabsGroup_variant"],
+            allowScrollButtonsMobile=True,
+            centered=True,
+            classes="header",
+            visibleScrollbar=False,
+        )
+
+
+def create_icon_buttons(menu_config):
+    """Create and display the icon buttons."""
+    icon_elements = []
+    for idx, item in enumerate(menu_config):
+        # Side icons/buttons
+        if item.get("place_side"):
+            icon_n = item["icon"]
+            icon_element = mui.IconButton(
+                icon=getattr(mui.icon, icon_n),
+                classes="iconbutton",
+                edge="end",
+                size="medium",
+                iconColor=headers["border_color"],
+                onClick=partial(handle_icon_click, item["place"], idx),
+                sx={
+                    "&:hover": {"background-color": base_colors["secondary_hover"]},
+                    **css_iconbutton,
+                },
+            )
+            icon_elements.append(icon_element)
+    with mui.Grid():
+
+        with mui.Toolbar():
+            for icon in icon_elements:
+                mui.IconButton(icon=icon)
+
 
 # ? Header functions
 def header_button(menu_config):
     # ^ Header frame
     with mui.Box(
-        classes="flex-container",
-        bgcolor=tomldata["headers--background_color"],
-        filter=tomldata["headers--filter"],
-        padding=tomldata["headers--padding"],
-        textAlign=tomldata["headers--text_align"],
-        #sx=HEADERS["main"],
+        classes="flexcontainer",
+        #display=header_frame["display"],
+        #justifyContent=header_frame["justify_content"],
+        #height=header_frame["height"],
+        flexGrow=1,
+        #sx={
+        #    "bgcolor": header_frame["background_color"],
+        #}
     ):
         with mui.AppBar(
+            #position="flex",
             position="static",
-            classes="Header",
+            classes="headerapp",
+            #fullWidth="100%",
+            #sx={"width": "100%"},
+            fullWidth="100%",
+            p=1,
+            sx={
+                "bgcolor": header_frame["background_color"],
+            }
         ):
-            # ^ Logo
             with mui.Grid(
-                height=tomldata["logo--height"],
-                width=tomldata["logo--width"],
-                ml=tomldata["logo--ml"],
-                mr=tomldata["logo--mr"],
+                container=True, 
+                spacing=3, 
+                sx={
+                    "bgcolor": header_frame["background_color"],
+                    "pt": 2.5,
+                    "display": "flex",
+                    "flex-direction": "row",
+                    "align-items": "center",
+                    "justify-content": "space-between",
+                }
             ):
-                mui.CardMedia(
-                    image="https://github.com/Ax2L/xGPT.One/blob/main/frontend/static/images/logo/xgpt.png?raw=true",
-                    component="img",
-                    height="60",
-                    width="100",
-                    background="transparent",
-                    #sx={
-                    #    "&:hover": {"background_color": tomldata#  ["logo--background_hover"]},
-                    #    **HEADERS["logo"],
-                    #},
-                )
-                with mui.Grid():
-                    button_elements = []
-                    icon_elements = []
-                    for idx, item in enumerate(menu_config):
-                        # Central buttons
-                        if item["place_center"] is not False:
-                            button_element = mui.Tab(
-                                label=item["name"],
-                                onClick=partial(handle_click, item["place"], idx),
-                                sx=HEADERS["tabs"],
-                            )
-                            button_elements.append(button_element)
+                create_logo()
+                create_tabs(menu_config)
+                create_icon_buttons(menu_config)
 
-                        # Side icons/buttons
-                        if item.get("place_side"):
-                            icon_n = item["icon"]
-                            icon_element = mui.IconButton(
-                                icon=getattr(mui.icon, icon_n),
-                                classes="header",
-                                color="primary",
-                                onClick=partial(handle_icon_click, item["place"], idx),
-                                sx={
-                                    "&:hover": {"backgroundColor": "#A5B4FC0A"},
-                                    **HEADERS["iconbutton"],
-                                },
-                            )
-                            icon_elements.append(icon_element)
-
-                        # Main header navigation
-                        mui.Tabs(
-                            *button_elements,
-                            indicatorColor="primary",
-                            textColor="primary",
-                            variant="standard",
-                            ariaLabel="standard width tabs",
-                            allowScrollButtonsMobile=True,
-                            centered=True,
-                            classes="header",
-                            visibleScrollbar=False,
-                        )
-
-            # Right side icons
-            with mui.Box(sx={"margin-left": "auto"}):
-                for icon in icon_elements:
-                    mui.IconButton(
-                        icon=icon,
-                        sx={
-                            "&:hover": {"backgroundColor": "#A5B4FC0A"},
-                            **HEADERS["iconbuttongroup"],
-                        },
-                    )
-
-        # Subheader navigation for each main header item
-        with mui.SwipeableViews(
-            axis="x",
-            index=st.session_state.get("menu_active_button") or 0,
-            onChangeIndex=handle_click,
-        ):
-            for item in menu_config:
-                with mui.Box(
-                    sx={
-                        "p": 1,
-                        "display": "flex",
-                        "flex-direction": "row",
-                        "align-items": "center",
-                        "justify-content": "space-between",
-                    }
-                ):
-                    # Subheader navigation
-                    mui.Tabs(*create_subheader_buttons(item))
+            # Subheader navigation for each main header item
+    with mui.SwipeableViews(
+        index=st.session_state.get("menu_active_button") or 0,
+        onChangeIndex=handle_click,
+    ):
+        mui.Typography("Hello world"),
+        for item in menu_config:
+            with mui.AppBar(
+                classes="subheader",
+                fullWidth="100%",
+                p=1,
+                sx={
+                    "display": "flex",
+                    "bgcolor": submenu["background_color"],
+                    "flex-direction": "row",
+                    "align-items": "center",
+                    "justify-content": "space-between",
+                    "&:hover": {"background-color": submenu["background_color_hover"]},
+                }
+            ):
+                # Subheader navigation
+                mui.Tabs(*create_subheader_buttons(item))
 
 
 
@@ -265,7 +400,8 @@ def create_menu(source_page):
         header_button(menu_config)
         selected_menu_button = st.session_state.get("menu_active_button", None)
         if selected_menu_button:
-            switch_page(selected_menu_button)
+            st.text(f"Selected button: {selected_menu_button}"),
+            #switch_page(selected_menu_button)
 
         # This section was adjusted to handle a potential AttributeError
         # by checking if 'display_session_data' is callable.

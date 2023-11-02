@@ -1,7 +1,6 @@
 # main.py
 import json
 import streamlit as st
-from components import style
 from components import xhelper
 from components.xdatastore import UserSettings
 from components.utils import streamlit_authenticator as stauth
@@ -9,19 +8,20 @@ from streamlit_extras.switch_page_button import switch_page
 
 # Constants and Configurations
 page_name = "main"
-default_np = "test_style"
+default_np = "apps"
 next_page = default_np
 
-def load_css_once():
-    # Check if CSS has already been loaded for this session
-    if "css_loaded" not in st.session_state:
-        style.apply_css_file()  # your function to apply the CSS
-        st.session_state.css_loaded = True
-
-# In your main app script:
-load_css_once()
 
 # Helper Functions
+def load_custom_css():
+    if f"{page_name}_css" not in st.session_state:
+        """Load custom CSS style."""
+        with open("style.css") as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    else:
+        print(f"css already active on {page_name}")
+        
+
 def initiate_session_states_from_json():
     """Initiate session state variables from JSON."""
     with open("../config/streamlit/session_state_initializer.json", "r") as file:
@@ -81,7 +81,7 @@ if "initial_main" not in st.session_state:
     st.toast("Initializing application...")
     st.session_state.initial_main = True
     initiate_session_states_from_json()
-    print(f"Main Page initiated and st.session_state.initial_main is:{st.session_state.initial_main}")
+    #print(f"Main Page initiated and st.session_state.initial_main is:{st.session_state.initial_main}")
 
 if st.session_state['current_page']:
     next_page = st.session_state['current_page']
@@ -117,3 +117,4 @@ if authentication_status:
     })
     authenticated_display()
 
+load_custom_css()
