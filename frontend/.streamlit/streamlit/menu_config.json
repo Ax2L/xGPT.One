@@ -34,7 +34,7 @@
     {
         "id": "machine_learning",
         "place": 0,
-        "name": "Machine Learning",
+        "name": "Training",
         "icon": "Brain",
         "description": "Manage and setup machine learning models.",
         "place_center": true,

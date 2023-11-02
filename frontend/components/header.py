@@ -29,9 +29,25 @@ CONFIG_PATHS = {
 }
 logourl="https://github.com/Ax2L/xGPT.One/blob/main/frontend/static/images/logo/xgpt.png?raw=true",
 
-# & CLASS DEFINITIONS ----------------------------------------------------------
+# Load CSS from JSON
 with open('components/style/base.json', 'r') as file:
     data = json.load(file)
+
+# Define a function to get common CSS for clickables
+def get_clickable_css():
+    return {
+        "bgcolor": data["buttons"]["background_color"],
+        "color": data["buttons"]["color"],
+        "p": data["buttons"]["padding"],
+        "textAlign": data["buttons"]["text_align"],
+        "boxShadow": data["miscellaneous"]["box_shadow"]
+    }
+
+css_tabs = get_clickable_css()
+css_iconbutton = get_clickable_css()
+css_submenu_button = get_clickable_css()
+
+
 # ^ Store "Base" values for CSS
 base_colors = data["base_colors"]
 typography = data["typography"]
@@ -44,7 +60,7 @@ logo = data["logo"]
 submenu = data["submenu"]
 buttons = data["buttons"]
 containers = data["containers"]
-unsorted = data["unsorted"]
+miscellaneous = data["miscellaneous"]
 # & CSS RULE DEFINITIONS -------------------------------------------------------
 
 header_frame: {
@@ -62,77 +78,81 @@ header_frame: {
     #"left": "0 !important",
     #"right": "0 !important",
     #"min-width": "101%",
-    "background-color": "#262730",
+    "background-color": "#262730"
     #"z-index": "100",
 }
 
+# Instead of defining individual CSS rules, directly use values from the loaded JSON
 css_header = {
-    "display": headers["display"],
-    "flex-direction": headers["flex_direction"],
-    "align-items": headers["align_items"],
-    "justify-content":  headers["justify_content"],
+    "display": data["headers"]["display"],
+    "flex-direction": data["headers"]["flex_direction"],
+    "align-items": data["headers"]["align_items"],
+    "justify-content": data["headers"]["justify_content"]
 }
 
 css_subheader = {
-    "filter": submenu["filter"],
-    "p": submenu["padding"],
-    "text-align": submenu["text_align"],
+    "filter": data["submenu"]["filter"],
+    "p": data["submenu"]["padding"],
+    "text-align": data["submenu"]["text_align"],
     "display": "flex",
-    "bgcolor": submenu["background_color_active"],
+    "bgcolor": data["submenu"]["background_color_active"],
     "flex-direction": "row",
     "align-items": "center",
-    "justify-content": "space-between",
+    "justify-content": "space-between"
 }
 
 css_tabs = {
-    "bgcolor": headers["button_bg"],
-    "color": headers["button_color"],
+    "bgcolor": header_frame["button_bg"],
+    "color": header_frame["button_color"],
     "filter": headers["filter"],
     "p": headers["padding"],
-    "text-align": headers["text_align"],
-    "box-shadow": buttons["box_shadow"],
+    "textAlign": headers["text_align"],
+    "boxShadow": miscellaneous["box_shadow"]
 }
 
 css_tabsgroup = {
     #"bgcolor": headers["button_bg"],
     "filter": headers["filter"],
     "padding": headers["padding"],
-    "text-align": headers["text_align"],
+    "text-align": headers["text_align"]
 }
 
 css_iconbutton = {
     #"bgcolor": headers["button_bg"],
-    "color": headers["button_color"],
-    "filter": headers["filter"],
-    "p": headers["padding"],
-    "text-align": headers["text_align"],
-    "box-shadow": buttons["box_shadow"],
+    #"color": headers["button_color"],
+    #"filter": headers["filter"],
+    #"p": headers["padding"],
+    #"text-align": headers["text_align"],
+    "boxShadow": miscellaneous["box_shadow"]
 }
+
 
 css_iconbuttongroup = {
     #"bgcolor": headers["button_bg"],
-    "color": headers["button_color"],
-    "filter": headers["filter"],
-    "padding": headers["padding"],
-    "textAlign": headers["text_align"],
+    #"color": headers["button_color"],
+    #"filter": headers["filter"],
+    #"padding": headers["padding"],
+    "textAlign": headers["text_align"]
 }
 
 css_submenu_button = {
     #"bgcolor": headers["button_bg"],
-    "color": headers["button_color"],
-    "filter": headers["filter"],
-    "padding": headers["padding"],
-    "text-align": headers["text_align"],
-    "boxShadow": buttons["box_shadow"],
+    #"color": headers["button_color"],
+    #"filter": headers["filter"],
+    #"padding": headers["padding"],
+    #"text-align": headers["text_align"],
+    "boxShadow": miscellaneous["box_shadow"]
 }
+
 css_submenu_buttongroup = {
     #"bgcolor": headers["button_bg"],
-    "color": headers["button_color"],
-    "filter": headers["filter"],
-    "padding": headers["padding"],
-    "textAlign": headers["text_align"],
-    "boxShadow": buttons["box_shadow"],
+    #"color": headers["button_color"],
+    #"filter": headers["filter"],
+    #"padding": headers["padding"],
+    #"textAlign": headers["text_align"],
+    "boxShadow": miscellaneous["box_shadow"]
 }
+
 
 # * Session State
 username = st.session_state.get("username", "admin")
@@ -150,13 +170,23 @@ def load_config(path: str) -> dict:
         return {}
 
 
+def load_configs(config_paths):
+    configs = {}
+    for key, value in config_paths.items():
+        if not path.exists(value):
+            st.error(f"Configuration file for {key} not found at {value}")
+        else:
+            configs[key] = load_config(value)
+    return configs
+
+# Use the function to load all configs
+configs = load_configs(CONFIG_PATHS)
+
+
 for key, value in CONFIG_PATHS.items():
     if not path.exists(value):
         st.error(f"Configuration file for {key} not found at {value}")
 
-
-def load_all_configs():
-    return {key: load_config(value) for key, value in CONFIG_PATHS.items()}
 
 
 def check_for_logo_image(logo_path: str):
@@ -193,8 +223,8 @@ def handle_click(item_id, idx):
 
 def reset_active_button_color():
     for item in menu_config:
-        st.session_state[f"color_active_{item['name']}_button"] = headers[
-            "button_color_active"
+        st.session_state[f"color_active_{item['name']}_button"] = header_frame[
+            "button_bg_active"
         ]
 
 # & Subheader Buttons
@@ -232,7 +262,6 @@ def handle_icon_click(icon_id, idx):
 
 
 # * Loading configurations
-configs = load_all_configs()
 (
     menu_config,
     mlearning_config,
@@ -264,8 +293,8 @@ def create_logo():
             height=logo["height"],
             width=logo["width"],
             background=logo["bg"],
-            sx={
-                "&:hover": {"background-color": logo["bg_hover"]},
+            sx={"filter": "drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4))",
+                "&:hover": {"filter": "drop-shadow(3px 5px 2px rgb(255 255 255 / 0.2))",},
             },
         )
 
@@ -277,12 +306,13 @@ def create_tabs(menu_config):
         # Central buttons
         if item["place_center"] is not False:
             button_element = mui.Tab(
+                textColor="#DDDDDD",
                 label=item["name"],
                 onClick=partial(handle_click, item["id"], idx),
                 sx={
                     **css_tabs,
-                    "&:hover": {"background-color": headers["button_bg"]},
-                },
+                    "&:hover": {"background-color": data["header_frame"]["button_bg_hover"]}
+                }
             )
             button_elements.append(button_element)
     with mui.Grid():
@@ -291,9 +321,6 @@ def create_tabs(menu_config):
             textColor="secondary",
             indicatorColor="secondary",
             ariaLabel="secondary tabs",
-            #indicatorColor=headers["TabsGroup_indicatorColor"],
-            #textColor=headers["TabsGroup_textColor"],
-            #variant=headers["TabsGroup_variant"],
             allowScrollButtonsMobile=True,
             centered=True,
             classes="header",
@@ -356,7 +383,7 @@ def header_button(menu_config):
             with mui.Grid(
                 container=True, 
                 spacing=3, 
-                sx={
+                    sx={
                     "bgcolor": header_frame["background_color"],
                     "pt": 2.5,
                     "display": "flex",
@@ -386,7 +413,6 @@ def header_button(menu_config):
                     "flex-direction": "row",
                     "align-items": "center",
                     "justify-content": "space-between",
-                    "&:hover": {"background-color": submenu["background_color_hover"]},
                 }
             ):
                 # Subheader navigation

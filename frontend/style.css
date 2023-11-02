@@ -3,6 +3,10 @@ header[data-testid='stHeader'] {
     width: 0;
     height: 0;
 }
+section[data-testid='stSidebar'] {
+    background: linear-gradient(to bottom, #1e2a38, #0a111f) !important;
+    color: #1E1E1E;
+}
 button[kind='secondary'] {
     display: inline-block;
     padding: 10px 20px;
@@ -20,10 +24,6 @@ button[kind='secondaryFormSubmit'] {
     width: 100% !important;
     background: #000 !important;
     color: #FF0000 !important;
-}
-section[data-testid='stSidebar'] {
-    background: linear-gradient(to bottom, #1e2a38, #0a111f) !important;
-    color: #1E1E1E;
 }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -79,7 +79,7 @@ section[tabindex="0"] iframe:nth-of-type(1) {
     right: 0 !important;
     min-width: 101%;
     z-index: 100;
-    background: linear-gradient(to bottom, #1e2a38, #0a111f);
+    background: #FFF;
 }
 section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     position: fixed;
@@ -97,4 +97,62 @@ section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     right: 0 !important;
     min-width: 101%;
     z-index: 100;
+}
+
+.tab-bar, .MuiTabs-root {
+    display: flex;
+    background: #252c3a;
+    border-radius: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+.tab, MuiTab-root {
+    flex: 1;
+    text-align: center;
+    padding: 15px 0;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    font-weight: 600;
+    font-size: 16px;
+    color: #bfbfbf;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.tab:before, MuiTab-root:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 123, 255, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.tab:hover:before, MuiTab-root:hover:before {
+    opacity: 1;
+}
+.tab:hover, MuiTab-root:hover {
+    background: #2a3241;
+    color: #fff;
+    transform: translateY(-3px);
+}
+.tab.active, MuiTab-root.active {
+    background: #007BFF;
+    color: #fff;
+    transform: translateY(-3px);
+}
+.tab.active:before, MuiTab-root.active:before {
+    opacity: 1;
+}
+.tab.active::before, MuiTab-root.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 123, 255, 0.4);
 }

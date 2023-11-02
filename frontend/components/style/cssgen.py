@@ -1,20 +1,22 @@
 # components/style/cssgen.py
 
-# ? Importing required modules
+# ^ Importing required modules
 import os
 import streamlit as st
 import time
 import logging
 import json
 
-# * Logging Configuration
+# ^ Logging Configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# & CLASS DEFINITIONS ----------------------------------------------------------
+# * CLASS DEFINITIONS ----------------------------------------------------------
+
+# ^ Load base values for CSS
 with open("components/style/base.json", "r") as file:
     data = json.load(file)
-# ^ Store "Base" values for CSS
+
 base_colors = data["base_colors"]
 typography = data["typography"]
 layout = data["layout"]
@@ -25,14 +27,12 @@ logo = data["logo"]
 submenu = data["submenu"]
 buttons = data["buttons"]
 containers = data["containers"]
-unsorted = data["unsorted"]
 header_frame = data["header_frame"]
 base_body = data["body"]
-# ? Rule class to generate individual CSS rules
+
+# & Rule class to generate individual CSS rules
 class Rule:
-    def __init__(
-        self, selector, rule_type, properties, attribute=None, attribute_value=None
-    ):
+    def __init__(self, selector, rule_type, properties, attribute=None, attribute_value=None):
         self.selector = selector
         self.rule_type = rule_type
         self.properties = properties
@@ -40,21 +40,17 @@ class Rule:
         self.attribute_value = attribute_value
 
     def __str__(self):
-        properties_str = "\n".join(
-            [f"    {k}: {v};" for k, v in self.properties.items()]
-        )
+        properties_str = "\n".join([f"    {k}: {v};" for k, v in self.properties.items()])
+        
         # Determine the rule type and return the corresponding CSS rule string
-        if self.rule_type == "class":
-            return f".{self.selector} {{\n{properties_str}\n}}"
-        elif self.rule_type == "id":
-            return f"#{self.selector} {{\n{properties_str}\n}}"
-        elif self.rule_type == "attribute":
-            return f"{self.selector}[{self.attribute}='{self.attribute_value}'] {{\n{properties_str}\n}}"
-        else:
-            return f"{self.selector} {{\n{properties_str}\n}}"
+        rule_types = {
+            "class": f".{self.selector}",
+            "id": f"#{self.selector}",
+            "attribute": f"{self.selector}[{self.attribute}='{self.attribute_value}']"
+        }
+        return f"{rule_types.get(self.rule_type, self.selector)} {{\n{properties_str}\n}}"
 
-
-# ? StyleSheet class to create and manage a collection of Rule objects
+# & StyleSheet class to create and manage a collection of Rule objects
 class StyleSheet:
     def __init__(self):
         self.rules = []
@@ -71,64 +67,11 @@ class StyleSheet:
         with open(path, "w") as f:
             f.write(str(self))
 
-
-# & CSS RULE DEFINITIONS -------------------------------------------------------
-# Example:
-# container = Rule(
-#     selector="container",
-#     rule_type="class",
-#     properties={"position": "relative", "width": "100%"}
-# )
-#
-# button_secondary_st_submit = Rule(
-#     selector="button",
-#     rule_type="attribute",
-#     attribute="kind",
-#     attribute_value="secondaryFormSubmit",
-#     properties={
-#         "position": "relative !important",
-#         "width": "100% !important",
-#         "background": "#000 !important",
-#         "color": "#FF0000 !important"
-#     }
-# )
-
-# ? Define the CSS rules
-# ^ Remove Streamlit stuff
-stheader = Rule(
-    selector="header",
-    rule_type="attribute",
-    attribute="data-testid",
-    attribute_value="stHeader",
-    properties={
-        "display": "none",
-        "width": "0",
-        "height": "0",
-    },
-)
-
-# ^ Header
-
-
-# ^ Sidebar
-sidebar = Rule(
-    selector="section",
-    rule_type="attribute",
-    attribute="data-testid",
-    attribute_value="stSidebar",
-    properties={
-        "background": header_frame["background_color"],
-        "color": sidebar["button_color"],
-    },
-)
-
-# ^ Button
-button_secondary_st = Rule(
-    selector="button",
-    rule_type="attribute",
-    attribute="kind",
-    attribute_value="secondary",
-    properties={
+# ^ Define the CSS rules
+css_rules = [
+    Rule("header", "attribute", {"display": "none", "width": "0", "height": "0"}, "data-testid", "stHeader"),
+    Rule("section", "attribute", {"background": header_frame["background"], "color": sidebar["button_color"]}, "data-testid", "stSidebar"),
+    Rule("button", "attribute", {
         "display": buttons["display"],
         "padding": buttons["padding"],
         "border": buttons["border"],
@@ -139,36 +82,16 @@ button_secondary_st = Rule(
         "box-shadow": buttons["box_shadow"],
         "filter": buttons["filter"],
         "border-radius": buttons["border_radius"],
-    },
-)
-
-button_secondary_st_submit = Rule(
-    selector="button",
-    rule_type="attribute",
-    attribute="kind",
-    attribute_value="secondaryFormSubmit",
-    properties={
+    }, "kind", "secondary"),
+    Rule("button", "attribute", {
         "position": "relative !important",
         "width": "100% !important",
         "background": "#000 !important",
-        "color": "#FF0000 !important",
-    },
-)
+        "color": "#FF0000 !important"
+    }, "kind", "secondaryFormSubmit")
+]
 
-# ^ Tabs
-
-
-# ^ Expander
-
-# ^ More...
-
-
-# * Add rules to the stylesheet
-css_rules = [stheader, button_secondary_st, button_secondary_st_submit, sidebar]
-
-stylesheet = StyleSheet()
-
-# & CUSTOM CSS BLOCK -----------------------------------------------------------
+# * CUSTOM CSS BLOCK -----------------------------------------------------------
 custom_css_block = """
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -224,7 +147,7 @@ section[tabindex="0"] iframe:nth-of-type(1) {
     right: 0 !important;
     min-width: 101%;
     z-index: 100;
-    background: linear-gradient(to bottom, #1e2a38, #0a111f);
+    background: #FFF;
 }
 section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     position: fixed;
@@ -243,12 +166,69 @@ section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     min-width: 101%;
     z-index: 100;
 }
+
+.tab-bar, .MuiTabs-root {
+    display: flex;
+    background: #252c3a;
+    border-radius: 30px;
+    width: 100%;
+    max-width: 1200px;
+}
+.tab, MuiTab-root {
+    flex: 1;
+    text-align: center;
+    padding: 15px 0;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    font-weight: 600;
+    font-size: 16px;
+    color: #bfbfbf;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+.tab:before, MuiTab-root:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 123, 255, 0.4);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.tab:hover:before, MuiTab-root:hover:before {
+    opacity: 1;
+}
+.tab:hover, MuiTab-root:hover {
+    background: #2a3241;
+    color: #fff;
+    transform: translateY(-3px);
+}
+.tab.active, MuiTab-root.active {
+    background: #007BFF;
+    color: #fff;
+    transform: translateY(-3px);
+}
+.tab.active:before, MuiTab-root.active:before {
+    opacity: 1;
+}
+.tab.active::before, MuiTab-root.active::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 123, 255, 0.4);
+}
 """
 
-# & FUNCTIONS ------------------------------------------------------------------
+# * FUNCTIONS ------------------------------------------------------------------
 
-
-# ? Function to generate the CSS file
+# & Function to generate the CSS file
 def generate_css_file():
     global stylesheet
     stylesheet = StyleSheet()  # Reset stylesheet every time function is called
@@ -279,8 +259,7 @@ def generate_css_file():
             os.remove("gen_css.lock")
             logger.info("Removed gen_css.lock file.")
 
-
-# ? Function to apply the generated CSS to the Streamlit app
+# & Function to apply the generated CSS to the Streamlit app
 def apply_css_file(page_name=None):
     retry_count = 0
     # Wait if lock file exists
