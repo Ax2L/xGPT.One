@@ -5,34 +5,17 @@ import os
 import streamlit as st
 import time
 import logging
-import json
 
 # ^ Logging Configuration
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# * CLASS DEFINITIONS ----------------------------------------------------------
-
-# ^ Load base values for CSS
-with open("components/style/base.json", "r") as file:
-    data = json.load(file)
-
-base_colors = data["base_colors"]
-typography = data["typography"]
-layout = data["layout"]
-headers = data["headers"]
-sidebar = data["sidebar"]
-inputs = data["inputs"]
-logo = data["logo"]
-submenu = data["submenu"]
-buttons = data["buttons"]
-containers = data["containers"]
-header_frame = data["header_frame"]
-base_body = data["body"]
 
 # & Rule class to generate individual CSS rules
 class Rule:
-    def __init__(self, selector, rule_type, properties, attribute=None, attribute_value=None):
+    def __init__(
+        self, selector, rule_type, properties, attribute=None, attribute_value=None
+    ):
         self.selector = selector
         self.rule_type = rule_type
         self.properties = properties
@@ -40,15 +23,20 @@ class Rule:
         self.attribute_value = attribute_value
 
     def __str__(self):
-        properties_str = "\n".join([f"    {k}: {v};" for k, v in self.properties.items()])
-        
+        properties_str = "\n".join(
+            [f"    {k}: {v};" for k, v in self.properties.items()]
+        )
+
         # Determine the rule type and return the corresponding CSS rule string
         rule_types = {
             "class": f".{self.selector}",
             "id": f"#{self.selector}",
-            "attribute": f"{self.selector}[{self.attribute}='{self.attribute_value}']"
+            "attribute": f"{self.selector}[{self.attribute}='{self.attribute_value}']",
         }
-        return f"{rule_types.get(self.rule_type, self.selector)} {{\n{properties_str}\n}}"
+        return (
+            f"{rule_types.get(self.rule_type, self.selector)} {{\n{properties_str}\n}}"
+        )
+
 
 # & StyleSheet class to create and manage a collection of Rule objects
 class StyleSheet:
@@ -67,32 +55,78 @@ class StyleSheet:
         with open(path, "w") as f:
             f.write(str(self))
 
-# ^ Define the CSS rules
+
+# ^ Define the CSS rules based on the provided styles
 css_rules = [
-    Rule("header", "attribute", {"display": "none", "width": "0", "height": "0"}, "data-testid", "stHeader"),
-    Rule("section", "attribute", {"background": header_frame["background"], "color": sidebar["button_color"]}, "data-testid", "stSidebar"),
-    Rule("button", "attribute", {
-        "display": buttons["display"],
-        "padding": buttons["padding"],
-        "border": buttons["border"],
-        "cursor": buttons["cursor"],
-        "transition": buttons["transition"],
-        "color": buttons["color"],
-        "background": buttons["bg"],
-        "box-shadow": buttons["box_shadow"],
-        "filter": buttons["filter"],
-        "border-radius": buttons["border_radius"],
-    }, "kind", "secondary"),
-    Rule("button", "attribute", {
-        "position": "relative !important",
-        "width": "100% !important",
-        "background": "#000 !important",
-        "color": "#FF0000 !important"
-    }, "kind", "secondaryFormSubmit")
+    Rule(
+        "header",
+        "attribute",
+        {"display": "none", "width": "0", "height": "0"},
+        "data-testid",
+        "stHeader",
+    ),
+    Rule(
+        "section",
+        "attribute",
+        {"background": "", "color": ""},
+        "data-testid",
+        "stSidebar",
+    ),
+    Rule("container", "class", {"width": "100%", "margin": "0 auto", "padding": "0"}),
+    Rule(
+        "header",
+        "class",
+        {
+            "background-color": "#1e2a38",
+            "height": "60px",
+            "line-height": "60px",
+            "color": "white",
+            "text-align": "center",
+            "font-size": "24px",
+            "font-weight": "bold",
+        },
+    ),
+    Rule("content", "class", {"padding": "20px", "background-color": "#0a111f"}),
+    Rule(
+        "footer",
+        "class",
+        {
+            "background-color": "#1e2a38",
+            "height": "40px",
+            "line-height": "40px",
+            "color": "white",
+            "text-align": "center",
+            "font-size": "14px",
+        },
+    ),
+    Rule(
+        ".user1, .user2, .user3",
+        "class",
+        {
+            "position": "absolute",
+            "width": "40px",
+            "height": "40px",
+            "left": "255px",
+            "top": "147px",
+        },
+    ),
 ]
 
 # * CUSTOM CSS BLOCK -----------------------------------------------------------
 custom_css_block = """
+
+/* 
+#& Streamlit to deaktivate:
+*/
+div[data-testid="stSidebarNav"] {
+    display: none;
+    height: 0px;
+    width: 0px;
+}
+
+/* 
+#& Unsorted
+*/
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(to bottom, #1e2a38, #0a111f);
@@ -103,15 +137,7 @@ body {
     align-items: center;
     height: 100vh;
 }
-div[data-testid="stSidebarNav"] {
-    display: none;
-    height: 0px;
-    width: 0px;
-}
 
-section[data-testid='stSidebar'] {
-    top: 61px !important;
-}
 section[tabindex="0"] dsdiv[data-testid="block-container"] {
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -131,6 +157,8 @@ button {
     "min-height": "min-content !important";
 }
 
+/* 
+#todo|- Header frame -|*/
 section[tabindex="0"] iframe:nth-of-type(1) {
     position: fixed;
     display: flex;
@@ -149,6 +177,10 @@ section[tabindex="0"] iframe:nth-of-type(1) {
     z-index: 100;
     background: #FFF;
 }
+
+/* 
+#& >- Header --> 
+#todo| Header Container |*/
 section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     position: fixed;
     display: flex;
@@ -166,6 +198,126 @@ section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     min-width: 101%;
     z-index: 100;
 }
+
+/* 
+#todo|- Header button -|*/
+/* 
+#todo|- Header Tabs -|*/
+/* 
+#todo|- Header IconButton -|*/
+/* 
+#todo|- Header UserMenu -|*/
+/* 
+#todo|- Header Breadcomb -|*/
+/* 
+#todo|- Header Searchbar -|*/
+/* 
+#todo|- Header Navibar -|*/
+/* 
+#todo|- Header Sidebar -|*/
+
+/* 
+#& >- Sidebar --> 
+#todo|- Sidebar Container -|*/
+section[data-testid='stSidebar'] {
+    top: 61px !important;      
+    button {
+        top: 61px !important;
+        background: #663333;
+    }
+}
+
+
+
+
+/*
+#todo|---------------------------|    Input    |----------------|
+#*      SelectBox
+*/
+section[data-testid='stSidebar'] div[data-testid="stSelectbox"] {
+    background-color: #000;
+    color: #111878;
+    border: 1;
+    border-color: #000;
+}
+
+/*
+#*      MultiSelectBox
+*/
+section[data-testid='stSidebar'] div[data-testid="stMultiSelect"] {
+    background-color: #000;
+    color: #111878;
+    border: 1;
+    border-color: #000;
+}
+
+
+/*
+#^V.:|  InputLabelText
+*/
+section[data-testid='stSidebar'] div[data-testid="stTextInput"] {
+    background-color: #000;
+    color: #111878;
+}
+
+
+/*
+#^V.:|  DropdownSelect
+*/
+section[data-testid='stSidebar'] div[data-baseweb="select"] {
+    background-color: #666333;
+}
+
+
+/*
+#*      TextBox
+*/
+section[data-testid='stSidebar'] div[data-testid="stTextInput"] {
+    background-color: #000;
+    color: #111878;
+    border: 1;
+    border-color: #000;
+}
+
+/*
+#^V.:|  TextInput
+*/
+section[data-testid='stSidebar'] input[type="text"] {
+    background-color: #666333;
+}
+
+/*
+#todo|- Sidebar Button -|
+#^V.:|  primary     
+*/
+
+section[data-testid='stSidebar'] button[kind="primary"] {
+    background: #663333;
+}
+
+/*
+#^V.:|  secondary  
+*/
+section[data-testid='stSidebar'] button[kind="secondary"] {
+    background: #666333;
+}
+
+/*
+#todo|- Sidebar Toggle -|
+*/
+
+/*
+#& >- Content --> 
+#todo|- Content Container -|
+*/
+
+/*
+#todo|- Content Button -|
+*/
+
+/*
+#todo|- Content Forms -|
+*/
 
 .tab-bar, .MuiTabs-root {
     display: flex;
@@ -225,8 +377,8 @@ section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     background: rgba(0, 123, 255, 0.4);
 }
 """
-
 # * FUNCTIONS ------------------------------------------------------------------
+
 
 # & Function to generate the CSS file
 def generate_css_file():
@@ -259,31 +411,30 @@ def generate_css_file():
             os.remove("gen_css.lock")
             logger.info("Removed gen_css.lock file.")
 
+
 # & Function to apply the generated CSS to the Streamlit app
 def apply_css_file(page_name=None):
     retry_count = 0
     # Wait if lock file exists
     while os.path.exists("gen_css.lock") and retry_count < 5:
-        logger.info("CSS generation in progress. Waiting to apply CSS...")
-        time.sleep(1)
+        logger.info("Waiting for gen_css.lock to be deleted...")
+        time.sleep(2)
         retry_count += 1
-    if not os.path.exists("gen_css.lock"):
-        try:
-            if os.path.exists("style.css"):
-                with open("style.css", "r") as css_file:
-                    custom_css = css_file.read()
-                    st.markdown(f"<style>{custom_css}</style>", unsafe_allow_html=True)
-                    logger.info("CSS applied to Streamlit app.")
-                    return
-            else:
-                raise FileNotFoundError("style.css not found.")
-        except Exception as e:
-            logger.error(f"Error applying CSS: {e}")
-            st.error(f"Failed to apply CSS: {e}")
-    else:
-        msg = "Failed to apply CSS because CSS generation is currently in progress."
-        logger.error(msg)
-        st.error(msg)
+
+    if retry_count >= 5:
+        logger.error("Failed to apply CSS due to gen_css.lock timeout.")
+        return
+
+    if not os.path.exists("style.css"):
+        logger.error("style.css does not exist!")
+        return
+
+    with open("style.css", "r") as f:
+        css_data = f.read()
+
+    # Add CSS to Streamlit
+    st.markdown(f"<style>{css_data}</style>", unsafe_allow_html=True)
+    logger.info(f"Applied CSS for page: {page_name or 'Default'}")
 
 
 # & MAIN EXECUTION -------------------------------------------------------------

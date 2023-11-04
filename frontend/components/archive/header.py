@@ -72,14 +72,14 @@ def check_for_logo_image(logo_path: str):
     return None
 
 
-def setup_page_config(page_name, this_wide, header_state):
-    page_icon = check_for_logo_image(LOGO_PATH)
-    st.set_page_config(
-        page_title=f"xGPT.{page_name}",
-        layout=this_wide,
-        initial_header_state=header_state,
-        page_icon=page_icon,
-    )
+# def setup_page_config(page_name, this_wide, header_state):
+#     page_icon = check_for_logo_image(LOGO_PATH)
+#     st.set_page_config(
+#         page_title=f"xGPT.{page_name}",
+#         layout=this_wide,
+#         initial_header_state=header_state,
+#         page_icon=page_icon,
+#     )
 
 
 def change_page_extended(next_page):

@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  filemanager:
+    build: .
+    container_name: filemanager
+    restart: always
+    ports:
+      - "8334:80"
+    volumes:
+      - ../../resources:/var/www/html/data:rw
+      - ./tinyfilemanager.php:/var/www/html/index.php:rw

@@ -4,27 +4,55 @@ header[data-testid='stHeader'] {
     height: 0;
 }
 section[data-testid='stSidebar'] {
-    background: linear-gradient(to bottom, #1e2a38, #0a111f) !important;
-    color: #1E1E1E;
+    background: ;
+    color: ;
 }
-button[kind='secondary'] {
-    display: inline-block;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    color: #1E1E1E;
-    background: linear-gradient(180deg, #414344 0%, #2B2D2E 100%);
-    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40);
-    filter: hue-rotate(10deg);
-    border-radius: 4px;
+.container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
 }
-button[kind='secondaryFormSubmit'] {
-    position: relative !important;
-    width: 100% !important;
-    background: #000 !important;
-    color: #FF0000 !important;
+.header {
+    background-color: #1e2a38;
+    height: 60px;
+    line-height: 60px;
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
 }
+.content {
+    padding: 20px;
+    background-color: #0a111f;
+}
+.footer {
+    background-color: #1e2a38;
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+}
+..user1, .user2, .user3 {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 255px;
+    top: 147px;
+}
+
+/* 
+#& Streamlit to deaktivate:
+*/
+div[data-testid="stSidebarNav"] {
+    display: none;
+    height: 0px;
+    width: 0px;
+}
+
+/* 
+#& Unsorted
+*/
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(to bottom, #1e2a38, #0a111f);
@@ -35,15 +63,7 @@ body {
     align-items: center;
     height: 100vh;
 }
-div[data-testid="stSidebarNav"] {
-    display: none;
-    height: 0px;
-    width: 0px;
-}
 
-section[data-testid='stSidebar'] {
-    top: 61px !important;
-}
 section[tabindex="0"] dsdiv[data-testid="block-container"] {
     padding-left: 0px !important;
     padding-right: 0px !important;
@@ -63,6 +83,8 @@ button {
     "min-height": "min-content !important";
 }
 
+/* 
+#todo|- Header frame -|*/
 section[tabindex="0"] iframe:nth-of-type(1) {
     position: fixed;
     display: flex;
@@ -81,6 +103,10 @@ section[tabindex="0"] iframe:nth-of-type(1) {
     z-index: 100;
     background: #FFF;
 }
+
+/* 
+#& >- Header --> 
+#todo| Header Container |*/
 section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     position: fixed;
     display: flex;
@@ -98,6 +124,126 @@ section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     min-width: 101%;
     z-index: 100;
 }
+
+/* 
+#todo|- Header button -|*/
+/* 
+#todo|- Header Tabs -|*/
+/* 
+#todo|- Header IconButton -|*/
+/* 
+#todo|- Header UserMenu -|*/
+/* 
+#todo|- Header Breadcomb -|*/
+/* 
+#todo|- Header Searchbar -|*/
+/* 
+#todo|- Header Navibar -|*/
+/* 
+#todo|- Header Sidebar -|*/
+
+/* 
+#& >- Sidebar --> 
+#todo|- Sidebar Container -|*/
+section[data-testid='stSidebar'] {
+    top: 61px !important;      
+    button {
+        top: 61px !important;
+        background: #663333;
+    }
+}
+
+
+
+
+/*
+#todo|---------------------------|    Input    |----------------|
+#*      SelectBox
+*/
+section[data-testid='stSidebar'] div[data-testid="stSelectbox"] {
+    background-color: #000;
+    color: #111878;
+    border: 1;
+    border-color: #000;
+}
+
+/*
+#*      MultiSelectBox
+*/
+section[data-testid='stSidebar'] div[data-testid="stMultiSelect"] {
+    background-color: #000;
+    color: #111878;
+    border: 1;
+    border-color: #000;
+}
+
+
+/*
+#^V.:|  InputLabelText
+*/
+section[data-testid='stSidebar'] div[data-testid="stTextInput"] {
+    background-color: #000;
+    color: #111878;
+}
+
+
+/*
+#^V.:|  DropdownSelect
+*/
+section[data-testid='stSidebar'] div[data-baseweb="select"] {
+    background-color: #666333;
+}
+
+
+/*
+#*      TextBox
+*/
+section[data-testid='stSidebar'] div[data-testid="stTextInput"] {
+    background-color: #000;
+    color: #111878;
+    border: 1;
+    border-color: #000;
+}
+
+/*
+#^V.:|  TextInput
+*/
+section[data-testid='stSidebar'] input[type="text"] {
+    background-color: #666333;
+}
+
+/*
+#todo|- Sidebar Button -|
+#^V.:|  primary     
+*/
+
+section[data-testid='stSidebar'] button[kind="primary"] {
+    background: #663333;
+}
+
+/*
+#^V.:|  secondary  
+*/
+section[data-testid='stSidebar'] button[kind="secondary"] {
+    background: #666333;
+}
+
+/*
+#todo|- Sidebar Toggle -|
+*/
+
+/*
+#& >- Content --> 
+#todo|- Content Container -|
+*/
+
+/*
+#todo|- Content Button -|
+*/
+
+/*
+#todo|- Content Forms -|
+*/
 
 .tab-bar, .MuiTabs-root {
     display: flex;

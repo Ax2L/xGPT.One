@@ -81,14 +81,14 @@ def change_page_extended(next_page):
         st.error(f"Error: {str(e)} ❌")
 
 
-def setup_page_config(page_name, this_wide, header_state):
-    page_icon = check_for_logo_image(LOGO_PATH)
-    st.set_page_config(
-        page_title=f"xGPT.{page_name}",
-        layout=this_wide,
-        initial_sidebar_state=header_state,  # I'm assuming this was a typo
-        page_icon=page_icon,
-    )
+#def setup_page_config(page_name, this_wide, header_state):
+#    page_icon = check_for_logo_image(LOGO_PATH)
+#    st.set_page_config(
+#        page_title=f"xGPT.{page_name}",
+#        layout=this_wide,
+#        initial_sidebar_state=header_state,  # I'm assuming this was a typo
+#        page_icon=page_icon,
+#    )
 
 
 def handle_click(item_id, idx):

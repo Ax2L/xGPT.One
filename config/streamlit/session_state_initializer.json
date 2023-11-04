@@ -37,5 +37,6 @@
     "context_levelvalue":"",
     "history": "",
     "set_default": "",
-    "current_chat": ""
+    "current_chat": "",
+    "sidebar_status": "out"
 }

@@ -20,7 +20,7 @@ def load_custom_css():
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     else:
         print(f"css already active on {page_name}")
-        
+
 
 def initiate_session_states_from_json():
     """Initiate session state variables from JSON."""
@@ -51,11 +51,12 @@ def display_login_sidebar_info():
     with st.sidebar:
         st.markdown(new_user_info)
 
+
 # Set Page settings and Icon
 st.markdown(
     """
     <head>
-        <link rel="icon" href="images/logo/favicon.ico"  type="image/x-icon">
+        <link rel="icon" href="/frontend/static/images/logo/favicon.ico"  type="image/x-icon">
     </head>
     """,
     unsafe_allow_html=True,
@@ -81,21 +82,21 @@ if "initial_main" not in st.session_state:
     st.toast("Initializing application...")
     st.session_state.initial_main = True
     initiate_session_states_from_json()
-    #print(f"Main Page initiated and st.session_state.initial_main is:{st.session_state.initial_main}")
+    # print(f"Main Page initiated and st.session_state.initial_main is:{st.session_state.initial_main}")
 
-if st.session_state['current_page']:
-    next_page = st.session_state['current_page']
+if st.session_state["current_page"]:
+    next_page = st.session_state["current_page"]
 
 # Load Configurations
 config = xhelper.load_config()
 
 # Initialize Authenticator
 authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days'],
-    config['preauthorized']
+    config["credentials"],
+    config["cookie"]["name"],
+    config["cookie"]["key"],
+    config["cookie"]["expiry_days"],
+    config["preauthorized"],
 )
 
 # Display Sidebar Info
@@ -110,11 +111,13 @@ elif st.session_state["authentication_status"] is None:
 name, authentication_status, username = authenticator.login("Login", "main")
 
 if authentication_status:
-    st.session_state.update({
-        "authentication_status": True,
-        "name": name,
-        "username": username,
-    })
+    st.session_state.update(
+        {
+            "authentication_status": True,
+            "name": name,
+            "username": username,
+        }
+    )
     authenticated_display()
 
 load_custom_css()

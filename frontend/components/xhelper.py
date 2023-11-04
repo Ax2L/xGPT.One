@@ -9,11 +9,11 @@ from yaml.loader import SafeLoader
 import streamlit as st
 
 from streamlit_extras.switch_page_button import switch_page
-LOGO_PATH = "images/logo/xgpt.png"
+LOGO_PATH = "../resources/images/logo/xgpt_logo.png"
 # Determine the directory of this script
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-def find_config_file(filename=f"../../config/streamlit/config.yaml"):
+def find_config_file(filename=f"../config/streamlit/config.yaml"):
     """Search for the config file and return its path."""
     for root, dirs, files in os.walk(os.getcwd()):
         if filename in files:
@@ -120,3 +120,4 @@ def check_current_page(page_name):
     current_site = st.session_state['current_page']
     if current_site != page_name and current_site is not None:
         switch_page(current_site)
+

@@ -19,7 +19,7 @@
         "warning": "#FFC107",
         "warning_hover": "#cc9e06",
         "warning_active": "#997a05",
-        "warning_click": "#665304",
+        "warning_click": "#665304", 
         "info": "#17A2B8",
         "info_hover": "#128192",
         "info_active": "#0d607c",
