@@ -15,10 +15,8 @@ tmp.txt
 .vscode
 *.test
 
-
 # Database
 volumes/
-
 
 # Distribution / packaging
 build/
@@ -124,9 +122,8 @@ frontend/cypress/snapshots/linux/1x
 ########################################################################
 # VSCode
 ########################################################################
-.pnotes/*.md 
+.pnotes/*.md
 .vscode
-
 
 ########################################################################
 # Ax2
@@ -140,6 +137,7 @@ frontend/cypress/snapshots/linux/1x
 ########################################################################
 apps/coder/*/workspace*
 apps/chat-ui/workspace*
+apps/assistant*
 
 ########################################################################
 # Datastore
