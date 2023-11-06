@@ -65,13 +65,6 @@ css_rules = [
         "data-testid",
         "stHeader",
     ),
-    Rule(
-        "section",
-        "attribute",
-        {"background": "", "color": ""},
-        "data-testid",
-        "stSidebar",
-    ),
     Rule("container", "class", {"width": "100%", "margin": "0 auto", "padding": "0"}),
     Rule(
         "header",
@@ -99,17 +92,6 @@ css_rules = [
             "font-size": "14px",
         },
     ),
-    Rule(
-        ".user1, .user2, .user3",
-        "class",
-        {
-            "position": "absolute",
-            "width": "40px",
-            "height": "40px",
-            "left": "255px",
-            "top": "147px",
-        },
-    ),
 ]
 
 # * CUSTOM CSS BLOCK -----------------------------------------------------------
@@ -124,42 +106,33 @@ div[data-testid="stSidebarNav"] {
     width: 0px;
 }
 
+header[data-testid="stHeader"] {
+    display: none;
+    height: 0px;
+    width: 0px;
+}
+
 /* 
 #& Unsorted
 */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(to bottom, #1e2a38, #0a111f);
-    margin: 0;
-    padding: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-section[tabindex="0"] dsdiv[data-testid="block-container"] {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-    padding-top: 0px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-top: 0 !important;
-
 }
 
 button {
-    "box-shadow": "0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40)",
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40);
 }
 
 .MuiButtonBase-root {
-    "box-shadow": "0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40)",
-    "min-height": "min-content !important";
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40);
+    min-height: min-content !important;
 }
 
 /* 
-#todo|- Header frame -|*/
-section[tabindex="0"] iframe:nth-of-type(1) {
+#& >- Header --> 
+#todo|- Header frame -|
+OLDsection[tabindex="0"] iframe:nth-of-type(1) {
     position: fixed;
     display: flex;
     justify-content: space-between;
@@ -177,12 +150,13 @@ section[tabindex="0"] iframe:nth-of-type(1) {
     z-index: 100;
     background: #FFF;
 }
+*/
 
 /* 
 #& >- Header --> 
-#todo| Header Container |*/
-section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
-    position: fixed;
+#todo|- Header frame -|*/
+section[tabindex="0"] iframe:nth-of-type(1) {
+    position: fixed !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -196,39 +170,33 @@ section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     left: 0 !important;
     right: 0 !important;
     min-width: 101%;
-    z-index: 100;
+    background-color: #334155;
+    z-index: 0;
 }
 
-/* 
-#todo|- Header button -|*/
-/* 
-#todo|- Header Tabs -|*/
-/* 
-#todo|- Header IconButton -|*/
-/* 
-#todo|- Header UserMenu -|*/
-/* 
-#todo|- Header Breadcomb -|*/
-/* 
-#todo|- Header Searchbar -|*/
-/* 
-#todo|- Header Navibar -|*/
-/* 
-#todo|- Header Sidebar -|*/
+section[tabindex="0"] div:nth-of-type(1) {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+    max-width: 101%;
+}
+
+
+/* #todo|- Header button -|*/
+/* #todo|- Header Tabs -|*/
+/* #todo|- Header IconButton -|*/
+/* #todo|- Header UserMenu -|*/
+/* #todo|- Header Breadcomb -|*/
+/* #todo|- Header Searchbar -|*/
+/* #todo|- Header Navibar -|*/
+/* #todo|- Header Sidebar -|*/
 
 /* 
 #& >- Sidebar --> 
 #todo|- Sidebar Container -|*/
-section[data-testid='stSidebar'] {
-    top: 61px !important;      
-    button {
-        top: 61px !important;
-        background: #663333;
-    }
-}
-
-
-
 
 /*
 #todo|---------------------------|    Input    |----------------|
@@ -306,6 +274,16 @@ section[data-testid='stSidebar'] button[kind="secondary"] {
 #todo|- Sidebar Toggle -|
 */
 
+
+section[data-testid='stSidebar'] {
+    top: 61px !important;      
+    button {
+        top: 61px !important;
+        background: #663333;
+    }
+}
+
+
 /*
 #& >- Content --> 
 #todo|- Content Container -|
@@ -324,7 +302,6 @@ section[data-testid='stSidebar'] button[kind="secondary"] {
     background: #252c3a;
     border-radius: 30px;
     width: 100%;
-    max-width: 1200px;
 }
 .tab, MuiTab-root {
     flex: 1;
@@ -396,10 +373,10 @@ def generate_css_file():
             logger.info("Created gen_css.lock file.")
 
         # Generate CSS for each rule and save
-        for cssrule in css_rules:
-            stylesheet.add_rule(cssrule)
+        # for cssrule in css_rules:
+        #    stylesheet.add_rule(cssrule)
         with open("style.css", "w") as css_file:
-            css_file.write(str(stylesheet))
+            # css_file.write(str(stylesheet))
             css_file.write(custom_css_block)  # Add the custom CSS block
         logger.info("Generated and saved CSS successfully.")
 

@@ -4,7 +4,7 @@ from components import xhelper, header, header_v2
 
 # Constants
 PAGE_NAME = "apps"
-header_v2.init()
+header_v2.init(PAGE_NAME)
 # Set Page settings and Icon
 st.markdown(
     """
@@ -43,4 +43,6 @@ setup_page(PAGE_NAME)
 # xhelper.check_current_page(PAGE_NAME)
 
 # **** Default Page block end **********************************************
+
+
 load_custom_css()

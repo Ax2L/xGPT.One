@@ -1,50 +1,15 @@
-header[data-testid='stHeader'] {
-    display: none;
-    width: 0;
-    height: 0;
-}
-section[data-testid='stSidebar'] {
-    background: ;
-    color: ;
-}
-.container {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0;
-}
-.header {
-    background-color: #1e2a38;
-    height: 60px;
-    line-height: 60px;
-    color: white;
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-}
-.content {
-    padding: 20px;
-    background-color: #0a111f;
-}
-.footer {
-    background-color: #1e2a38;
-    height: 40px;
-    line-height: 40px;
-    color: white;
-    text-align: center;
-    font-size: 14px;
-}
-..user1, .user2, .user3 {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    left: 255px;
-    top: 147px;
-}
+
 
 /* 
 #& Streamlit to deaktivate:
 */
 div[data-testid="stSidebarNav"] {
+    display: none;
+    height: 0px;
+    width: 0px;
+}
+
+header[data-testid="stHeader"] {
     display: none;
     height: 0px;
     width: 0px;
@@ -56,36 +21,21 @@ div[data-testid="stSidebarNav"] {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(to bottom, #1e2a38, #0a111f);
-    margin: 0;
-    padding: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-section[tabindex="0"] dsdiv[data-testid="block-container"] {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-    padding-top: 0px !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    margin-top: 0 !important;
-
 }
 
 button {
-    "box-shadow": "0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40)",
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40);
 }
 
 .MuiButtonBase-root {
-    "box-shadow": "0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40)",
-    "min-height": "min-content !important";
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40);
+    min-height: min-content !important;
 }
 
 /* 
-#todo|- Header frame -|*/
-section[tabindex="0"] iframe:nth-of-type(1) {
+#& >- Header --> 
+#todo|- Header frame -|
+OLDsection[tabindex="0"] iframe:nth-of-type(1) {
     position: fixed;
     display: flex;
     justify-content: space-between;
@@ -103,12 +53,13 @@ section[tabindex="0"] iframe:nth-of-type(1) {
     z-index: 100;
     background: #FFF;
 }
+*/
 
 /* 
 #& >- Header --> 
-#todo| Header Container |*/
-section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
-    position: fixed;
+#todo|- Header frame -|*/
+section[tabindex="0"] iframe:nth-of-type(1) {
+    position: fixed !important;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -122,39 +73,33 @@ section[tabindex="0"] iframe:nth-of-type(1) header:nth-of-type(1) {
     left: 0 !important;
     right: 0 !important;
     min-width: 101%;
-    z-index: 100;
+    background-color: #334155;
+    z-index: 0;
 }
 
-/* 
-#todo|- Header button -|*/
-/* 
-#todo|- Header Tabs -|*/
-/* 
-#todo|- Header IconButton -|*/
-/* 
-#todo|- Header UserMenu -|*/
-/* 
-#todo|- Header Breadcomb -|*/
-/* 
-#todo|- Header Searchbar -|*/
-/* 
-#todo|- Header Navibar -|*/
-/* 
-#todo|- Header Sidebar -|*/
+section[tabindex="0"] div:nth-of-type(1) {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 0 !important;
+    max-width: 101%;
+}
+
+
+/* #todo|- Header button -|*/
+/* #todo|- Header Tabs -|*/
+/* #todo|- Header IconButton -|*/
+/* #todo|- Header UserMenu -|*/
+/* #todo|- Header Breadcomb -|*/
+/* #todo|- Header Searchbar -|*/
+/* #todo|- Header Navibar -|*/
+/* #todo|- Header Sidebar -|*/
 
 /* 
 #& >- Sidebar --> 
 #todo|- Sidebar Container -|*/
-section[data-testid='stSidebar'] {
-    top: 61px !important;      
-    button {
-        top: 61px !important;
-        background: #663333;
-    }
-}
-
-
-
 
 /*
 #todo|---------------------------|    Input    |----------------|
@@ -232,6 +177,16 @@ section[data-testid='stSidebar'] button[kind="secondary"] {
 #todo|- Sidebar Toggle -|
 */
 
+
+section[data-testid='stSidebar'] {
+    top: 61px !important;      
+    button {
+        top: 61px !important;
+        background: #663333;
+    }
+}
+
+
 /*
 #& >- Content --> 
 #todo|- Content Container -|
@@ -250,7 +205,6 @@ section[data-testid='stSidebar'] button[kind="secondary"] {
     background: #252c3a;
     border-radius: 30px;
     width: 100%;
-    max-width: 1200px;
 }
 .tab, MuiTab-root {
     flex: 1;
