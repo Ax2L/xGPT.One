@@ -15,7 +15,7 @@ next_page = default_np
 # Helper Functions
 def load_custom_css():
     if f"{page_name}_css" not in st.session_state:
-        """Load custom CSS style."""
+        # ^ Load custom CSS style.
         with open("style.css") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     else:
@@ -51,6 +51,13 @@ def display_login_sidebar_info():
     with st.sidebar:
         st.markdown(new_user_info)
 
+
+st.set_page_config(
+    page_title="xGPT.One",
+    page_icon="/frontend/static/images/logo/favicon.ico",  # I'm assuming this was a typo
+    layout="wide",
+    initial_sidebar_state="auto",
+)
 
 # Set Page settings and Icon
 st.markdown(

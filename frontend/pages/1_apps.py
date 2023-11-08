@@ -25,9 +25,10 @@ def setup_page(page_name):
 
 def load_custom_css():
     if f"{PAGE_NAME}_css" not in st.session_state:
-        """Load custom CSS style."""
+        # ^ Load custom CSS style.
         with open("style.css") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+            st.session_state.setdefault("{PAGE_NAME}_css", True)
     else:
         print(f"css already active on {PAGE_NAME}")
 
@@ -44,5 +45,15 @@ setup_page(PAGE_NAME)
 
 # **** Default Page block end **********************************************
 
+
+#! Content:
+
+with st.sidebar:
+    st.text("Some Sidebar cotent")
+st.text("Some Main cotent")
+st.text("Some Main cotent")
+st.text("Some Main cotent")
+st.text("Some Main cotent")
+st.text("Some Main cotent")
 
 load_custom_css()

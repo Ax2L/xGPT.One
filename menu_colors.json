@@ -1,0 +1,112 @@
+{
+    {
+        "BackgroundColor": "#401d08",
+        "TextColor": "#ffffff",
+        "BorderColor": "#ffffff",
+        "HoverBackgroundColor": "#EEA981",
+        "HoverTextColor": "#ffffff",
+        "ActiveBackgroundColor": "#401d08",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#231314",
+        "TextColor": "#f8f3f3",
+        "BorderColor": "#f8f3f3",
+        "HoverBackgroundColor": "#AA6769",
+        "HoverTextColor": "#f8f3f3",
+        "ActiveBackgroundColor": "#231314",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#1c1619",
+        "TextColor": "#e7e1e4",
+        "BorderColor": "#e7e1e4",
+        "HoverBackgroundColor": "#8F6F80",
+        "HoverTextColor": "#e7e1e4",
+        "ActiveBackgroundColor": "#1c1619",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#251c18",
+        "TextColor": "#ffffff",
+        "BorderColor": "#ffffff",
+        "HoverBackgroundColor": "#B09288",
+        "HoverTextColor": "#ffffff",
+        "ActiveBackgroundColor": "#251c18",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#172727",
+        "TextColor": "#ffffff",
+        "BorderColor": "#ffffff",
+        "HoverBackgroundColor": "#83B5B7",
+        "HoverTextColor": "#ffffff",
+        "ActiveBackgroundColor": "#172727",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#300f19",
+        "TextColor": "#ffffff",
+        "BorderColor": "#ffffff",
+        "HoverBackgroundColor": "#D0708E",
+        "HoverTextColor": "#ffffff",
+        "ActiveBackgroundColor": "#300f19",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#11161a",
+        "TextColor": "#b6c4d0",
+        "BorderColor": "#b6c4d0",
+        "HoverBackgroundColor": "#556F84",
+        "HoverTextColor": "#b6c4d0",
+        "ActiveBackgroundColor": "#11161a",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#152736",
+        "TextColor": "#fffefe",
+        "BorderColor": "#fffefe",
+        "HoverBackgroundColor": "#A5C2DB",
+        "HoverTextColor": "#fffefe",
+        "ActiveBackgroundColor": "#152736",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#1f1220",
+        "TextColor": "#e8d8e9",
+        "BorderColor": "#e8d8e9",
+        "HoverBackgroundColor": "#9C5AA0",
+        "HoverTextColor": "#e8d8e9",
+        "ActiveBackgroundColor": "#1f1220",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    },
+    {
+        "BackgroundColor": "#0e131c",
+        "TextColor": "#acbcd4",
+        "BorderColor": "#acbcd4",
+        "HoverBackgroundColor": "#49648D",
+        "HoverTextColor": "#acbcd4",
+        "ActiveBackgroundColor": "#0e131c",
+        "ActiveTextColor": "#FFFFFF",
+        "BoxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+        "ActiveBoxShadow": "inset 0 2px 4px 0 rgba(255, 255, 255, 0.2)"
+    }
+}

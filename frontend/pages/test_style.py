@@ -2,16 +2,18 @@ import streamlit as st
 from components import header
 
 
-# Constants 
-PAGE_NAME = "test_style" 
+# Constants
+PAGE_NAME = "test_style"
+
 
 def load_custom_css():
     if f"{PAGE_NAME}_css" not in st.session_state:
-        """Load custom CSS style."""
+        # ^ Load custom CSS style.
         with open("style.css") as f:
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
     else:
         print(f"css already active on {PAGE_NAME}")
+
 
 header.create_menu(PAGE_NAME)
 

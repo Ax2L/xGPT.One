@@ -1,108 +1,13 @@
 [
     {
-        "id": "datastore",
-        "place": 1,
-        "name": "Datastore",
-        "icon": "Storage",
-        "description": "",
-        "place_center": false,
-        "place_side": true,
-        "subheader": [
-            {
-                "id": "file_browser",
-                "place": 0,
-                "name": "File Browser",
-                "icon": "FolderOpen",
-                "description": ""
-            },
-            {
-                "id": "file_upload",
-                "place": 1,
-                "name": "Upload",
-                "icon": "CloudUpload",
-                "description": ""
-            },
-            {
-                "id": "milvus",
-                "place": 2,
-                "name": "Milvus",
-                "icon": "Database",
-                "description": "Distributed vector data management platform."
-            }
-        ]
-    },
-    {
-        "id": "machine_learning",
-        "place": 0,
-        "name": "Training",
-        "icon": "Brain",
-        "description": "Manage and setup machine learning models.",
-        "place_center": true,
-        "place_side": false,
-        "subheader": [
-            {
-                "id": "mls",
-                "place": 0,
-                "name": "Setup ML",
-                "icon": "Settings",
-                "description": "Configurations for machine learning setups."
-            },
-            {
-                "id": "datasets",
-                "place": 1,
-                "name": "Datasets",
-                "icon": "Dataset",
-                "description": "Manage and view your datasets."
-            },
-            {
-                "id": "ml_training",
-                "place": 2,
-                "name": "Training",
-                "icon": "PlayCircleFilled",
-                "description": "Start and monitor ML training sessions."
-            }
-        ]
-    },
-    {
-        "id": "tools",
-        "place": 0,
-        "name": "Tools",
-        "icon": "Handyman",
-        "description": "",
-        "place_center": false,
-        "place_side": true,
-        "subheader": [
-            {
-                "id": "tool_helper",
-                "place": 0,
-                "name": "Helper",
-                "icon": "Help",
-                "description": ""
-            },
-            {
-                "id": "tool_coder",
-                "place": 1,
-                "name": "Code Editor",
-                "icon": "CodeEditor",
-                "description": ""
-            },
-            {
-                "id": "tool_analytics",
-                "place": 2,
-                "name": "Analytics",
-                "icon": "BarChart",
-                "description": ""
-            }
-        ]
-    },
-    {
         "id": "chats",
-        "place": 4,
+        "place": 0,
         "name": "Chats",
         "icon": "Chat",
         "description": "",
         "place_center": true,
         "place_side": false,
+        "view_id": 0,
         "subheader": [
             {
                 "id": "chat_single",
@@ -135,6 +40,7 @@
         "description": "",
         "place_center": true,
         "place_side": false,
+        "view_id": 1,
         "subheader": [
             {
                 "id": "app_agi",
@@ -167,123 +73,6 @@
         ]
     },
     {
-        "id": "documentation",
-        "place": 4,
-        "name": "Documentation",
-        "icon": "HelpCenter",
-        "description": "",
-        "place_center": false,
-        "place_side": true,
-        "subheader": [
-            {
-                "id": "docs",
-                "place": 0,
-                "name": "Docs",
-                "icon": "Book",
-                "description": ""
-            },
-            {
-                "id": "faq",
-                "place": 1,
-                "name": "FAQ",
-                "icon": "QuestionAnswer",
-                "description": ""
-            },
-            {
-                "id": "external_links",
-                "place": 2,
-                "name": "Helpful Links",
-                "icon": "Link",
-                "description": ""
-            }
-        ]
-    },
-    {
-        "id": "settings",
-        "place": 2,
-        "name": "Settings",
-        "icon": "Tune",
-        "description": "",
-        "place_center": false,
-        "place_side": true,
-        "subheader": [
-            {
-                "id": "global_settings",
-                "place": 0,
-                "name": "Global",
-                "icon": "Settings",
-                "description": ""
-            },
-            {
-                "id": "edit_user",
-                "place": 1,
-                "name": "User Profile",
-                "icon": "Person",
-                "description": ""
-            },
-            {
-                "id": "style",
-                "place": 2,
-                "name": "Theme & Style",
-                "icon": "Palette",
-                "description": ""
-            },
-            {
-                "id": "supervisior",
-                "place": 3,
-                "name": "Supervisor",
-                "icon": "SupervisorAccount",
-                "description": ""
-            },
-            {
-                "id": "updates",
-                "place": 4,
-                "name": "Updates & Changelog",
-                "icon": "Update",
-                "description": ""
-            }
-        ]
-    },
-    {
-        "id": "assistant",
-        "place": 99,
-        "name": "Assistant",
-        "icon": "Assistant",
-        "description": "",
-        "place_center": false,
-        "place_side": false,
-        "subheader": [
-            {
-                "id": "assist_chat",
-                "place": 0,
-                "name": "Chat",
-                "icon": "Chat",
-                "description": ""
-            },
-            {
-                "id": "assist_jobs",
-                "place": 1,
-                "name": "Job Queue",
-                "icon": "Queue",
-                "description": ""
-            },
-            {
-                "id": "assist_todo",
-                "place": 2,
-                "name": "Tasks & ToDo",
-                "icon": "Task",
-                "description": ""
-            },
-            {
-                "id": "assist_help",
-                "place": 3,
-                "name": "Help",
-                "icon": "Help",
-                "description": ""
-            }
-        ]
-    },
-    {
         "id": "builder",
         "place": 2,
         "name": "Builder",
@@ -291,6 +80,7 @@
         "description": "Low-Code Builder for AI-driven solutions.",
         "place_center": true,
         "place_side": false,
+        "view_id": 2,
         "subheader": [
             {
                 "id": "chatbot_builder",
@@ -330,6 +120,7 @@
         "description": "AI-driven coding solutions and assistance.",
         "place_center": true,
         "place_side": false,
+        "view_id": 3,
         "subheader": [
             {
                 "id": "code_gen",
@@ -360,5 +151,224 @@
                 "description": "Handles and processes coding tasks efficiently."
             }
         ]
-    }    
+    },
+    {
+        "id": "machine_learning",
+        "place": 4,
+        "name": "Training",
+        "icon": "Brain",
+        "description": "Manage and setup machine learning models.",
+        "place_center": true,
+        "place_side": false,
+        "view_id": 4,
+        "subheader": [
+            {
+                "id": "mls",
+                "place": 0,
+                "name": "Setup ML",
+                "icon": "Settings",
+                "description": "Configurations for machine learning setups."
+            },
+            {
+                "id": "datasets",
+                "place": 1,
+                "name": "Datasets",
+                "icon": "Dataset",
+                "description": "Manage and view your datasets."
+            },
+            {
+                "id": "ml_training",
+                "place": 2,
+                "name": "Training",
+                "icon": "PlayCircleFilled",
+                "description": "Start and monitor ML training sessions."
+            }
+        ]
+    },
+    {
+        "id": "tools",
+        "place": 0,
+        "name": "Tools",
+        "icon": "Handyman",
+        "description": "",
+        "place_center": false,
+        "place_side": true,
+        "view_id": 5,
+        "subheader": [
+            {
+                "id": "tool_helper",
+                "place": 0,
+                "name": "Helper",
+                "icon": "Help",
+                "description": ""
+            },
+            {
+                "id": "tool_coder",
+                "place": 1,
+                "name": "Code Editor",
+                "icon": "CodeEditor",
+                "description": ""
+            },
+            {
+                "id": "tool_analytics",
+                "place": 2,
+                "name": "Analytics",
+                "icon": "BarChart",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "id": "datastore",
+        "place": 1,
+        "name": "Datastore",
+        "icon": "Storage",
+        "description": "",
+        "place_center": false,
+        "place_side": true,
+        "view_id": 6,
+        "subheader": [
+            {
+                "id": "file_browser",
+                "place": 0,
+                "name": "File Browser",
+                "icon": "FolderOpen",
+                "description": ""
+            },
+            {
+                "id": "file_upload",
+                "place": 1,
+                "name": "Upload",
+                "icon": "CloudUpload",
+                "description": ""
+            },
+            {
+                "id": "milvus",
+                "place": 2,
+                "name": "Milvus",
+                "icon": "Database",
+                "description": "Distributed vector data management platform."
+            }
+        ]
+    },
+    {
+        "id": "settings",
+        "place": 2,
+        "name": "Settings",
+        "icon": "Tune",
+        "description": "",
+        "place_center": false,
+        "place_side": true,
+        "view_id": 7,
+        "subheader": [
+            {
+                "id": "global_settings",
+                "place": 0,
+                "name": "Global",
+                "icon": "Settings",
+                "description": ""
+            },
+            {
+                "id": "edit_user",
+                "place": 1,
+                "name": "User Profile",
+                "icon": "Person",
+                "description": ""
+            },
+            {
+                "id": "style",
+                "place": 2,
+                "name": "Theme & Style",
+                "icon": "Palette",
+                "description": ""
+            },
+            {
+                "id": "supervisior",
+                "place": 3,
+                "name": "Supervisor",
+                "icon": "SupervisorAccount",
+                "description": ""
+            },
+            {
+                "id": "updates",
+                "place": 4,
+                "name": "Updates & Changelog",
+                "icon": "Update",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "id": "documentation",
+        "place": 3,
+        "name": "Documentation",
+        "icon": "HelpCenter",
+        "description": "",
+        "place_center": false,
+        "place_side": true,
+        "view_id": 8,
+        "subheader": [
+            {
+                "id": "docs",
+                "place": 0,
+                "name": "Docs",
+                "icon": "Book",
+                "description": ""
+            },
+            {
+                "id": "faq",
+                "place": 1,
+                "name": "FAQ",
+                "icon": "QuestionAnswer",
+                "description": ""
+            },
+            {
+                "id": "external_links",
+                "place": 2,
+                "name": "Helpful Links",
+                "icon": "Link",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "id": "assistant",
+        "place": 99,
+        "name": "Assistant",
+        "icon": "Assistant",
+        "description": "",
+        "place_center": false,
+        "place_side": false,
+        "view_id": false,
+        "subheader": [
+            {
+                "id": "assist_chat",
+                "place": 0,
+                "name": "Chat",
+                "icon": "Chat",
+                "description": ""
+            },
+            {
+                "id": "assist_jobs",
+                "place": 1,
+                "name": "Job Queue",
+                "icon": "Queue",
+                "description": ""
+            },
+            {
+                "id": "assist_todo",
+                "place": 2,
+                "name": "Tasks & ToDo",
+                "icon": "Task",
+                "description": ""
+            },
+            {
+                "id": "assist_help",
+                "place": 3,
+                "name": "Help",
+                "icon": "Help",
+                "description": ""
+            }
+        ]
+    }
 ]
