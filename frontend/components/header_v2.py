@@ -345,7 +345,7 @@ def header_navbar(menu_config):
         ):
             with mui.Grid(
                 container=True,
-                spacing=2,
+                spacing=3,
                 visibleScrollbar=False,
                 # bg=sb.container["HeaderBGColor"],
             ):  # & Logo
@@ -376,7 +376,7 @@ def header_navbar(menu_config):
                         ):
                             with mui.Grid(
                                 container=True,
-                                spacing=3,
+                                spacing=2,
                                 visibleScrollbar=False,
                                 # bgcolor="transparent",
                                 pt="35px",
@@ -386,10 +386,12 @@ def header_navbar(menu_config):
                                     "justify-content": "space-between",
                                 },
                             ):
-                                with mui.Grid(pl="280px"):
+                                with mui.Grid(mr="auto", ml="auto"):
                                     create_tabs(menu_config)
-                                create_icon_buttons(menu_config)
+                                # create_icon_buttons(menu_config)
+
                         # & Subheader
+                        create_icon_buttons(menu_config)
                         with mui.SwipeableViews(
                             axis="x",
                             index=st.session_state.get("menu_active_button") or 0,
@@ -398,115 +400,115 @@ def header_navbar(menu_config):
                             onChangeIndex=update_menu,
                             # visibleScrollbar=False,
                         ):
-                            for item in menu_config:
-                                subheader_config = item["subheader"]
-                                with mui.Grid(
-                                    container=True,
-                                    # bg=sb.container["SubHeaderBGColor"],
-                                    pl="10px",
-                                    # ml="150px",
-                                    # mr="150px",
-                                    verticalAlinments=True,
-                                    pt="20px",
-                                    mb="100px",
-                                    spacing=1,
-                                    # bgcolor="!transparent",
-                                    height="50px",
-                                    visibleScrollbar=False,
-                                    sx={
-                                        "boxShadow": sb.button["BoxShadowDown"],
-                                        "color": sb.menu_list[item["view_id"]][
-                                            "TextColor"
-                                        ],
-                                        "bgcolor": sb.menu_list[item["view_id"]][
-                                            "BackgroundColor"
-                                        ],
-                                        # "background": "linear-gradient(270.deg, #1E2A38 0%, #005375 100%)",
-                                        # "boxShadow": "-6.22302px -6.22302px 18.6691px #3B4451, 6.22302px 6.22302px 18.6691px #000000",
-                                        # "boxShadow": "inset -4px -4px 8px rgba(255, 255, 255, 0.15), inset 4px 4px 8px rgba(25, 28, 30, 0.7)",
-                                    },
-                                ):
+                            with mui.Grid(
+                                container=True,
+                                # bg=sb.container["SubHeaderBGColor"],
+                                pl="10px",
+                                # ml="150px",
+                                # mr="150px",
+                                verticalAlinments=True,
+                                pt="20px",
+                                mb="100px",
+                                spacing=1,
+                                # bgcolor="!transparent",
+                                height="50px",
+                                visibleScrollbar=False,
+                                sx={
+                                    "boxShadow": sb.button["BoxShadowDown"],
+                                    "color": sb.menu_list[item["view_id"]]["TextColor"],
+                                    "bgcolor": sb.menu_list[item["view_id"]][
+                                        "BackgroundColor"
+                                    ],
+                                    # "background": "linear-gradient(270.deg, #1E2A38 0%, #005375 100%)",
+                                    # "boxShadow": "-6.22302px -6.22302px 18.6691px #3B4451, 6.22302px 6.22302px 18.6691px #000000",
+                                    # "boxShadow": "inset -4px -4px 8px rgba(255, 255, 255, 0.15), inset 4px 4px 8px rgba(25, 28, 30, 0.7)",
+                                },
+                            ):
+                                for item in menu_config:
+                                    subheader_config = item["subheader"]
                                     newvalue = (
                                         st.session_state.get("submenu_active_button")
                                         or 0
                                     )
-                                    # with mui.ButtonGroup(
-                                    #    variant="outlined",
-                                    #    value=newvalue,
-                                    #    onChange=update_submenu,
-                                    #    size="small",
-                                    #    sx={
-                                    #        "boxShadow": "-6.22302px -6.22302px 18.6691px #3B4451, 6.22302px 6.22302px 18.6691px #000000",
-                                    #    }
-                                    #    # ariaLabel="outlined primary button group",
-                                    # ):
-                                    for subitem in subheader_config:
-                                        icon_n = subitem["icon"]
-                                        view_id = item["view_id"]
-                                        active_boxshadow = check_active_color(
-                                            view_id,
-                                            sb.button["BoxShadowUp"],
-                                            sb.button["BoxShadow"],
-                                        )
-                                        icon_element = mui.Button(
-                                            subitem["name"],
-                                            getattr(mui.icon, icon_n),
-                                            label=subitem["name"],
-                                            # value=subitem["id"],
-                                            variant="outlined",
-                                            mt="auto",
-                                            mb="auto",
-                                            bgcolor="#000000",
-                                            size="small",
-                                            onClick=partial(
-                                                update_submenu, subitem["id"]
-                                            ),
-                                            p=1,
-                                            m=10,
-                                            pb=50,
-                                            sx={
-                                                # "bg": check_active_color(
-                                                #    view_id,
-                                                #    sb.menu_list[view_id][
-                                                #        "BackgroundColor"
-                                                #    ],
-                                                #    sb.text["Default"],
-                                                # ),
-                                                # "boxShadow": active_boxshadow,
-                                                # "color": check_active_color(
-                                                #    view_id,
-                                                #    sb.menu_list[view_id]["TextColor"],
-                                                #    sb.text["Default"],
-                                                # ),
-                                                # "filter": sb.hover_filter["filter"],
-                                                "&:hover": {
-                                                    "color": check_active_color(
-                                                        view_id,
-                                                        sb.menu_list[view_id][
-                                                            "HoverBackgroundColor"
+                                    with mui.ButtonGroup(
+                                        variant="outlined",
+                                        value=newvalue,
+                                        onChange=update_submenu,
+                                        size="small",
+                                        mr="auto",
+                                        ml="auto",
+                                        sx={
+                                            "boxShadow": "-6.22302px -6.22302px 18.6691px #3B4451, 6.22302px 6.22302px 18.6691px #000000",
+                                        }
+                                        # ariaLabel="outlined primary button group",
+                                    ):
+                                        for subitem in subheader_config:
+                                            icon_n = subitem["icon"]
+                                            view_id = item["view_id"]
+                                            active_boxshadow = check_active_color(
+                                                view_id,
+                                                sb.button["BoxShadowUp"],
+                                                sb.button["BoxShadow"],
+                                            )
+                                            icon_element = mui.Button(
+                                                subitem["name"],
+                                                getattr(mui.icon, icon_n),
+                                                label=subitem["name"],
+                                                # value=subitem["id"],
+                                                variant="outlined",
+                                                mt="auto",
+                                                mb="auto",
+                                                bgcolor="#000000",
+                                                size="small",
+                                                onClick=partial(
+                                                    update_submenu, subitem["id"]
+                                                ),
+                                                p=1,
+                                                m=10,
+                                                pb=50,
+                                                sx={
+                                                    # "bg": check_active_color(
+                                                    #    view_id,
+                                                    #    sb.menu_list[view_id][
+                                                    #        "BackgroundColor"
+                                                    #    ],
+                                                    #    sb.text["Default"],
+                                                    # ),
+                                                    # "boxShadow": active_boxshadow,
+                                                    # "color": check_active_color(
+                                                    #    view_id,
+                                                    #    sb.menu_list[view_id]["TextColor"],
+                                                    #    sb.text["Default"],
+                                                    # ),
+                                                    # "filter": sb.hover_filter["filter"],
+                                                    "&:hover": {
+                                                        "color": check_active_color(
+                                                            view_id,
+                                                            sb.menu_list[view_id][
+                                                                "HoverBackgroundColor"
+                                                            ],
+                                                            sb.text["Default"],
+                                                        ),
+                                                        "filter": sb.hover_filter[
+                                                            "hover_filter"
                                                         ],
-                                                        sb.text["Default"],
-                                                    ),
-                                                    "filter": sb.hover_filter[
-                                                        "hover_filter"
-                                                    ],
+                                                    },
+                                                    "&:active": {
+                                                        "color": check_active_color(
+                                                            view_id,
+                                                            sb.menu_list[view_id][
+                                                                "ActiveTextColor"
+                                                            ],
+                                                            sb.text["Default"],
+                                                        ),
+                                                        "boxShadow": "inset -4px -4px 8px rgba(255, 255, 255, 0.15), inset 4px 4px 8px rgba(25, 28, 30, 0.7)    ",
+                                                    },
                                                 },
-                                                "&:active": {
-                                                    "color": check_active_color(
-                                                        view_id,
-                                                        sb.menu_list[view_id][
-                                                            "ActiveTextColor"
-                                                        ],
-                                                        sb.text["Default"],
-                                                    ),
-                                                    "boxShadow": "inset -4px -4px 8px rgba(255, 255, 255, 0.15), inset 4px 4px 8px rgba(25, 28, 30, 0.7)",
-                                                },
-                                            },
-                                        )
-                                        icon_element
+                                            )
+                                            icon_element
 
-                                # with mui.Grid():
-                                #    mui.Typography(" ")
+                            # with mui.Grid():
+                            #    mui.Typography(" ")
 
 
 # ? Submenu functions

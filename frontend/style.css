@@ -106,7 +106,7 @@ section[tabindex="0"] iframe:nth-of-type(1) {
     top: -7px !important;
     left: -7px !important;
     right: 0 !important;
-    min-width: 101%;
+    min-width: 102%;
     z-index: 100;
     background: linear-gradient(to bottom, #1e2a38, #0a111f) !important;
 }
