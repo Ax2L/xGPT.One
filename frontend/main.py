@@ -1,7 +1,7 @@
 # main.py
 import json
 import streamlit as st
-from components import xhelper
+from components import xhelper, xheader
 from components.xdatastore import UserSettings
 from components.utils import streamlit_authenticator as stauth
 from streamlit_extras.switch_page_button import switch_page
@@ -52,22 +52,14 @@ def display_login_sidebar_info():
         st.markdown(new_user_info)
 
 
-st.set_page_config(
-    page_title="xGPT.One",
-    page_icon="/frontend/static/images/logo/favicon.ico",  # I'm assuming this was a typo
-    layout="wide",
-    initial_sidebar_state="auto",
-)
+PAGE_CONFIG = {
+    "page_title": "xGPT.One",
+    "page_icon": xheader.check_for_logo_image(),
+    "layout": "centered",
+    "initial_sidebar_state": "auto",
+}
+st.set_page_config(**PAGE_CONFIG)
 
-# Set Page settings and Icon
-st.markdown(
-    """
-    <head>
-        <link rel="icon" href="/frontend/static/images/logo/favicon.ico"  type="image/x-icon">
-    </head>
-    """,
-    unsafe_allow_html=True,
-)
 
 new_user_info = """
 ## Important Information for New Users

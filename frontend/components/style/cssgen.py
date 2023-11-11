@@ -1,4 +1,7 @@
 # components/style/cssgen.py
+# This Script will be used to generate style.css file before starting Streamlit, which will then be loaded into the app via Markdown html import.
+# Check main.py and main.sh for more details.
+
 
 # ^ Importing required modules
 import os
@@ -56,44 +59,6 @@ class StyleSheet:
             f.write(str(self))
 
 
-# ^ Define the CSS rules based on the provided styles
-css_rules = [
-    Rule(
-        "header",
-        "attribute",
-        {"display": "none", "width": "0", "height": "0"},
-        "data-testid",
-        "stHeader",
-    ),
-    Rule("container", "class", {"width": "100%", "margin": "0 auto", "padding": "0"}),
-    Rule(
-        "header",
-        "class",
-        {
-            "background-color": "#1e2a38",
-            "height": "60px",
-            "line-height": "60px",
-            "color": "white",
-            "text-align": "center",
-            "font-size": "24px",
-            "font-weight": "bold",
-        },
-    ),
-    Rule("content", "class", {"padding": "20px", "background-color": "#0a111f"}),
-    Rule(
-        "footer",
-        "class",
-        {
-            "background-color": "#1e2a38",
-            "height": "40px",
-            "line-height": "40px",
-            "color": "white",
-            "text-align": "center",
-            "font-size": "14px",
-        },
-    ),
-]
-
 # * CUSTOM CSS BLOCK -----------------------------------------------------------
 custom_css_block = """
 
@@ -106,12 +71,18 @@ div[data-testid="stSidebarNav"] {
     width: 0px;
 }
 
-/*#^Sidebar Root*/
+/*#^Sidebar Root
 section[data-testid="stSidebar"] {
     background: linear-gradient(to bottom, #1e2a38, #0a111f);
-    top: 86px;
+    top: 93px;
     min-width: 244px !important;
     max-width: 244px !important;
+    box-shadow: -6.22302px -6.22302px 0.0 #1E2A38, 6.22302px 6.22302px 0.0 #000000;
+}*/
+
+section[data-testid="stSidebar"] {
+    background: linear-gradient(to bottom, #1e2a38, #0a111f);
+    box-shadow: -6.22302px -6.22302px 0.0 #1E2A38, 6.22302px 6.22302px 0.0 #000000;
 }
 
 /*#^Sidebar DevHeader */
@@ -119,28 +90,51 @@ header[data-testid="stHeader"] {
     display: none;
     height: 0px;
     width: 0px;
+    border-radius: 90px;
 }
 
 /*#^Sidebar Open Button */
 button[data-testid="baseButton-headerNoPadding"] {
-    margin-top: 42px;
-    margin-left: 195px;
-    margin-bottom: auto;
-    align-items: center;
-    vertical-align: middle;
+    margin-top: 0px;
+    margin-left: 0px;
+    border-radius: 90px;
+    height: 15px;
+    background-color: #632D8F;
+    color: #DFDFDFDF;
+
+
 }
 
 /*#^Sidebar Close Button */
 button[data-testid="baseButton-header"] {
     z-index: 0 !important;
-    position: fixed !important;
-    margin-top: -45px  !important;
-    margin-left: -40px  !important;
+    margin-top: 0px;
+    margin-left: 0px;
+    border-radius: 90px;
+    height: 15px;
+    background-color: #632D8F;
+    color: #DFDFDFDF;
 }
+
+
+div[data-testid="stSidebarUserContent"] {
+    padding: 0rem 0rem 4rem;
+    
+
+}
+
 
 section[data-testid="stSidebar"] div:nth-of-type(2) {
 
 }
+
+/*#& Logo */
+img {
+    -webkit-filter: drop-shadow(5px 5px 5px #222);
+    filter: drop-shadow(5px 5px 5px #222);
+}
+
+
 
 /* 
 #& Unsorted
@@ -186,7 +180,7 @@ OLDsection[tabindex="0"] iframe:nth-of-type(1) {
 
 /* 
 #& >- Header --> 
-#todo|- Header frame -|*/
+#todo|- Header frame -|
 section[tabindex="0"] iframe:nth-of-type(1) {
     position: fixed;
     display: flex;
@@ -206,6 +200,69 @@ section[tabindex="0"] iframe:nth-of-type(1) {
     min-width: 102%;
     z-index: 100;
     background: linear-gradient(to bottom, #1e2a38, #0a111f) !important;
+}*/
+
+/*
+iframe[title="streamlit_elements.core.render.streamlit_elements"] {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    vertical-align: middle;
+    margin: 0;
+    padding: 10;
+    margin-top: 0;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0 !important;
+    top: -7px !important;
+    left: -7px !important;
+    right: 0 !important;
+    min-width: 102%;
+    z-index: 100;
+    background: linear-gradient(to bottom, #1e2a38, #0a111f) !important;
+    body {
+        margin: 0 !important;
+    }
+}*/
+
+/*
+section[data-testid="stSidebar"] [title="streamlit_elements.core.render.streamlit_elements"] {
+    display: flex;
+    justify-content: space-between;
+    align-items: left;
+    vertical-align: middle;
+    margin: 0;
+    padding: 10;
+    margin-top: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+    padding-top: 0 !important;
+    top: -7px !important;
+    left: -7px !important;
+    right: 0 !important;
+    min-width: 270px;
+    z-index: 100;
+    background: linear-gradient(to bottom, #1e2a38, #0a111f) !important;
+    body {
+        margin: 0 !important;
+    }
+}*/
+
+
+section[tabindex="0"] [data-testid="block-container"] {
+    
+    padding: 0;
+    padding-top: 0 ;
+    padding-left: 1rem ;
+    padding-right: 1rem ;
+    
 }
 
 section[tabindex="0"] iframe:nth-of-type(1) body:nth-of-type(1) {
@@ -370,44 +427,7 @@ section[data-testid='stSidebar'] {
     overflow: hidden;
     box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.30) inset, 0px 3px 5px 0px rgba(0, 0, 0, 0.40);
 }
-.tab:before, .MuiTab-root:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 123, 255, 0.4);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-.tab:hover:before, .MuiTab-root:hover:before {
-    opacity: 1;
-}
-.tab:hover, .MuiTab-root:hover {
-    background: #2a3241;
-    color: #fff;
-    transform: translateY(-3px);
-}
-.tab.active, .MuiTab-root.active {
-    background: #007BFF;
-    color: #fff;
-    transform: translateY(-3px);
-}
-.tab.active:before, .MuiTab-root.active:before {
-    opacity: 1;
-}
-.tab.active::before, .MuiTab-root.active::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 123, 255, 0.4);
-}
+
 """
 # * FUNCTIONS ------------------------------------------------------------------
 

@@ -138,3 +138,16 @@ def check_current_page(page_name):
     current_site = st.session_state["current_page"]
     if current_site != page_name and current_site is not None:
         switch_page(current_site)
+
+
+# ^ Function to change page, extending default functionality
+def change_page_extended(next_page):
+    """! Changes the current page to the given next_page value.
+    * Args:
+    *   next_page (str): The next page to navigate to.
+    """
+    check_logged_in(next_page)
+    try:
+        st.session_state["current_page"] = next_page.lower().replace("_page", "")
+    except Exception as e:
+        st.error(f"! Error changing page: {str(e)}")

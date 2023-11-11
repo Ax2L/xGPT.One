@@ -1,5 +1,5 @@
 import streamlit as st
-from components import header
+from . import xheader
 
 
 # Constants
@@ -15,7 +15,7 @@ def load_custom_css():
         print(f"css already active on {PAGE_NAME}")
 
 
-header.create_menu(PAGE_NAME)
+xheader.create_menu(PAGE_NAME)
 
 st.title("Style Test UI")
 
