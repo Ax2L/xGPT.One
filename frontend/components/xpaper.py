@@ -4,59 +4,101 @@ from components.xdatastore import DashboardLayouts, DashboardItems
 import json
 from datetime import datetime
 
+
 # !################################################################
-
-
+# Helper function to format column names
 def format_column_name(name):
     return " ".join(word.capitalize() for word in name.split("_"))
 
 
+# Display dashboard items with updated table structure
 def display_dashboard_items():
     try:
         dashboard_items = DashboardItems()
         dashboard_items.load()
-        column_names = dashboard_items.get_column_names()
 
         if dashboard_items.data:
             with mui.Paper():
                 with mui.TableContainer():
-                    with mui.Table():
+                    with mui.Table(stickyHeader=True):
                         with mui.TableHead():
                             with mui.TableRow():
-                                [
-                                    mui.TableCell(format_column_name(column_name))
-                                    for column_name in column_names
-                                ]
+                                mui.TableCell(
+                                    "Name",
+                                    style={"width": "20%", "whiteSpace": "nowrap"},
+                                )
+                                mui.TableCell(
+                                    "Description", style={"whiteSpace": "nowrap"}
+                                )
+                                mui.TableCell("Tags", style={"whiteSpace": "nowrap"})
+                                mui.TableCell(
+                                    "Actions",
+                                    style={"width": "20%", "whiteSpace": "nowrap"},
+                                )
                         with mui.TableBody():
                             for row in dashboard_items.data:
                                 with mui.TableRow():
-                                    [mui.TableCell(str(cell)) for cell in row]
+                                    mui.TableCell(
+                                        row["name"], style={"whiteSpace": "nowrap"}
+                                    )
+                                    mui.TableCell(
+                                        row["description"],
+                                        style={"whiteSpace": "nowrap"},
+                                    )
+                                    mui.TableCell(
+                                        ", ".join(row["tags"]),
+                                        style={"whiteSpace": "nowrap"},
+                                    )
+                                    with mui.TableCell():
+                                        mui.Button("Edit")
+                                        mui.Button("Delete")
         else:
             st.write("No dashboard items found.")
     except Exception as e:
         st.error(f"Error displaying dashboard items: {e}")
 
 
+# Display dashboard layouts with updated table structure
 def display_dashboard_layouts():
     try:
         dashboard_layouts = DashboardLayouts()
         dashboard_layouts.load()
-        column_names = dashboard_layouts.get_column_names()
 
         if dashboard_layouts.data:
             with mui.Paper():
                 with mui.TableContainer():
-                    with mui.Table():
+                    with mui.Table(stickyHeader=True):
                         with mui.TableHead():
                             with mui.TableRow():
-                                [
-                                    mui.TableCell(format_column_name(column_name))
-                                    for column_name in column_names
-                                ]
+                                mui.TableCell(
+                                    "Name",
+                                    style={"width": "20%", "whiteSpace": "nowrap"},
+                                )
+                                mui.TableCell(
+                                    "Description", style={"whiteSpace": "nowrap"}
+                                )
+                                mui.TableCell("Tags", style={"whiteSpace": "nowrap"})
+                                mui.TableCell(
+                                    "Actions",
+                                    style={"width": "20%", "whiteSpace": "nowrap"},
+                                )
                         with mui.TableBody():
                             for row in dashboard_layouts.data:
                                 with mui.TableRow():
-                                    [mui.TableCell(str(cell)) for cell in row]
+                                    mui.TableCell(
+                                        row["name"], style={"whiteSpace": "nowrap"}
+                                    )
+                                    mui.TableCell(
+                                        row["description"],
+                                        style={"whiteSpace": "nowrap"},
+                                    )
+                                    mui.TableCell(
+                                        ", ".join(row["tags"]),
+                                        style={"whiteSpace": "nowrap"},
+                                    )
+                                    with mui.TableCell():
+                                        mui.Button("Edit")
+                                        mui.Button("Delete")
         else:
             st.write("No dashboard layouts found.")
     except Exception as e:
