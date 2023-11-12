@@ -173,10 +173,10 @@ def default_layout():
     ]
 
 
-def test_data_loading(test_page_id):
+def test_data_loading(test_id):
     try:
         # Initialize the DashboardLayouts instance
-        test_layouts = DashboardLayouts(page_id=test_page_id)
+        test_layouts = DashboardLayouts(id=test_id)
 
         # Attempt to load data
         test_layouts.load()
@@ -185,7 +185,7 @@ def test_data_loading(test_page_id):
         if test_layouts.data:
             st.write("Data loaded successfully:", test_layouts.data)
         else:
-            st.write("No data found for page_id:", test_page_id)
+            st.write("No data found for id:", test_id)
 
     except Exception as e:
         st.error("Error occurred while loading data:")
@@ -195,7 +195,7 @@ def test_data_loading(test_page_id):
 def save_layout(layout):
     try:
         page_name = st.session_state["current_page"]
-        layouts = DashboardLayouts(page_id=page_name)
+        layouts = DashboardLayouts(id=page_name)
         layouts.load()
 
         layout_json = json.dumps(layout)
@@ -207,7 +207,7 @@ def save_layout(layout):
             layouts.update("updated_at", current_time)
         else:
             layouts.insert(
-                page_id=page_name,
+                id=page_name,
                 layout=layout_json,
                 username="admin",
                 page_name=page_name,
@@ -223,16 +223,16 @@ def save_layout(layout):
 
 def load_layout():
     try:
-        page_id = st.session_state["current_page"]
+        id = st.session_state["current_page"]
 
         # Check if the layout is already in the session state
         if (
             "dashboard_layout" in st.session_state
-            and st.session_state["dashboard_layout_page_id"] == page_id
+            and st.session_state["dashboard_layout_id"] == id
         ):
             return st.session_state["dashboard_layout"]
 
-        layouts = DashboardLayouts(page_id=page_id)
+        layouts = DashboardLayouts(id=id)
         layouts.load()
 
         if layouts.data:
@@ -240,7 +240,7 @@ def load_layout():
             if layout_json:
                 layout = json.loads(layout_json)
                 st.session_state["dashboard_layout"] = layout
-                st.session_state["dashboard_layout_page_id"] = page_id
+                st.session_state["dashboard_layout_id"] = id
                 st.toast("Layout loaded successfully.")
                 return layout
 

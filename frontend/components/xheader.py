@@ -338,7 +338,7 @@ def create_subheader_content(item):
     for subitem in subheader_config:
         icon_n = subitem["icon"]
         view_id = item["view_id"]
-        page_id = subitem["id"]
+        id = subitem["id"]
         mui.Button(
             subitem["name"],
             getattr(mui.icon, icon_n),
@@ -352,19 +352,19 @@ def create_subheader_content(item):
                 "ml": "5px",
                 "boxShadow": check_active_color(
                     "submenu_active_button",
-                    page_id,
+                    id,
                     sb.button["BoxShadowDown"],
                     sb.button["BoxShadow"],
                 ),
                 "color": check_active_color(
                     "submenu_active_button",
-                    page_id,
+                    id,
                     sb.menu_list[view_id]["ActiveTextColor"],
                     sb.menu_list[view_id]["TextColor"],
                 ),
                 "bgcolor": check_active_color(
                     "submenu_active_button",
-                    page_id,
+                    id,
                     sb.menu_list[view_id]["BackgroundColor"],
                     sb.menu_list[view_id]["BackgroundColor"],
                 ),
