@@ -417,17 +417,6 @@ def header_navbar(menu_config):
     """
     with mui.Box(  # * Header frame
         classes="xgpt",
-        # flexGrow=1,
-        # fullWidth=True,
-        # alignItems="center",
-        # verticalAlign="center",
-        # justifyContent="space-between",
-        # top=0,
-        # pt="-5px",
-        # ml="-10px",
-        # mr="-50px",
-        # pl="-50px",
-        # minWidth="100%",
     ):
         with mui.AppBar(
             classes="xgpt",
