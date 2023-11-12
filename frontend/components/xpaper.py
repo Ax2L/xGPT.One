@@ -3,12 +3,66 @@ from streamlit_elements import elements, mui, dashboard, html
 from components.xdatastore import DashboardLayouts, DashboardItems
 import json
 from datetime import datetime
+import psycopg2
 
 # ?##########################################################################
 
-import streamlit as st
-import psycopg2
-from streamlit_elements import mui
+
+# Default values for new items and layouts
+DEFAULT_ITEM_VALUES = {
+    "layout": "sample_layout",
+    "username": "admin",
+    "page_name": "Default Page",
+    "description": "Sample item description",
+    "notes": "Sample notes",
+    "issues": "None",
+    "name": "Sample Item",
+    "version": "1.0",
+    "tags": "default, item",
+    "using_in_dashboard": "unused so far",
+    "settings_default": json.dumps({"setting1": "value1"}),
+    "settings_user": json.dumps({}),
+    "documentation": "Sample documentation",
+    "repository": "https://github.com/Ax2L/xGPT.One",
+    "files": "file1.py, file2.py",
+    "urls": "http://example.com",
+    "ssl": False,
+    "entrypoint": "http://url.with:3000",
+    "item_list": json.dumps(["item1", "item2"]),
+}
+
+
+DEFAULT_LAYOUT_VALUES = {
+    "page_id": "default_page_1.0",
+    "layout": json.dumps(
+        {
+            "widgets": [
+                {
+                    "id": 1,
+                    "type": "chart",
+                    "position": {"x": 0, "y": 0, "w": 4, "h": 3},
+                }
+            ]
+        }
+    ),
+    "username": "admin",
+    "page_name": "Default Page",
+    "description": "Default layout description",
+    "notes": "Sample notes",
+    "issues": "None",
+    "name": "Default Layout",
+    "version": "1.0",
+    "tags": "default, layout",
+    "settings_default": json.dumps({"setting1": "value1"}),
+    "settings_user": json.dumps({}),
+    "documentation": "Default layout documentation",
+    "repository": "https://github.com/Ax2L/xGPT.One",
+    "files": "layout1.py, layout2.py",
+    "urls": "http://example.com",
+    "ssl": False,
+    "entrypoint": "http://url.with:3000",
+    "using_item_name_list": json.dumps(["item1", "item2"]),
+}
 
 
 def get_dashboard_items():
@@ -31,6 +85,80 @@ def get_dashboard_layouts():
     layouts = cursor.fetchall()
     conn.close()
     return layouts
+
+
+def insert_new_item():
+    conn = psycopg2.connect(
+        dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+    )
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        INSERT INTO dashboard_items 
+        (layout, username, page_name, description, notes, issues, name, version, tags, using_in_dashboard, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint, item_list) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """,
+        (
+            DEFAULT_ITEM_VALUES["layout"],
+            DEFAULT_ITEM_VALUES["username"],
+            DEFAULT_ITEM_VALUES["page_name"],
+            DEFAULT_ITEM_VALUES["description"],
+            DEFAULT_ITEM_VALUES["notes"],
+            DEFAULT_ITEM_VALUES["issues"],
+            DEFAULT_ITEM_VALUES["name"],
+            DEFAULT_ITEM_VALUES["version"],
+            DEFAULT_ITEM_VALUES["tags"],
+            DEFAULT_ITEM_VALUES["using_in_dashboard"],
+            DEFAULT_ITEM_VALUES["settings_default"],
+            DEFAULT_ITEM_VALUES["settings_user"],
+            DEFAULT_ITEM_VALUES["documentation"],
+            DEFAULT_ITEM_VALUES["repository"],
+            DEFAULT_ITEM_VALUES["files"],
+            DEFAULT_ITEM_VALUES["urls"],
+            DEFAULT_ITEM_VALUES["ssl"],
+            DEFAULT_ITEM_VALUES["entrypoint"],
+            DEFAULT_ITEM_VALUES["item_list"],
+        ),
+    )
+    conn.commit()
+    conn.close()
+
+
+def insert_new_layout():
+    conn = psycopg2.connect(
+        dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+    )
+    cursor = conn.cursor()
+    cursor.execute(
+        """
+        INSERT INTO dashboard_layouts 
+        (page_id, layout, username, page_name, description, notes, issues, name, version, tags, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint, using_item_name_list) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """,
+        (
+            DEFAULT_LAYOUT_VALUES["page_id"],
+            DEFAULT_LAYOUT_VALUES["layout"],
+            DEFAULT_LAYOUT_VALUES["username"],
+            DEFAULT_LAYOUT_VALUES["page_name"],
+            DEFAULT_LAYOUT_VALUES["description"],
+            DEFAULT_LAYOUT_VALUES["notes"],
+            DEFAULT_LAYOUT_VALUES["issues"],
+            DEFAULT_LAYOUT_VALUES["name"],
+            DEFAULT_LAYOUT_VALUES["version"],
+            DEFAULT_LAYOUT_VALUES["tags"],
+            DEFAULT_LAYOUT_VALUES["settings_default"],
+            DEFAULT_LAYOUT_VALUES["settings_user"],
+            DEFAULT_LAYOUT_VALUES["documentation"],
+            DEFAULT_LAYOUT_VALUES["repository"],
+            DEFAULT_LAYOUT_VALUES["files"],
+            DEFAULT_LAYOUT_VALUES["urls"],
+            DEFAULT_LAYOUT_VALUES["ssl"],
+            DEFAULT_LAYOUT_VALUES["entrypoint"],
+            DEFAULT_LAYOUT_VALUES["using_item_name_list"],
+        ),
+    )
+    conn.commit()
+    conn.close()
 
 
 def xpaper():
@@ -59,8 +187,8 @@ def xpaper():
                                 mui.Button("Delete")
 
         with mui.Box(sx={"marginTop": 2}):
-            mui.Button("Add Item", variant="contained", color="primary")
-
+            if mui.Button("Add Item", variant="contained", color="primary"):
+                insert_new_item()
         mui.Typography("Dashboard Layouts", variant="h6", sx={"marginTop": 4})
         with mui.TableContainer():
             with mui.Table(stickyHeader=True):
@@ -82,113 +210,11 @@ def xpaper():
                                 mui.Button("Delete")
 
         with mui.Box(sx={"marginTop": 2}):
-            mui.Button("Add Layout", variant="contained", color="primary")
+            if mui.Button("Add Layout", variant="contained", color="primary"):
+                insert_new_layout()
 
 
 # ?##########################################################################
-
-
-# !################################################################
-# Helper function to format column names
-def format_column_name(name):
-    return " ".join(word.capitalize() for word in name.split("_"))
-
-
-# Display dashboard items with updated table structure
-def display_dashboard_items():
-    try:
-        dashboard_items = DashboardItems()
-        dashboard_items.load()
-
-        if dashboard_items.data:
-            with mui.Paper():
-                with mui.TableContainer():
-                    with mui.Table(stickyHeader=True):
-                        with mui.TableHead():
-                            with mui.TableRow():
-                                mui.TableCell(
-                                    "Name",
-                                    style={"width": "20%", "whiteSpace": "nowrap"},
-                                )
-                                mui.TableCell(
-                                    "Description", style={"whiteSpace": "nowrap"}
-                                )
-                                mui.TableCell("Tags", style={"whiteSpace": "nowrap"})
-                                mui.TableCell(
-                                    "Actions",
-                                    style={"width": "20%", "whiteSpace": "nowrap"},
-                                )
-                        with mui.TableBody():
-                            for row in dashboard_items.data:
-                                with mui.TableRow():
-                                    mui.TableCell(
-                                        row["name"], style={"whiteSpace": "nowrap"}
-                                    )
-                                    mui.TableCell(
-                                        row["description"],
-                                        style={"whiteSpace": "nowrap"},
-                                    )
-                                    mui.TableCell(
-                                        ", ".join(row["tags"]),
-                                        style={"whiteSpace": "nowrap"},
-                                    )
-                                    with mui.TableCell():
-                                        mui.Button("Edit")
-                                        mui.Button("Delete")
-        else:
-            st.write("No dashboard items found.")
-    except Exception as e:
-        st.error(f"Error displaying dashboard items: {e}")
-
-
-# Display dashboard layouts with updated table structure
-def display_dashboard_layouts():
-    try:
-        dashboard_layouts = DashboardLayouts()
-        dashboard_layouts.load()
-
-        if dashboard_layouts.data:
-            with mui.Paper():
-                with mui.TableContainer():
-                    with mui.Table(stickyHeader=True):
-                        with mui.TableHead():
-                            with mui.TableRow():
-                                mui.TableCell(
-                                    "Name",
-                                    style={"width": "20%", "whiteSpace": "nowrap"},
-                                )
-                                mui.TableCell(
-                                    "Description", style={"whiteSpace": "nowrap"}
-                                )
-                                mui.TableCell("Tags", style={"whiteSpace": "nowrap"})
-                                mui.TableCell(
-                                    "Actions",
-                                    style={"width": "20%", "whiteSpace": "nowrap"},
-                                )
-                        with mui.TableBody():
-                            for row in dashboard_layouts.data:
-                                with mui.TableRow():
-                                    mui.TableCell(
-                                        row["name"], style={"whiteSpace": "nowrap"}
-                                    )
-                                    mui.TableCell(
-                                        row["description"],
-                                        style={"whiteSpace": "nowrap"},
-                                    )
-                                    mui.TableCell(
-                                        ", ".join(row["tags"]),
-                                        style={"whiteSpace": "nowrap"},
-                                    )
-                                    with mui.TableCell():
-                                        mui.Button("Edit")
-                                        mui.Button("Delete")
-        else:
-            st.write("No dashboard layouts found.")
-    except Exception as e:
-        st.error(f"Error displaying dashboard layouts: {e}")
-
-
-# !#################################################################
 
 
 def create_iframe(url):
