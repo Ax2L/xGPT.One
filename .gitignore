@@ -26,6 +26,7 @@ eggs/
 *.egg-info/
 *.egg
 .prerelease-version
+.test*
 
 # Unit test / coverage reports
 .coverage
