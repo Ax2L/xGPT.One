@@ -22,23 +22,10 @@ def get_dashboard_items():
     return items
 
 
-def get_dashboard_layouts():
-    conn = psycopg2.connect(
-        dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
-    )
-    cursor = conn.cursor()
-    cursor.execute("SELECT name, description, tags, page_id FROM dashboard_layouts")
-    layouts = cursor.fetchall()
-    conn.close()
-    return layouts
-
-
 def xpaper():
     items = get_dashboard_items()
-    layouts = get_dashboard_layouts()
 
     with mui.Paper():
-        mui.Typography("Dashboard Items", variant="h6")
         with mui.TableContainer():
             with mui.Table(stickyHeader=True):
                 with mui.TableHead():
@@ -61,28 +48,9 @@ def xpaper():
         with mui.Box(sx={"marginTop": 2}):
             mui.Button("Add Item", variant="contained", color="primary")
 
-        mui.Typography("Dashboard Layouts", variant="h6", sx={"marginTop": 4})
-        with mui.TableContainer():
-            with mui.Table(stickyHeader=True):
-                with mui.TableHead():
-                    with mui.TableRow():
-                        mui.TableCell("Name", style={"fontWeight": "bold"})
-                        mui.TableCell("Description", style={"fontWeight": "bold"})
-                        mui.TableCell("Tags", style={"fontWeight": "bold"})
-                        mui.TableCell("Actions", style={"fontWeight": "bold"})
 
-                with mui.TableBody():
-                    for layout in layouts:
-                        with mui.TableRow():
-                            mui.TableCell(layout[0], noWrap=True)
-                            mui.TableCell(layout[1], noWrap=True)
-                            mui.TableCell(layout[2], noWrap=True)
-                            with mui.TableCell():
-                                mui.Button("Edit")
-                                mui.Button("Delete")
-
-        with mui.Box(sx={"marginTop": 2}):
-            mui.Button("Add Layout", variant="contained", color="primary")
+# Example usage
+# st.set_page_config(page_title="xGPT.One Dashboard", layout="wide")
 
 
 # ?##########################################################################
@@ -291,6 +259,8 @@ def gen_dashboard(page, item_data):
     - item_data (dict): A dictionary mapping item keys to their content.
     """
     xpaper()
+    display_dashboard_items()
+    display_dashboard_layouts()
     if "current_page" not in st.session_state:
         st.session_state["current_page"] = page
     st.session_state["current_page"] = page
