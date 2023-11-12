@@ -93,7 +93,7 @@ header[data-testid="stHeader"] {
     border-radius: 90px;
 }
 
-/*#^Sidebar Open Button */
+/*#^Sidebar Open Button 
 button[data-testid="baseButton-headerNoPadding"] {
     margin-top: 0px;
     margin-left: 0px;
@@ -103,19 +103,69 @@ button[data-testid="baseButton-headerNoPadding"] {
     color: #DFDFDFDF;
 
 
+}*/
+
+/*#!Sidebar Open Button #!TEST */
+button[data-testid="baseButton-headerNoPadding"] {
+    border-end-end-radius: Opx;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #DFDFDFDF;
+    font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto
+    Sans", sans-serif, "Apple Color Emoji", "Segoe UI
+    Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 14px;
+    inset-inline-end: -8px;
+    line-height: 22px;
+    list-style: none;
+    margin: 0px;
+    padding: 0px 10px;
+    position: absolute;
+    white-space: nowrap;
+    :where(.css-lytssn) [class^="ant-ribbon"] [class^="ant-ribbon"]:: before
+        box-sizing: border-box;
+    :where (.css-lytssn) [class^="ant-ribbon"]::before
+        box-sizing: border-box;
+    left: 5px;
+    background: linear-gradient(to left, #632D8F, #1E2A38);
+
 }
+
 
 /*#^Sidebar Close Button */
 button[data-testid="baseButton-header"] {
-    z-index: 0 !important;
-    margin-top: 0px;
-    margin-left: 0px;
-    border-radius: 90px;
-    height: 15px;
-    background-color: #632D8F;
+    border-end-end-radius: Opx;
+    border-radius: 4px;
+    box-sizing: border-box;
     color: #DFDFDFDF;
+    font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto
+    Sans", sans-serif, "Apple Color Emoji", "Segoe UI
+    Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 14px;
+    inset-inline-end: -8px;
+    line-height: 22px;
+    list-style: none;
+    margin: 0px;
+    padding: 0px 8px;
+    position: absolute;
+    white-space:nowrap;
+    :where(.css-lytssn) [class^="ant-ribbon"]
+    [class^="ant-ribbon"]:: before
+    box-sizing: border-box;
+    :where (.css-lytssn) [class^="ant-ribbon"]::before
+    box-sizing: border-box;
+    top: 42px;
 }
 
+
+section[data-testid="stSidebar"] [title="streamlit_elements.core.render.streamlit_elements"] {
+    background: transparent;
+
+    min-height: 50px;
+
+}
 
 div[data-testid="stSidebarUserContent"] {
     padding: 0rem 0rem 4rem;

@@ -124,7 +124,6 @@ text = {
 header_special = """
     box-shadow: -6.22302px -6.22302px 0.0 #1E2A38, 6.22302px 6.22302px 0.0 #000000;
     background: linear-gradient(to bottom, #1e2a38, #1E2A38);
-    margin: 0;
 """
 
 

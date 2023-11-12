@@ -1,8 +1,69 @@
 import streamlit as st
 from streamlit_elements import elements, mui, dashboard, html
-from components.xdatastore import DashboardLayouts
+from components.xdatastore import DashboardLayouts, DashboardItems
 import json
 from datetime import datetime
+
+# !################################################################
+
+
+def format_column_name(name):
+    return " ".join(word.capitalize() for word in name.split("_"))
+
+
+def display_dashboard_items():
+    try:
+        dashboard_items = DashboardItems()
+        dashboard_items.load()
+        column_names = dashboard_items.get_column_names()
+
+        if dashboard_items.data:
+            with mui.Paper():
+                with mui.TableContainer():
+                    with mui.Table():
+                        with mui.TableHead():
+                            with mui.TableRow():
+                                [
+                                    mui.TableCell(format_column_name(column_name))
+                                    for column_name in column_names
+                                ]
+                        with mui.TableBody():
+                            for row in dashboard_items.data:
+                                with mui.TableRow():
+                                    [mui.TableCell(str(cell)) for cell in row]
+        else:
+            st.write("No dashboard items found.")
+    except Exception as e:
+        st.error(f"Error displaying dashboard items: {e}")
+
+
+def display_dashboard_layouts():
+    try:
+        dashboard_layouts = DashboardLayouts()
+        dashboard_layouts.load()
+        column_names = dashboard_layouts.get_column_names()
+
+        if dashboard_layouts.data:
+            with mui.Paper():
+                with mui.TableContainer():
+                    with mui.Table():
+                        with mui.TableHead():
+                            with mui.TableRow():
+                                [
+                                    mui.TableCell(format_column_name(column_name))
+                                    for column_name in column_names
+                                ]
+                        with mui.TableBody():
+                            for row in dashboard_layouts.data:
+                                with mui.TableRow():
+                                    [mui.TableCell(str(cell)) for cell in row]
+        else:
+            st.write("No dashboard layouts found.")
+    except Exception as e:
+        st.error(f"Error displaying dashboard layouts: {e}")
+
+
+# !#################################################################
 
 
 def create_iframe(url):
@@ -70,16 +131,28 @@ def save_layout(layout):
 def load_layout():
     try:
         page_id = st.session_state["current_page"]
+
+        # Check if the layout is already in the session state
+        if (
+            "dashboard_layout" in st.session_state
+            and st.session_state["dashboard_layout_page_id"] == page_id
+        ):
+            return st.session_state["dashboard_layout"]
+
         layouts = DashboardLayouts(page_id=page_id)
         layouts.load()
+
         if layouts.data:
             layout_json = layouts.data.get("layout")
             if layout_json:
-                # Convert the JSON string to a Python list of dictionaries
                 layout = json.loads(layout_json)
+                st.session_state["dashboard_layout"] = layout
+                st.session_state["dashboard_layout_page_id"] = page_id
                 st.toast("Layout loaded successfully.")
                 return layout
+
         st.toast("No saved layout found. Using default layout.")
+        return default_layout()
     except Exception as e:
         st.error(f"Error loading layout: {e}")
 
@@ -92,6 +165,8 @@ def gen_dashboard(page, item_data):
     - page (str): The current page name.
     - item_data (dict): A dictionary mapping item keys to their content.
     """
+    display_dashboard_items()
+    display_dashboard_layouts()
     if "current_page" not in st.session_state:
         st.session_state["current_page"] = page
     st.session_state["current_page"] = page
@@ -111,18 +186,20 @@ def gen_dashboard(page, item_data):
 
     # with elements("dashboard"):
     with dashboard.Grid(
-        layout, isResizable=True, isDraggable=True, onLayoutChange=save_layout
+        layout,
+        isResizable=True,
+        isDraggable=True,
+        onResizeStop=save_layout,
+        onDragStop=save_layout,
     ):
         for item_key in item_data:
             with mui.Paper(key=item_key):
                 if item_data[item_key].startswith("http"):
-                    # If the item data is a URL, create an iframe
                     html.Iframe(
                         src=item_data[item_key],
                         style={"height": "100%", "width": "100%"},
                     )
                 else:
-                    # Otherwise, display the text content
                     mui.Typography(item_data[item_key])
 
 

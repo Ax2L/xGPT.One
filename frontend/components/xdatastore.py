@@ -59,11 +59,31 @@ class DatabaseModel:
 
     def load(self):
         if self.TABLE_NAME:
-            where_clause = " AND ".join([f"{k} = %s" for k in self.identifiers.keys()])
-            query = f"SELECT * FROM {self.TABLE_NAME} WHERE {where_clause}"
-            cursor = self.conn.cursor()
-            self.data = fetch_as_dict(cursor, query, tuple(self.identifiers.values()))
+            query = f"SELECT * FROM {self.TABLE_NAME}"
+            if self.identifiers:
+                where_clause = " AND ".join(
+                    [f"{k} = %s" for k in self.identifiers.keys()]
+                )
+                query += f" WHERE {where_clause}"
+                cursor = self.conn.cursor()
+                self.data = fetch_as_dict(
+                    cursor, query, tuple(self.identifiers.values())
+                )
+            else:
+                cursor = self.conn.cursor()
+                cursor.execute(query)
+                self.data = (
+                    cursor.fetchall()
+                )  # or fetchone(), depending on your requirement
             cursor.close()
+
+    # def load(self): # OLD
+    #    if self.TABLE_NAME:
+    #        where_clause = " AND ".join([f"{k} = %s" for k in self.identifiers.keys()])
+    #        query = f"SELECT * FROM {self.TABLE_NAME} WHERE {where_clause}"
+    #        cursor = self.conn.cursor()
+    #        self.data = fetch_as_dict(cursor, query, tuple(self.identifiers.values()))
+    #        cursor.close()
 
     def update(self, column, value):
         cursor = self.conn.cursor()
@@ -118,55 +138,28 @@ class DashboardLayouts(DatabaseModel):
         self.conn.commit()
         cursor.close()
 
+    def get_column_names(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM dashboard_layouts LIMIT 0")
+        return [desc[0] for desc in cursor.description]
 
-# def create_table(self, cursor):
-#    # Check if the table exists and create it if not
-#    cursor.execute(
-#        """
-#        SELECT EXISTS (
-#            SELECT FROM
-#                pg_tables
-#            WHERE
-#                schemaname = 'public' AND
-#                tablename  = 'dashboard_layouts'
-#        );
-#        """
-#    )
-#    if not cursor.fetchone()[0]:
-#        cursor.execute(
-#            """
-#        CREATE TABLE dashboard_layouts (
-#            page_id VARCHAR PRIMARY KEY,
-#            layout TEXT,
-#            username VARCHAR,
-#            page_name VARCHAR,
-#            description TEXT,
-#        "creation_date": "TIMESTAMP",
-#        "updated_at": "TIMESTAMP",
-#        );
-#        """
-#        )
-#    # Add new columns if they don't exist
-#    new_columns = {
-#        "username": "VARCHAR",
-#        "page_name": "VARCHAR",
-#        "description": "TEXT",
-#        "creation_date": "TIMESTAMP",
-#        "updated_at": "TIMESTAMP",
-#    }
-#    for column, data_type in new_columns.items():
-#        cursor.execute(
-#            f"""
-#            SELECT column_name
-#            FROM information_schema.columns
-#            WHERE table_name='dashboard_layouts' AND column_name='{column}';
-#            """
-#        )
-#        if not cursor.fetchone():
-#            cursor.execute(
-#                f"ALTER TABLE dashboard_layouts ADD COLUMN {column} #{data_type};"
-#            )
-#    self.conn.commit()
+
+class DashboardItems(DatabaseModel):
+    TABLE_NAME = "dashboard_items"
+
+    def insert(self, **data):
+        cursor = self.conn.cursor()
+        columns = ", ".join(data.keys())
+        placeholders = ", ".join(["%s"] * len(data))
+        query = f"INSERT INTO {self.TABLE_NAME} ({columns}) VALUES ({placeholders})"
+        cursor.execute(query, tuple(data.values()))
+        self.conn.commit()
+        cursor.close()
+
+    def get_column_names(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM dashboard_items LIMIT 0")
+        return [desc[0] for desc in cursor.description]
 
 
 class UserSettings(DatabaseModel):

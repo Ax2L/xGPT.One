@@ -461,8 +461,20 @@ def init(page):
     check_logged_in(page)
     with st.sidebar:
         with elements("SideNaviBar"):
-            with mui.Grid():
-                create_icon_buttons(menu_config)
+            with mui.AppBar(
+                alignItems="center",
+                visibleScrollbar=False,
+                fullWidth=True,
+                ml=0,
+                sx=sb.header_special,
+            ):
+                with mui.Grid(
+                    container=True,
+                    mt="5px",
+                    ml="5px",
+                    mb="50px",
+                ):
+                    create_icon_buttons(menu_config)
     # State to manage the drawer's open status
     if "drawer_open" not in st.session_state:
         st.session_state.drawer_open = False
@@ -552,7 +564,7 @@ def init(page):
                         alignItems="center",
                         verticalAlign="center",
                     )
-                
+
         # Main content area
         # Apply blur effect if the drawer is open
         main_content_style = {}
