@@ -6,8 +6,6 @@ from datetime import datetime
 import psycopg2
 
 # ?##########################################################################
-
-
 # Default values for new items and layouts
 DEFAULT_ITEM_VALUES = {
     "layout": "sample_layout",
@@ -65,6 +63,48 @@ DEFAULT_LAYOUT_VALUES = {
 }
 
 
+def fetch_dashboard_item_by_id(item_id):
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM dashboard_items WHERE id = %s", (item_id,))
+        item = cursor.fetchone()
+        conn.close()
+        return item
+    except Exception as e:
+        st.toast(f":red[Error fetching item by ID: {e}]")
+
+
+def fetch_dashboard_layout_by_id(layout_id):
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM dashboard_layouts WHERE id = %s", (layout_id,))
+        layout = cursor.fetchone()
+        conn.close()
+        return layout
+    except Exception as e:
+        st.toast(f":red[Error fetching layout by ID: {e}]")
+
+
+def edit_dashboard_item(item_id):
+    item = fetch_dashboard_item_by_id(item_id)
+    if item:
+        st.session_state["edit_item"] = None
+        st.session_state["edit_item"] = item
+
+
+def edit_dashboard_layout(layout_id):
+    layout = fetch_dashboard_layout_by_id(layout_id)
+    if layout:
+        st.session_state["edit_layout"] = None
+        st.session_state["edit_layout"] = layout
+
+
 def get_dashboard_items():
     try:
         conn = psycopg2.connect(
@@ -77,7 +117,7 @@ def get_dashboard_items():
         return items
     except Exception as e:
         st.toast(
-            f"Error fetching dashboard items: {e}",
+            f":red[Error fetching dashboard items: {e}]",
         )
 
 
@@ -93,7 +133,7 @@ def get_dashboard_layouts():
         return layouts
     except Exception as e:
         st.toast(
-            f"Error fetching dashboard layouts: {e}",
+            f":red[Error fetching dashboard layouts: {e}]",
         )
 
 
@@ -187,7 +227,7 @@ def check_and_load_or_create_item():
             st.session_state["edit_item"] = item
 
             st.toast(
-                f"Item 'New Item' already exists. Loaded in the editor for editing.",
+                f":yellow[Item 'New Item' already exists. Loaded in the editor for editing.]",
             )
         else:
             # Item does not exist, create a new one
@@ -195,12 +235,12 @@ def check_and_load_or_create_item():
             cursor.execute("SELECT * FROM dashboard_items WHERE name = 'New Item'")
             new_item = cursor.fetchone()
             st.session_state["edit_item"] = new_item
-            st.toast("New item 'New Item' created and loaded in the editor.")
+            st.toast(":green[New item 'New Item' created and loaded in the editor.]")
 
         conn.close()
     except Exception as e:
         st.toast(
-            f"Error in check_and_load_or_create_item: {e}",
+            f":red[Error in check_and_load_or_create_item: {e}]",
         )
 
 
@@ -219,7 +259,7 @@ def check_and_load_or_create_layouts():
             # Layout exists, load its data
             st.session_state["edit_layout"] = layout
             st.toast(
-                f"Item 'New Layout' already exists. Loaded in the editor for editing.",
+                f":green[Item 'New Layout' already exists. Loaded in the editor for editing.]",
             )
         else:
             # Layout does not exist, create a new one
@@ -227,12 +267,14 @@ def check_and_load_or_create_layouts():
             cursor.execute("SELECT * FROM dashboard_layouts WHERE name = 'New Layout'")
             new_layout = cursor.fetchone()
             st.session_state["edit_layout"] = new_layout
-            st.toast("New layout 'New Layout' created and loaded in the editor.")
+            st.toast(
+                ":green[New layout 'New Layout' created and loaded in the editor.]"
+            )
 
         conn.close()
     except Exception as e:
         st.toast(
-            f"Error in check_and_load_or_create_layouts: {e}",
+            f":red[Error in check_and_load_or_create_layouts: {e}]",
         )
 
 
@@ -246,11 +288,11 @@ def delete_dashboard_item(item_id):
         conn.commit()
         conn.close()
         st.toast(
-            f"Item with ID {item_id} deleted successfully.",
+            f":green[Item with ID {item_id} deleted successfully.]",
         )
     except Exception as e:
         st.toast(
-            f"Error deleting item: {e}",
+            f":red[Error deleting item: {e}]",
         )
 
 
@@ -264,11 +306,11 @@ def delete_dashboard_layout(layout_id):
         conn.commit()
         conn.close()
         st.toast(
-            f"Layout with ID {layout_id} deleted successfully.",
+            f":green[Layout with ID {layout_id} deleted successfully.]",
         )
     except Exception as e:
         st.toast(
-            f"Error deleting layout: {e}",
+            f":red[Error deleting layout: {e}]",
         )
 
 
@@ -297,7 +339,9 @@ def xpaper():
                             mui.TableCell(item[1], noWrap=True)
                             mui.TableCell(item[2], noWrap=True)
                             with mui.TableCell():
-                                mui.Button("Edit")
+                                mui.Button(
+                                    "Edit", onClick=lambda: edit_dashboard_item(item_id)
+                                )
                                 mui.Button(
                                     "Delete",
                                     onClick=lambda: delete_dashboard_item(item_id),
@@ -331,7 +375,10 @@ def xpaper():
                             mui.TableCell(layout[1], noWrap=True)
                             mui.TableCell(layout[2], noWrap=True)
                             with mui.TableCell():
-                                mui.Button("Edit")
+                                mui.Button(
+                                    "Edit",
+                                    onClick=lambda: edit_dashboard_layout(layout_id),
+                                )
                                 mui.Button(
                                     "Delete",
                                     onClick=lambda: delete_dashboard_layout(layout_id),
@@ -407,7 +454,7 @@ def save_layout(layout):
 
         st.toast("Layout saved successfully.")
     except Exception as e:
-        st.error(f"Error saving layout: {e}")
+        st.error(f":red[Error saving layout: {e}]")
         st.exception(e)
 
 
@@ -438,7 +485,7 @@ def load_layout():
         return default_layout()
     except Exception as e:
         st.toast(
-            f"Error loading layout: {e}",
+            f":red[Error loading layout: {e}]",
         )
 
 
@@ -463,7 +510,7 @@ def gen_dashboard(page, item_data):
             ]
         except Exception as e:
             st.toast(
-                f"Error in gen_dashboard: {e}",
+                f":red[Error in gen_dashboard: {e}]",
             )
 
             layout = default_layout()

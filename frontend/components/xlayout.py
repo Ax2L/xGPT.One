@@ -84,6 +84,7 @@ def change_page_extended(next_page):
 
 # * === Menu Content Box ---------------> Settings
 
+
 def settings_box():
     """Renders the settings box in the sidebar."""
     st.header("Settings")
@@ -98,7 +99,6 @@ def settings_box():
         if "openaik" not in st.session_state:
             st.session_state.openaik = user.data.get("openai_key")
 
-
         def update_changes():
             def wrapper(event):
                 try:
@@ -107,20 +107,23 @@ def settings_box():
                     st.session_state.setdefault("show_session_data", False)
 
                     # ? `openai_key`______________________________________
-                    user.update("openai_key", st.session_state["openaik"])  # Update the database
+                    user.update(
+                        "openai_key", st.session_state["openaik"]
+                    )  # Update the database
 
                     # ? `dev_mode`________________________________________
                     user.update("dev_mode", bool(st.session_state["dev_mode"]))
 
                     # ? `show_session_data`_______________________________
-                    page_config.update("show_session_data", bool(st.session_state["show_session_data"]))
+                    page_config.update(
+                        "show_session_data", bool(st.session_state["show_session_data"])
+                    )
                     st.toast(':green["Changes saved!"]')
                 except Exception as e:
                     st.error(f"Error: {str(e)} ❌")
-                    st.toast(f"Error: {str(e)} ❌")
+                    st.toast(f":red[Error: {str(e)} ❌")
 
             return wrapper  # Invoke the inner function
-
 
         # Save change in Session State when clicked
         def handle_boolean(column):
@@ -129,15 +132,15 @@ def settings_box():
                 st.session_state[column] = not st.session_state[column]
 
             return wrapper
-        
 
         # * Settings Material Section
-        
+
         def handle_change():
             def wrapper(event):
                 st.session_state.openaik = event.target.value
+
             return wrapper  # Invoke the inner function
-            
+
         mui.List(
             # `Input` for (OpenAI Key)
             mui.ListItem(
@@ -186,8 +189,8 @@ def settings_box():
                     sx={
                         "p": 1.5,
                         "mb": 0.8,
-                        #"bgcolor": app["color"],
-                        #"background": f"linear-gradient(90deg, {app['color']}, 17%, rgba(0,0,0,0) 17%), linear-gradient     (180deg, #243B55 50%, #141E30 50%)",
+                        # "bgcolor": app["color"],
+                        # "background": f"linear-gradient(90deg, {app['color']}, 17%, rgba(0,0,0,0) 17%), linear-gradient     (180deg, #243B55 50%, #141E30 50%)",
                         "cursor": "pointer",
                         "display": "flex",
                         "flex-direction": "column",
@@ -204,6 +207,7 @@ def settings_box():
 
 
 # * === Menu Content Box ---------------> Datastore
+
 
 def datastore_box():
     """Renders the datastore box in the sidebar."""
@@ -399,7 +403,7 @@ def handle_click_close():  # Modified to take 'name' argument
 def sidebar_header_button(menu_config):
     with elements("sideMenuHeader"):
         """Generate Header Section icons."""
-        #mui.CardMedia(
+        # mui.CardMedia(
         #    image="https://github.com/Ax2L/xGPT.One/blob/main/frontend/images/logo/logo_sidebar.png?raw=true",
         #    component="img",
         #    height="80",
@@ -411,7 +415,7 @@ def sidebar_header_button(menu_config):
         #        "margin-bottom": "10px",
         #        "margin-top": "-10px",
         #    },
-        #)
+        # )
         mui.Divider()
         with mui.Grid(
             container=True,
@@ -453,7 +457,7 @@ def sidebar_header_button(menu_config):
                     "align-items": "center",
                 },
             )
-            #if st.session_state["menu_active_button"] is not None:
+            # if st.session_state["menu_active_button"] is not None:
             #    mui.IconButton(
             #        mui.icon.Close,
             #        onClick=handle_click_close(),
@@ -518,8 +522,8 @@ def header_menu_button():
             "header_menu",
             mui.MenuItem(
                 "Test",
-            )
-        )
+            ),
+        ),
     )
 
 
@@ -537,28 +541,28 @@ def create_menu(source_page):
         selected_menu_button = st.session_state["menu_active_button"]
 
         if menu == "settings":
-            switch_page('1_settings')
-            #settings_box()
+            switch_page("1_settings")
+            # settings_box()
 
         elif menu == "help":
-            switch_page('1_help')
-            #settings_box()
+            switch_page("1_help")
+            # settings_box()
 
         elif menu == "datastore":
-            switch_page('1_datastore')
-            #datastore_box()
+            switch_page("1_datastore")
+            # datastore_box()
 
         elif menu == "apps":
-            switch_page('1_apps')
-            #cards_box(apps_config, "apps")
+            switch_page("1_apps")
+            # cards_box(apps_config, "apps")
 
         elif menu == "mlearning":
-            switch_page('1_machine_learning')
-            #cards_box(mlearning_config, "mlearning")
+            switch_page("1_machine_learning")
+            # cards_box(mlearning_config, "mlearning")
 
         elif menu == "tools":
-            switch_page('1_tools')
-            #cards_box(tools_config, "tools")
+            switch_page("1_tools")
+            # cards_box(tools_config, "tools")
 
         # need to check if a button was pressed and process the selected action.
         selected_menu_button = st.session_state["menu_active_button"]
@@ -568,7 +572,7 @@ def create_menu(source_page):
             # st.write(f"OLALA You pressed the buttonue: {selected_menu_button}")
         else:
             do = "nothing"
-                # st.write("No butonnue is seletectabled.")
+            # st.write("No butonnue is seletectabled.")
     try:
         if display_session_data:
             with st.expander("Session States"):

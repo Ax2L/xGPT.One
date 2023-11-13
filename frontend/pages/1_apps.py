@@ -1,12 +1,20 @@
-# ! Python libraries
+# pages/1_apps.py --
+# ! Do not modify this section below! >>>
 import streamlit as st
+from components import xinit_page
+
+# ^ Constants
+PAGE_NAME = "apps"
+# * Initializing the page with required configurations
+xinit_page.set_page_config(PAGE_NAME, "wide", "auto")
+
+#! <<< Do not modify this section above!
 
 # ? Local modules
-from components import xinit_page, xheader, xhelper
+from components import xheader, xhelper, xforms
+
 
 # & Functions
-
-
 def setup_page(page_name):
     """* Setup and initialize the page.
     * Args:
@@ -26,14 +34,7 @@ def load_custom_css():
         print(f"css already active on {PAGE_NAME}")
 
 
-# ^ Constants
-PAGE_NAME = "apps"
-
 # & Page Initialization Process
-
-# ! Do not modify this section
-# * Initializing the page with required configurations
-xinit_page.set_page_config(PAGE_NAME, "wide", "auto")
 xheader.init(PAGE_NAME)
 
 # * Setting up the page environment
@@ -41,14 +42,17 @@ setup_page(PAGE_NAME)
 
 # ! Content Section
 
+
 # ~ Sidebar Content
 with st.sidebar:
     st.text("Some Sidebar content")
 
 # ~ Main Page Content
+
 st.text("Some Main content")
-st.text("Some Main content")
-st.text("Some Main content")
+
+if "edit_item" in st.session_state and not None:
+    xforms.display_edit_item_form()
 
 
 # * Loading custom CSS at the end
