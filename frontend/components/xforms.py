@@ -7,7 +7,7 @@ from components.xdatastore import DashboardItems, DashboardLayouts
 def xform():
     st.title("xGPT.One Form")
 
-    with st.form("my_form"):
+    with st.form("edit_item_form"):
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
         submitted = st.form_submit_button("Submit")
@@ -21,18 +21,11 @@ def display_edit_item_form():
         item = st.session_state["edit_item"]
         st.write(f"Current item data: {item}")
 
-        # Assuming the tuple structure matches the order of these fields
         fields = [
             "id",
-            "layout",
-            "username",
-            "page_name",
-            "description",
-            "notes",
-            "issues",
             "name",
-            "version",
             "tags",
+            "using_in_dashboard",
             "settings_default",
             "settings_user",
             "documentation",
@@ -41,7 +34,6 @@ def display_edit_item_form():
             "urls",
             "ssl",
             "entrypoint",
-            "item_list",
         ]
 
         item_dict = dict(zip(fields, item))
@@ -52,12 +44,7 @@ def display_edit_item_form():
                 item_dict[field] = item_dict[field].strftime("%Y-%m-%dT%H:%M:%S")
 
         for field in fields[1:]:
-            if field in ["layout", "settings_default", "settings_user", "item_list"]:
-                value = item_dict.get(field, "")
-                item_dict[field] = st.text_area(
-                    field.capitalize().replace("_", " "), json.dumps(value, default=str)
-                )
-            elif field == "ssl":
+            if field in ["ssl", "using_in_dashboard"]:
                 item_dict[field] = st.checkbox(
                     field.upper(), item_dict.get(field, False)
                 )
@@ -67,14 +54,6 @@ def display_edit_item_form():
                 )
 
         if st.button("Save"):
-            for json_field in [
-                "layout",
-                "settings_default",
-                "settings_user",
-                "item_list",
-            ]:
-                item_dict[json_field] = json.loads(item_dict[json_field])
-
             # Convert back string representations of datetime objects to datetime
             for field in fields:
                 if isinstance(item_dict[field], str):

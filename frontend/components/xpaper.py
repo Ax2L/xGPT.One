@@ -5,17 +5,9 @@ import json
 from datetime import datetime
 import psycopg2
 
-# ?##########################################################################
-# Default values for new items and layouts
+
 DEFAULT_ITEM_VALUES = {
-    "layout": "sample_layout",
-    "username": "admin",
-    "page_name": "New Page",
-    "description": "Sample item description",
-    "notes": "Sample notes",
-    "issues": "None",
     "name": "NEW Item",
-    "version": "1.0",
     "tags": "new, item",
     "using_in_dashboard": "unused so far",
     "settings_default": json.dumps({"setting1": "value1"}),
@@ -26,12 +18,10 @@ DEFAULT_ITEM_VALUES = {
     "urls": "http://example.com",
     "ssl": False,
     "entrypoint": "http://url.with:3000",
-    "item_list": json.dumps(["item1", "item2"]),
 }
 
-
 DEFAULT_LAYOUT_VALUES = {
-    # "id": "new_page_1.0",
+    "name": "New Page",
     "layout": json.dumps(
         {
             "widgets": [
@@ -39,26 +29,13 @@ DEFAULT_LAYOUT_VALUES = {
                     "id": 1,
                     "type": "chart",
                     "position": {"x": 0, "y": 0, "w": 4, "h": 3},
-                }
+                },
             ]
         }
     ),
+    "tags": "New Page",
     "username": "admin",
-    "page_name": "New Page",
     "description": "New layout description",
-    "notes": "Sample notes",
-    "issues": "None",
-    "name": "New Layout",
-    "version": "1.0",
-    "tags": "new, layout",
-    "settings_default": json.dumps({"setting1": "value1"}),
-    "settings_user": json.dumps({}),
-    "documentation": "New layout documentation",
-    "repository": "https://github.com/Ax2L/xGPT.One",
-    "files": "layout1.py, layout2.py",
-    "urls": "http://example.com",
-    "ssl": False,
-    "entrypoint": "http://url.with:3000",
     "using_item_name_list": json.dumps(["item1", "item2"]),
 }
 
@@ -91,15 +68,15 @@ def fetch_dashboard_layout_by_id(layout_id):
         st.toast(f":red[Error fetching layout by ID: {e}]")
 
 
-def edit_dashboard_item(id):
-    print(f"edit dashboard item {id}")
-    item = fetch_dashboard_item_by_id(id)
-    if item:
-        st.session_state["edit_item"] = item
+def edit_dashboard_item(useID):
+    print(f"edit dashboard item {useID}")
+    fetch_item = fetch_dashboard_item_by_id(useID)
+    if fetch_item:
+        st.session_state["edit_item"] = fetch_item
 
 
-def edit_dashboard_layout(id):
-    layout = fetch_dashboard_layout_by_id(id)
+def edit_dashboard_layout(useID):
+    layout = fetch_dashboard_layout_by_id(useID)
     if layout:
         st.session_state["edit_layout"] = layout
 
@@ -110,7 +87,7 @@ def get_dashboard_items():
             dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
         )
         cursor = conn.cursor()
-        cursor.execute("SELECT name, description, tags, id FROM dashboard_items")
+        cursor.execute("SELECT * FROM dashboard_items")
         items = cursor.fetchall()
         conn.close()
         return items
@@ -126,7 +103,7 @@ def get_dashboard_layouts():
             dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
         )
         cursor = conn.cursor()
-        cursor.execute("SELECT name, description, tags, id FROM dashboard_layouts")
+        cursor.execute("SELECT * FROM dashboard_layouts")
         layouts = cursor.fetchall()
         conn.close()
         return layouts
@@ -144,20 +121,13 @@ def insert_new_item():
     cursor.execute(
         """
         INSERT INTO dashboard_items 
-        (layout, username, page_name, description, notes, issues, name, version, tags, using_in_dashboard, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint, item_list) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        (name, tags, using_in_dashboard, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """,
         (
-            DEFAULT_ITEM_VALUES["layout"],
-            DEFAULT_ITEM_VALUES["username"],
-            DEFAULT_ITEM_VALUES["page_name"],
-            DEFAULT_ITEM_VALUES["description"],
-            DEFAULT_ITEM_VALUES["notes"],
-            DEFAULT_ITEM_VALUES["issues"],
             DEFAULT_ITEM_VALUES["name"],
-            DEFAULT_ITEM_VALUES["version"],
             DEFAULT_ITEM_VALUES["tags"],
-            DEFAULT_ITEM_VALUES["using_in_dashboard"],
+            False,  # Assuming 'using_in_dashboard' is a boolean, replace with the correct boolean value
             DEFAULT_ITEM_VALUES["settings_default"],
             DEFAULT_ITEM_VALUES["settings_user"],
             DEFAULT_ITEM_VALUES["documentation"],
@@ -166,9 +136,9 @@ def insert_new_item():
             DEFAULT_ITEM_VALUES["urls"],
             DEFAULT_ITEM_VALUES["ssl"],
             DEFAULT_ITEM_VALUES["entrypoint"],
-            DEFAULT_ITEM_VALUES["item_list"],
         ),
     )
+
     conn.commit()
     conn.close()
 
@@ -181,28 +151,15 @@ def insert_new_layout():
     cursor.execute(
         """
         INSERT INTO dashboard_layouts 
-        (layout, username, page_name, description, notes, issues, name, version, tags, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint, using_item_name_list) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        (name, layout, tags, username, description, using_item_name_list) 
+        VALUES (%s, %s, %s, %s, %s, %s)
         """,
         (
-            # DEFAULT_LAYOUT_VALUES["id"],
-            DEFAULT_LAYOUT_VALUES["layout"],
-            DEFAULT_LAYOUT_VALUES["username"],
-            DEFAULT_LAYOUT_VALUES["page_name"],
-            DEFAULT_LAYOUT_VALUES["description"],
-            DEFAULT_LAYOUT_VALUES["notes"],
-            DEFAULT_LAYOUT_VALUES["issues"],
             DEFAULT_LAYOUT_VALUES["name"],
-            DEFAULT_LAYOUT_VALUES["version"],
+            DEFAULT_LAYOUT_VALUES["layout"],
             DEFAULT_LAYOUT_VALUES["tags"],
-            DEFAULT_LAYOUT_VALUES["settings_default"],
-            DEFAULT_LAYOUT_VALUES["settings_user"],
-            DEFAULT_LAYOUT_VALUES["documentation"],
-            DEFAULT_LAYOUT_VALUES["repository"],
-            DEFAULT_LAYOUT_VALUES["files"],
-            DEFAULT_LAYOUT_VALUES["urls"],
-            DEFAULT_LAYOUT_VALUES["ssl"],
-            DEFAULT_LAYOUT_VALUES["entrypoint"],
+            DEFAULT_LAYOUT_VALUES["username"],
+            DEFAULT_LAYOUT_VALUES["description"],
             DEFAULT_LAYOUT_VALUES["using_item_name_list"],
         ),
     )
@@ -317,6 +274,18 @@ def xpaper():
     items = get_dashboard_items()
     layouts = get_dashboard_layouts()
 
+    def create_item_buttons(item_id):
+        return [
+            mui.Button("Edit", onClick=lambda: edit_dashboard_item(item_id)),
+            mui.Button("Delete", onClick=lambda: delete_dashboard_item(item_id)),
+        ]
+
+    def create_layout_buttons(layout_id):
+        return [
+            mui.Button("Edit", onClick=lambda: edit_dashboard_layout(layout_id)),
+            mui.Button("Delete", onClick=lambda: delete_dashboard_layout(layout_id)),
+        ]
+
     with mui.Paper():
         mui.Typography("Dashboard Items", variant="h6")
         with mui.TableContainer():
@@ -325,27 +294,23 @@ def xpaper():
                     with mui.TableRow():
                         mui.TableCell("ID", style={"fontWeight": "bold"})
                         mui.TableCell("Name", style={"fontWeight": "bold"})
-                        mui.TableCell("Description", style={"fontWeight": "bold"})
+                        mui.TableCell("Documentation", style={"fontWeight": "bold"})
                         mui.TableCell("Tags", style={"fontWeight": "bold"})
                         mui.TableCell("Actions", style={"fontWeight": "bold"})
 
                 with mui.TableBody():
-                    for item in items:
-                        id = item[3]
-                        with mui.TableRow():
-                            mui.TableCell(item[3], noWrap=True)
-                            mui.TableCell(item[0], noWrap=True)
-                            mui.TableCell(item[1], noWrap=True)
-                            mui.TableCell(item[2], noWrap=True)
-                            with mui.TableCell():
-                                mui.Button(
-                                    "Edit",
-                                    onClick=lambda: edit_dashboard_item(id=id),
-                                )
-                                mui.Button(
-                                    "Delete",
-                                    onClick=lambda: delete_dashboard_item(id=id),
-                                )
+                    if items:
+                        for item in items:
+                            with mui.TableRow():
+                                mui.TableCell(item[3], noWrap=True)
+                                mui.TableCell(item[0], noWrap=True)
+                                mui.TableCell(item[1], noWrap=True)
+                                mui.TableCell(item[2], noWrap=True)
+                                with mui.TableCell():
+                                    for button in create_item_buttons(item[3]):
+                                        button
+                    else:
+                        st.error("Failed to load dashboard items.")
 
         with mui.Box(sx={"marginTop": 2}):
             mui.Button(
@@ -367,22 +332,18 @@ def xpaper():
                         mui.TableCell("Actions", style={"fontWeight": "bold"})
 
                 with mui.TableBody():
-                    for layout in layouts:
-                        layout_id = layout[3]
-                        with mui.TableRow():
-                            mui.TableCell(layout[3], noWrap=True)
-                            mui.TableCell(layout[0], noWrap=True)
-                            mui.TableCell(layout[1], noWrap=True)
-                            mui.TableCell(layout[2], noWrap=True)
-                            with mui.TableCell():
-                                mui.Button(
-                                    "Edit",
-                                    onClick=lambda: edit_dashboard_layout(layout_id),
-                                )
-                                mui.Button(
-                                    "Delete",
-                                    onClick=lambda: delete_dashboard_layout(layout_id),
-                                )
+                    if layouts:
+                        for layout in layouts:
+                            with mui.TableRow():
+                                mui.TableCell(layout[3], noWrap=True)
+                                mui.TableCell(layout[0], noWrap=True)
+                                mui.TableCell(layout[1], noWrap=True)
+                                mui.TableCell(layout[2], noWrap=True)
+                                with mui.TableCell():
+                                    for button in create_layout_buttons(layout[3]):
+                                        button
+                    else:
+                        st.error("Failed to load dashboard layouts.")
 
         with mui.Box(sx={"marginTop": 2}):
             mui.Button(
@@ -445,9 +406,10 @@ def save_layout(layout):
         else:
             layouts.insert(
                 id=page_name,
+                name=page_name,
                 layout=layout_json,
+                tags="default tags",
                 username="admin",
-                page_name=page_name,
                 description="Your description here",
                 updated_at=current_time,
             )

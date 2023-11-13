@@ -6,7 +6,7 @@ from components import xinit_page
 # ^ Constants
 PAGE_NAME = "apps"
 # * Initializing the page with required configurations
-xinit_page.set_page_config(PAGE_NAME, "wide", "auto")
+xinit_page.set_page_config(PAGE_NAME, "wide", "collapsed")
 
 #! <<< Do not modify this section above!
 

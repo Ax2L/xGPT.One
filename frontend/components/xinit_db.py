@@ -73,20 +73,12 @@ def create_tables():
             timestamp TEXT
         )
     """
-
     dashboard_tables = """
         CREATE TABLE IF NOT EXISTS dashboard_items (
             id SERIAL PRIMARY KEY,
-            layout TEXT,
-            username TEXT,
-            page_name TEXT,
-            description TEXT,
-            notes TEXT,
-            issues TEXT,
             name TEXT,
-            version TEXT,
             tags TEXT,
-            using_in_dashboard TEXT,
+            using_in_dashboard BOOLEAN,
             settings_default TEXT,
             settings_user TEXT,
             documentation TEXT,
@@ -94,28 +86,15 @@ def create_tables():
             files TEXT,
             urls TEXT,
             ssl BOOLEAN,
-            entrypoint TEXT,
-            item_list TEXT
+            entrypoint TEXT
         );
         CREATE TABLE IF NOT EXISTS dashboard_layouts (
             id SERIAL PRIMARY KEY,
-            layout TEXT,
-            username TEXT,
-            page_name TEXT,
-            description TEXT,
-            notes TEXT,
-            issues TEXT,
             name TEXT,
-            version TEXT,
+            layout TEXT,
             tags TEXT,
-            settings_default TEXT,
-            settings_user TEXT,
-            documentation TEXT,
-            repository TEXT,
-            files TEXT,
-            urls TEXT,
-            ssl BOOLEAN,
-            entrypoint TEXT,
+            username TEXT,
+            description TEXT,
             using_item_name_list TEXT
         );
     """
@@ -176,23 +155,15 @@ def insert_initial_data():
         "INSERT INTO history_chats (username, chat_content) VALUES (%s, %s)",
         ("admin", "Sample historical chat content"),
     )
-
     username = st.session_state.get("username", "admin")
     cursor.execute(
         """
         INSERT INTO dashboard_items 
-        (layout, username, page_name, description, notes, issues, name, version, tags, using_in_dashboard, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint, item_list) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        (name, tags, using_in_dashboard, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """,
         (
-            "user_layout",
-            username,
-            f"{username}'s Page",
-            "User specific item description",
-            "User notes",
-            "User issues",
             f"{username}_item",
-            "1.0",
             "user, custom",
             False,
             json.dumps({"setting1": "value1"}),
@@ -203,13 +174,13 @@ def insert_initial_data():
             "",
             False,
             "http://user.url:3000",
-            json.dumps(["user_item1", "user_item2"]),
         ),
     )
 
+    # Insert initial data for dashboard_layouts
     default_dashboard_layouts = [
         {
-            # "id": "default_page_1.0",
+            "name": "Default Page",
             "layout": json.dumps(
                 {
                     "widgets": [
@@ -221,22 +192,9 @@ def insert_initial_data():
                     ]
                 }
             ),
+            "tags": "default page template",
             "username": "admin",
-            "page_name": "Default Page",
             "description": "Default layout description",
-            "notes": "Sample notes",
-            "issues": "None",
-            "name": "Default Layout",
-            "version": "1.0",
-            "tags": "default, layout",
-            "settings_default": json.dumps({"setting1": "value1"}),
-            "settings_user": json.dumps({}),
-            "documentation": "Default layout documentation",
-            "repository": "https://github.com/Ax2L/xGPT.One",
-            "files": "layout1.py, layout2.py",
-            "urls": "http://example.com",
-            "ssl": False,
-            "entrypoint": "http://url.with:3000",
             "using_item_name_list": json.dumps(["item1", "item2"]),
         }
     ]
@@ -244,33 +202,19 @@ def insert_initial_data():
         cursor.execute(
             """
             INSERT INTO dashboard_layouts 
-            (layout, username, page_name, description, notes, issues, name, version, tags, created_at, updated_at, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint, using_item_name_list) 
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (name, layout, tags, username, description, using_item_name_list) 
+            VALUES (%s, %s, %s, %s, %s, %s)
             """,
             (
-                # layout["id"],
-                layout["layout"],
-                layout["username"],
-                layout["page_name"],
-                layout["description"],
-                layout["notes"],
-                layout["issues"],
                 layout["name"],
-                layout["version"],
+                layout["layout"],
                 layout["tags"],
-                datetime.now(),
-                datetime.now(),
-                layout["settings_default"],
-                layout["settings_user"],
-                layout["documentation"],
-                layout["repository"],
-                layout["files"],
-                layout["urls"],
-                layout["ssl"],
-                layout["entrypoint"],
+                layout["username"],
+                layout["description"],
                 layout["using_item_name_list"],
             ),
         )
+
     conn.commit()
     cursor.close()
     conn.close()
