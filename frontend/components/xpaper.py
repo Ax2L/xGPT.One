@@ -91,17 +91,16 @@ def fetch_dashboard_layout_by_id(layout_id):
         st.toast(f":red[Error fetching layout by ID: {e}]")
 
 
-def edit_dashboard_item(item_id):
-    item = fetch_dashboard_item_by_id(item_id)
+def edit_dashboard_item(id):
+    print(f"edit dashboard item {id}")
+    item = fetch_dashboard_item_by_id(id)
     if item:
-        st.session_state["edit_item"] = None
         st.session_state["edit_item"] = item
 
 
-def edit_dashboard_layout(layout_id):
-    layout = fetch_dashboard_layout_by_id(layout_id)
+def edit_dashboard_layout(id):
+    layout = fetch_dashboard_layout_by_id(id)
     if layout:
-        st.session_state["edit_layout"] = None
         st.session_state["edit_layout"] = layout
 
 
@@ -278,17 +277,17 @@ def check_and_load_or_create_layouts():
         )
 
 
-def delete_dashboard_item(item_id):
+def delete_dashboard_item(id):
     try:
         conn = psycopg2.connect(
             dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
         )
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM dashboard_items WHERE id = %s", (item_id,))
+        cursor.execute("DELETE FROM dashboard_items WHERE id = %s", (id,))
         conn.commit()
         conn.close()
         st.toast(
-            f":green[Item with ID {item_id} deleted successfully.]",
+            f":green[Item with ID {id} deleted successfully.]",
         )
     except Exception as e:
         st.toast(
@@ -296,17 +295,17 @@ def delete_dashboard_item(item_id):
         )
 
 
-def delete_dashboard_layout(layout_id):
+def delete_dashboard_layout(id):
     try:
         conn = psycopg2.connect(
             dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
         )
         cursor = conn.cursor()
-        cursor.execute("DELETE FROM dashboard_layouts WHERE id = %s", (layout_id,))
+        cursor.execute("DELETE FROM dashboard_layouts WHERE id = %s", (id,))
         conn.commit()
         conn.close()
         st.toast(
-            f":green[Layout with ID {layout_id} deleted successfully.]",
+            f":green[Layout with ID {id} deleted successfully.]",
         )
     except Exception as e:
         st.toast(
@@ -332,7 +331,7 @@ def xpaper():
 
                 with mui.TableBody():
                     for item in items:
-                        item_id = item[3]
+                        id = item[3]
                         with mui.TableRow():
                             mui.TableCell(item[3], noWrap=True)
                             mui.TableCell(item[0], noWrap=True)
@@ -340,11 +339,12 @@ def xpaper():
                             mui.TableCell(item[2], noWrap=True)
                             with mui.TableCell():
                                 mui.Button(
-                                    "Edit", onClick=lambda: edit_dashboard_item(item_id)
+                                    "Edit",
+                                    onClick=lambda: edit_dashboard_item(id=id),
                                 )
                                 mui.Button(
                                     "Delete",
-                                    onClick=lambda: delete_dashboard_item(item_id),
+                                    onClick=lambda: delete_dashboard_item(id=id),
                                 )
 
         with mui.Box(sx={"marginTop": 2}):
