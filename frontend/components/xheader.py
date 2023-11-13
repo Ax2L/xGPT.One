@@ -14,9 +14,8 @@ from streamlit_extras.switch_page_button import switch_page
 # ? Local modules
 from components.style import stylebase as sb
 from components.xhelper import check_logged_in
-from components import xpaper
+from components.utils import xdash
 
-xpaper
 # * Initialization & Configurations
 # * Constants
 LOGO_PATH = "../resources/images/logo/favicon.ico"
@@ -568,5 +567,5 @@ def init(page):
             height="50px",
             visibleScrollbar=False,
         )
-        xpaper.xpaper()
+        xdash.xpaper()
         # xpaper.gen_dashboard(page, item_data)

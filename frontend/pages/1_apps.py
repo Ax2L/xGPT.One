@@ -12,7 +12,8 @@ xinit_page.set_page_config(PAGE_NAME, "wide", "collapsed")
 
 # ? Local modules
 from components import xheader, xhelper
-from components.utils import 
+from components.utils import xdash
+
 
 # & Functions
 def setup_page(page_name):
@@ -52,7 +53,7 @@ with st.sidebar:
 st.text("Some Main content")
 
 if "edit_item" in st.session_state and not None:
-    xforms.display_edit_item_form()
+    xdash.display_edit_item_form()
 
 
 # * Loading custom CSS at the end
