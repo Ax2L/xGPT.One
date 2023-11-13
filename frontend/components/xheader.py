@@ -568,4 +568,5 @@ def init(page):
             height="50px",
             visibleScrollbar=False,
         )
-        xpaper.gen_dashboard(page, item_data)
+        xpaper.xpaper()
+        # xpaper.gen_dashboard(page, item_data)

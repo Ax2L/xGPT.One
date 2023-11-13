@@ -12,13 +12,13 @@ import psycopg2
 DEFAULT_ITEM_VALUES = {
     "layout": "sample_layout",
     "username": "admin",
-    "page_name": "Default Page",
+    "page_name": "New Page",
     "description": "Sample item description",
     "notes": "Sample notes",
     "issues": "None",
-    "name": "Sample Item",
+    "name": "NEW Item",
     "version": "1.0",
-    "tags": "default, item",
+    "tags": "new, item",
     "using_in_dashboard": "unused so far",
     "settings_default": json.dumps({"setting1": "value1"}),
     "settings_user": json.dumps({}),
@@ -33,7 +33,7 @@ DEFAULT_ITEM_VALUES = {
 
 
 DEFAULT_LAYOUT_VALUES = {
-    "id": "default_page_1.0",
+    # "id": "new_page_1.0",
     "layout": json.dumps(
         {
             "widgets": [
@@ -46,16 +46,16 @@ DEFAULT_LAYOUT_VALUES = {
         }
     ),
     "username": "admin",
-    "page_name": "Default Page",
-    "description": "Default layout description",
+    "page_name": "New Page",
+    "description": "New layout description",
     "notes": "Sample notes",
     "issues": "None",
-    "name": "Default Layout",
+    "name": "New Layout",
     "version": "1.0",
-    "tags": "default, layout",
+    "tags": "new, layout",
     "settings_default": json.dumps({"setting1": "value1"}),
     "settings_user": json.dumps({}),
-    "documentation": "Default layout documentation",
+    "documentation": "New layout documentation",
     "repository": "https://github.com/Ax2L/xGPT.One",
     "files": "layout1.py, layout2.py",
     "urls": "http://example.com",
@@ -66,25 +66,35 @@ DEFAULT_LAYOUT_VALUES = {
 
 
 def get_dashboard_items():
-    conn = psycopg2.connect(
-        dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
-    )
-    cursor = conn.cursor()
-    cursor.execute("SELECT name, description, tags, id FROM dashboard_items")
-    items = cursor.fetchall()
-    conn.close()
-    return items
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, description, tags, id FROM dashboard_items")
+        items = cursor.fetchall()
+        conn.close()
+        return items
+    except Exception as e:
+        st.toast(
+            f"Error fetching dashboard items: {e}",
+        )
 
 
 def get_dashboard_layouts():
-    conn = psycopg2.connect(
-        dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
-    )
-    cursor = conn.cursor()
-    cursor.execute("SELECT name, description, tags, id FROM dashboard_layouts")
-    layouts = cursor.fetchall()
-    conn.close()
-    return layouts
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, description, tags, id FROM dashboard_layouts")
+        layouts = cursor.fetchall()
+        conn.close()
+        return layouts
+    except Exception as e:
+        st.toast(
+            f"Error fetching dashboard layouts: {e}",
+        )
 
 
 def insert_new_item():
@@ -132,11 +142,11 @@ def insert_new_layout():
     cursor.execute(
         """
         INSERT INTO dashboard_layouts 
-        (id, layout, username, page_name, description, notes, issues, name, version, tags, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint, using_item_name_list) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        (layout, username, page_name, description, notes, issues, name, version, tags, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint, using_item_name_list) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """,
         (
-            DEFAULT_LAYOUT_VALUES["id"],
+            # DEFAULT_LAYOUT_VALUES["id"],
             DEFAULT_LAYOUT_VALUES["layout"],
             DEFAULT_LAYOUT_VALUES["username"],
             DEFAULT_LAYOUT_VALUES["page_name"],
@@ -161,6 +171,107 @@ def insert_new_layout():
     conn.close()
 
 
+def check_and_load_or_create_item():
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+
+        # Check if an item with the name "New Item" exists
+        cursor.execute("SELECT * FROM dashboard_items WHERE name = 'New Item'")
+        item = cursor.fetchone()
+
+        if item:
+            # Item exists, load its data
+            st.session_state["edit_item"] = item
+
+            st.toast(
+                f"Item 'New Item' already exists. Loaded in the editor for editing.",
+            )
+        else:
+            # Item does not exist, create a new one
+            insert_new_item()
+            cursor.execute("SELECT * FROM dashboard_items WHERE name = 'New Item'")
+            new_item = cursor.fetchone()
+            st.session_state["edit_item"] = new_item
+            st.toast("New item 'New Item' created and loaded in the editor.")
+
+        conn.close()
+    except Exception as e:
+        st.toast(
+            f"Error in check_and_load_or_create_item: {e}",
+        )
+
+
+def check_and_load_or_create_layouts():
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+
+        # Check if an layout with the name "New Layout" exists
+        cursor.execute("SELECT * FROM dashboard_layouts WHERE name = 'New Layout'")
+        layout = cursor.fetchone()
+
+        if layout:
+            # Layout exists, load its data
+            st.session_state["edit_layout"] = layout
+            st.toast(
+                f"Item 'New Layout' already exists. Loaded in the editor for editing.",
+            )
+        else:
+            # Layout does not exist, create a new one
+            insert_new_layout()
+            cursor.execute("SELECT * FROM dashboard_layouts WHERE name = 'New Layout'")
+            new_layout = cursor.fetchone()
+            st.session_state["edit_layout"] = new_layout
+            st.toast("New layout 'New Layout' created and loaded in the editor.")
+
+        conn.close()
+    except Exception as e:
+        st.toast(
+            f"Error in check_and_load_or_create_layouts: {e}",
+        )
+
+
+def delete_dashboard_item(item_id):
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM dashboard_items WHERE id = %s", (item_id,))
+        conn.commit()
+        conn.close()
+        st.toast(
+            f"Item with ID {item_id} deleted successfully.",
+        )
+    except Exception as e:
+        st.toast(
+            f"Error deleting item: {e}",
+        )
+
+
+def delete_dashboard_layout(layout_id):
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM dashboard_layouts WHERE id = %s", (layout_id,))
+        conn.commit()
+        conn.close()
+        st.toast(
+            f"Layout with ID {layout_id} deleted successfully.",
+        )
+    except Exception as e:
+        st.toast(
+            f"Error deleting layout: {e}",
+        )
+
+
 def xpaper():
     items = get_dashboard_items()
     layouts = get_dashboard_layouts()
@@ -171,6 +282,7 @@ def xpaper():
             with mui.Table(stickyHeader=True):
                 with mui.TableHead():
                     with mui.TableRow():
+                        mui.TableCell("ID", style={"fontWeight": "bold"})
                         mui.TableCell("Name", style={"fontWeight": "bold"})
                         mui.TableCell("Description", style={"fontWeight": "bold"})
                         mui.TableCell("Tags", style={"fontWeight": "bold"})
@@ -178,23 +290,33 @@ def xpaper():
 
                 with mui.TableBody():
                     for item in items:
+                        item_id = item[3]
                         with mui.TableRow():
+                            mui.TableCell(item[3], noWrap=True)
                             mui.TableCell(item[0], noWrap=True)
                             mui.TableCell(item[1], noWrap=True)
                             mui.TableCell(item[2], noWrap=True)
                             with mui.TableCell():
                                 mui.Button("Edit")
-                                mui.Button("Delete")
+                                mui.Button(
+                                    "Delete",
+                                    onClick=lambda: delete_dashboard_item(item_id),
+                                )
 
         with mui.Box(sx={"marginTop": 2}):
-            if mui.Button("Add Item", variant="contained", color="primary"):
-                insert_new_item()
+            mui.Button(
+                "Add Item",
+                variant="contained",
+                color="primary",
+                onClick=check_and_load_or_create_item,
+            )
 
         mui.Typography("Dashboard Layouts", variant="h6", sx={"marginTop": 4})
         with mui.TableContainer():
             with mui.Table(stickyHeader=True):
                 with mui.TableHead():
                     with mui.TableRow():
+                        mui.TableCell("ID", style={"fontWeight": "bold"})
                         mui.TableCell("Name", style={"fontWeight": "bold"})
                         mui.TableCell("Description", style={"fontWeight": "bold"})
                         mui.TableCell("Tags", style={"fontWeight": "bold"})
@@ -202,17 +324,26 @@ def xpaper():
 
                 with mui.TableBody():
                     for layout in layouts:
+                        layout_id = layout[3]
                         with mui.TableRow():
+                            mui.TableCell(layout[3], noWrap=True)
                             mui.TableCell(layout[0], noWrap=True)
                             mui.TableCell(layout[1], noWrap=True)
                             mui.TableCell(layout[2], noWrap=True)
                             with mui.TableCell():
                                 mui.Button("Edit")
-                                mui.Button("Delete")
+                                mui.Button(
+                                    "Delete",
+                                    onClick=lambda: delete_dashboard_layout(layout_id),
+                                )
 
         with mui.Box(sx={"marginTop": 2}):
-            if mui.Button("Add Layout", variant="contained", color="primary"):
-                insert_new_layout()
+            mui.Button(
+                "Add Layout",
+                variant="contained",
+                color="primary",
+                onClick=check_and_load_or_create_layouts,
+            )
 
 
 # ?##########################################################################
@@ -306,7 +437,9 @@ def load_layout():
         st.toast("No saved layout found. Using default layout.")
         return default_layout()
     except Exception as e:
-        st.error(f"Error loading layout: {e}")
+        st.toast(
+            f"Error loading layout: {e}",
+        )
 
 
 def gen_dashboard(page, item_data):
@@ -317,7 +450,6 @@ def gen_dashboard(page, item_data):
     - page (str): The current page name.
     - item_data (dict): A dictionary mapping item keys to their content.
     """
-    xpaper()
     if "current_page" not in st.session_state:
         st.session_state["current_page"] = page
     st.session_state["current_page"] = page
@@ -329,8 +461,11 @@ def gen_dashboard(page, item_data):
                 dashboard.Item(item["i"], item["x"], item["y"], item["w"], item["h"])
                 for item in saved_layout
             ]
-        except TypeError as e:
-            st.error(f"Error in processing layout: {e}")
+        except Exception as e:
+            st.toast(
+                f"Error in gen_dashboard: {e}",
+            )
+
             layout = default_layout()
     else:
         layout = default_layout()
