@@ -1,6 +1,10 @@
 import streamlit as st
 from streamlit_elements import mui
 from components.xdatastore import DashboardLayouts, DashboardItems
+import psycopg2
+import dash_item as xitem
+import dash_layout as xlayout
+import datetime
 
 
 def display_edit_item_form():
@@ -79,19 +83,23 @@ def update_database_row_item(item_dict):
 
 
 def xpaper():
-    items = get_dashboard_items()
-    layouts = get_dashboard_layouts()
+    items = xitem.get_dashboard_items()
+    layouts = xlayout.get_dashboard_layouts()
 
     def create_item_buttons(item_id):
         return [
-            mui.Button("Edit", onClick=lambda: edit_dashboard_item(item_id)),
-            mui.Button("Delete", onClick=lambda: delete_dashboard_item(item_id)),
+            mui.Button("Edit", onClick=lambda: xitem.edit_dashboard_item(item_id)),
+            mui.Button("Delete", onClick=lambda: xitem.delete_dashboard_item(item_id)),
         ]
 
     def create_layout_buttons(layout_id):
         return [
-            mui.Button("Edit", onClick=lambda: edit_dashboard_layout(layout_id)),
-            mui.Button("Delete", onClick=lambda: delete_dashboard_layout(layout_id)),
+            mui.Button(
+                "Edit", onClick=lambda: xlayout.edit_dashboard_layout(layout_id)
+            ),
+            mui.Button(
+                "Delete", onClick=lambda: xlayout.delete_dashboard_layout(layout_id)
+            ),
         ]
 
     with mui.Paper():
@@ -115,7 +123,7 @@ def xpaper():
                                 mui.TableCell(item[1], noWrap=True)
                                 mui.TableCell(item[2], noWrap=True)
                                 with mui.TableCell():
-                                    for button in create_item_buttons(item[3]):
+                                    for button in xitem.create_item_buttons(item[3]):
                                         button
                     else:
                         st.error("Failed to load dashboard items.")
@@ -125,7 +133,7 @@ def xpaper():
                 "Add Item",
                 variant="contained",
                 color="primary",
-                onClick=check_and_load_or_create_item(),
+                onClick=xitem.check_and_load_or_create_item(),
             )
 
         mui.Typography("Dashboard Layouts", variant="h6", sx={"marginTop": 4})
@@ -158,8 +166,22 @@ def xpaper():
                 "Add Layout",
                 variant="contained",
                 color="primary",
-                onClick=check_and_load_or_create_layouts,
+                onClick=xlayout.check_and_load_or_create_layouts,
             )
 
 
 # ?##########################################################################
+
+
+def fetch_dashboard_item_by_id(item_id):
+    try:
+        conn = psycopg2.connect(
+            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+        )
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM dashboard_items WHERE id = %s", (item_id,))
+        item = cursor.fetchone()
+        conn.close()
+        return item
+    except Exception as e:
+        st.toast(f":red[Error fetching item by ID: {e}]")
