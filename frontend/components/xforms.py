@@ -32,52 +32,49 @@ def display_edit_item_form():
             "item_list",
         ]
 
-        # Create a dictionary from the tuple for easier handling
         item_dict = dict(zip(fields, item))
 
-        for field in fields[1:]:  # Skip 'id'
+        # Convert datetime objects to strings for JSON serialization
+        for field in fields:
+            if isinstance(item_dict[field], datetime.datetime):
+                item_dict[field] = item_dict[field].strftime("%Y-%m-%dT%H:%M:%S")
+
+        for field in fields[1:]:
             if field in ["layout", "settings_default", "settings_user", "item_list"]:
+                value = item_dict.get(field, "")
                 item_dict[field] = st.text_area(
-                    field.capitalize().replace("_", " "),
-                    json.dumps(item_dict.get(field, "")),
+                    field.capitalize().replace("_", " "), json.dumps(value, default=str)
                 )
             elif field == "ssl":
                 item_dict[field] = st.checkbox(
                     field.upper(), item_dict.get(field, False)
                 )
             else:
-                # Convert datetime to string for display
-                if isinstance(item_dict[field], datetime.datetime):
-                    item_dict[field] = item_dict[field].strftime("%Y-%m-%dT%H:%M:%S")
                 item_dict[field] = st.text_input(
                     field.capitalize().replace("_", " "), item_dict.get(field, "")
                 )
 
         if st.button("Save"):
-            try:
-                for json_field in [
-                    "layout",
-                    "settings_default",
-                    "settings_user",
-                    "item_list",
-                ]:
-                    item_dict[json_field] = json.loads(item_dict[json_field])
+            for json_field in [
+                "layout",
+                "settings_default",
+                "settings_user",
+                "item_list",
+            ]:
+                item_dict[json_field] = json.loads(item_dict[json_field])
 
-                # Convert string back to datetime for database update
-                for field in fields:
-                    if isinstance(item_dict[field], str):
-                        try:
-                            item_dict[field] = datetime.datetime.fromisoformat(
-                                item_dict[field]
-                            )
-                        except ValueError:
-                            pass  # It's not a datetime string, do nothing
+            # Convert back string representations of datetime objects to datetime
+            for field in fields:
+                if isinstance(item_dict[field], str):
+                    try:
+                        item_dict[field] = datetime.datetime.fromisoformat(
+                            item_dict[field]
+                        )
+                    except ValueError:
+                        pass  # It's not a datetime string, do nothing
 
-                update_database_row_item(item_dict)
-                st.success("Item updated successfully!")
-            except json.JSONDecodeError:
-                st.error("Invalid JSON in one of the fields.")
-                return
+            update_database_row_item(item_dict)
+            st.success("Item updated successfully!")
     except Exception as e:
         st.error(f"Error: {e}")
 

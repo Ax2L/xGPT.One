@@ -47,16 +47,16 @@ def create_tables():
     CREATE TABLE IF NOT EXISTS dashboard_layouts (
         id SERIAL PRIMARY KEY,
         layout TEXT,
-        username VARCHAR,
-        page_name VARCHAR,
+        username VARCHAR(255),
+        page_name VARCHAR(255),
         description TEXT,
         notes TEXT,
         issues TEXT,
-        name VARCHAR UNIQUE,
+        name VARCHAR(255) UNIQUE,
         version VARCHAR,
         tags TEXT,
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        created_at TEXT,
+        updated_at TEXT,
         settings_default JSONB,
         settings_user JSONB,
         documentation TEXT,
@@ -65,7 +65,7 @@ def create_tables():
         urls TEXT,
         ssl BOOLEAN DEFAULT FALSE,
         entrypoint TEXT,
-        using_item_name_list JSONB
+        using_item_name_list TEXT
     )
 """
 
@@ -73,7 +73,7 @@ def create_tables():
         CREATE TABLE chats (
             chat_id SERIAL PRIMARY KEY,
             username VARCHAR(255),
-            start_time TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            start_time TEXT,
             end_time TIMESTAMP WITH TIME ZONE,
             chat_name VARCHAR(255)
         )
@@ -85,7 +85,7 @@ def create_tables():
             chat_id INTEGER,
             username VARCHAR(255),
             content TEXT,
-            timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            timestamp TEXT,
             sent_by VARCHAR(50)
         )
     """
@@ -95,7 +95,7 @@ def create_tables():
             history_chat_id SERIAL PRIMARY KEY,
             username VARCHAR(255),
             chat_content TEXT,
-            timestamp TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+            timestamp TEXT
         )
     """
 
@@ -111,8 +111,8 @@ def create_tables():
             name VARCHAR(255) UNIQUE,
             version VARCHAR(50),
             tags TEXT,
-            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            created_at TEXT,
+            updated_at TEXT,
             using_in_dashboard TEXT,
             settings_default JSONB,
             settings_user JSONB,
@@ -122,7 +122,7 @@ def create_tables():
             urls TEXT,
             ssl BOOLEAN DEFAULT FALSE,
             entrypoint TEXT,
-            item_list JSONB
+            item_list TEXT
         )
     """
 
@@ -277,7 +277,7 @@ def insert_initial_data():
             "user, custom",
             False,
             json.dumps({"setting1": "value1"}),
-            json.dumps({}),
+            json.dumps({"setting1": "value1"}),
             "User specific documentation",
             "",
             "",
