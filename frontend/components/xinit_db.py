@@ -43,31 +43,6 @@ def create_tables():
             chat_database JSONB
         )
     """
-    dashboard_layouts_table = """
-    CREATE TABLE IF NOT EXISTS dashboard_layouts (
-        id SERIAL PRIMARY KEY,
-        layout TEXT,
-        username VARCHAR(255),
-        page_name VARCHAR(255),
-        description TEXT,
-        notes TEXT,
-        issues TEXT,
-        name VARCHAR(255) UNIQUE,
-        version VARCHAR,
-        tags TEXT,
-        created_at TEXT,
-        updated_at TEXT,
-        settings_default JSONB,
-        settings_user JSONB,
-        documentation TEXT,
-        repository TEXT,
-        files TEXT,
-        urls TEXT,
-        ssl BOOLEAN DEFAULT FALSE,
-        entrypoint TEXT,
-        using_item_name_list TEXT
-    )
-"""
 
     chats_table = """
         CREATE TABLE chats (
@@ -99,41 +74,59 @@ def create_tables():
         )
     """
 
-    dashboard_items_table = """
-        CREATE TABLE dashboard_items (
+    dashboard_tables = """
+        CREATE TABLE IF NOT EXISTS dashboard_items (
             id SERIAL PRIMARY KEY,
             layout TEXT,
-            username VARCHAR(255),
-            page_name VARCHAR(255),
+            username TEXT,
+            page_name TEXT,
             description TEXT,
             notes TEXT,
             issues TEXT,
-            name VARCHAR(255) UNIQUE,
-            version VARCHAR(50),
+            name TEXT,
+            version TEXT,
             tags TEXT,
-            created_at TEXT,
-            updated_at TEXT,
             using_in_dashboard TEXT,
-            settings_default JSONB,
-            settings_user JSONB,
+            settings_default TEXT,
+            settings_user TEXT,
             documentation TEXT,
             repository TEXT,
             files TEXT,
             urls TEXT,
-            ssl BOOLEAN DEFAULT FALSE,
+            ssl BOOLEAN,
             entrypoint TEXT,
             item_list TEXT
-        )
+        );
+        CREATE TABLE IF NOT EXISTS dashboard_layouts (
+            id SERIAL PRIMARY KEY,
+            layout TEXT,
+            username TEXT,
+            page_name TEXT,
+            description TEXT,
+            notes TEXT,
+            issues TEXT,
+            name TEXT,
+            version TEXT,
+            tags TEXT,
+            settings_default TEXT,
+            settings_user TEXT,
+            documentation TEXT,
+            repository TEXT,
+            files TEXT,
+            urls TEXT,
+            ssl BOOLEAN,
+            entrypoint TEXT,
+            using_item_name_list TEXT
+        );
     """
 
     try:
         cursor.execute(user_settings_table)
-        cursor.execute(dashboard_layouts_table)
+        cursor.execute(dashboard_tables)
         cursor.execute(page_settings_table)
         cursor.execute(chats_table)
         cursor.execute(messages_table)
         cursor.execute(history_chats_table)
-        cursor.execute(dashboard_items_table)  # Execute the new table creation
     except Exception as e:
         print(f"Error creating tables: {e}")
 
@@ -183,80 +176,6 @@ def insert_initial_data():
         "INSERT INTO history_chats (username, chat_content) VALUES (%s, %s)",
         ("admin", "Sample historical chat content"),
     )
-
-    # ult_dashboard_layouts = [
-    # {
-    #    "layout": json.dumps(
-    #        {
-    #            "widgets": [
-    #                {
-    #                    "id": 1,
-    #                    "type": "chart",
-    #                    "position": {"x": 0, "y": 0, "w": 4, "h": 3},
-    #                },
-    #                {
-    #                    "id": 2,
-    #                    "type": "table",
-    #                    "position": {"x": 4, "y": 0, "w": 4, "h": 3},
-    #                },
-    #                {
-    #                    "id": 3,
-    #                    "type": "table",
-    #                    "position": {"x": 3, "y": 0, "w": 4, "h": 3},
-    #                },
-    #            ]
-    #        }
-    #    ),
-    #    "username": "admin",
-    #    "page_name": "Default Page",
-    #    "description": "Default layout description",
-    #    "notes": "Sample notes",
-    #    "issues": "None",
-    #    "name": "Default Layout",
-    #    "version": "1.0",
-    #    "tags": "default, layout",
-    #    "settings_default": json.dumps({"setting1": "value1"}),
-    #    "settings_user": json.dumps({}),
-    #    "documentation": "Default layout documentation",
-    #    "repository": "https://github.com/Ax2L/xGPT.One",
-    #    "files": "layout1.py, layout2.py",
-    #    "urls": "http://example.com",
-    #    "ssl": False,
-    #    "entrypoint": "http://url.with:3000",
-    #    "using_item_name_list": json.dumps(["item1", "item2"]),
-    # }
-    #
-
-    # layout in default_dashboard_layouts:
-    # cursor.execute(
-    #    """
-    #    INSERT INTO dashboard_layouts
-    #    (layout, username, page_name, description, notes, issues, name, version, tags,  created_at, updated_at, settings_default, settings_user, documentation, repository,  files, urls, ssl, entrypoint, using_item_name_list)
-    #    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-    #    """,
-    #    (
-    #        layout["layout"],
-    #        layout["username"],
-    #        layout["page_name"],
-    #        layout["description"],
-    #        layout["notes"],
-    #        layout["issues"],
-    #        layout["name"],
-    #        layout["version"],
-    #        layout["tags"],
-    #        datetime.now(),
-    #        datetime.now(),
-    #        layout["settings_default"],
-    #        layout["settings_user"],
-    #        layout["documentation"],
-    #        layout["repository"],
-    #        layout["files"],
-    #        layout["urls"],
-    #        layout["ssl"],
-    #        layout["entrypoint"],
-    #        layout["using_item_name_list"],
-    #    ),
-    # )
 
     username = st.session_state.get("username", "admin")
     cursor.execute(

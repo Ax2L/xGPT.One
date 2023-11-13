@@ -4,6 +4,18 @@ import datetime
 from components.xdatastore import DashboardItems, DashboardLayouts
 
 
+def xform():
+    st.title("xGPT.One Form")
+
+    with st.form("my_form"):
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Submit")
+
+        if submitted:
+            st.write("Hello, ", username)
+
+
 def display_edit_item_form():
     try:
         item = st.session_state["edit_item"]
