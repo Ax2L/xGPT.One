@@ -2,8 +2,8 @@ import streamlit as st
 from streamlit_elements import mui
 from components.xdatastore import DashboardLayouts, DashboardItems
 import psycopg2
-import dash_item as xitem
-import dash_layout as xlayout
+import components.utils.dash_item as xitem
+import components.utils.dash_layout as xlayout
 import datetime
 
 
@@ -123,7 +123,7 @@ def xpaper():
                                 mui.TableCell(item[1], noWrap=True)
                                 mui.TableCell(item[2], noWrap=True)
                                 with mui.TableCell():
-                                    for button in xitem.create_item_buttons(item[3]):
+                                    for button in create_item_buttons(item[3]):
                                         button
                     else:
                         st.error("Failed to load dashboard items.")

@@ -3,6 +3,12 @@ import json
 import psycopg2
 
 
+def init_connection():
+    return psycopg2.connect(
+        dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
+    )
+
+
 DEFAULT_ITEM_VALUES = {
     "name": "NEW Item",
     "tags": "new, item",
