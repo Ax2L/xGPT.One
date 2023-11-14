@@ -14,7 +14,7 @@ from streamlit_extras.switch_page_button import switch_page
 # ? Local modules
 from components.style import stylebase as sb
 from components.xhelper import check_logged_in
-from components.utils import xdash
+from components import xdash
 
 # * Initialization & Configurations
 # * Constants

@@ -77,24 +77,24 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS dashboard_items (
             id SERIAL PRIMARY KEY,
             name TEXT,
-            tags TEXT,
-            using_in_dashboard BOOLEAN,
+            entrypoint TEXT,
+            ssl BOOLEAN,
+            repository TEXT,
+            documentation TEXT,
             settings_default TEXT,
             settings_user TEXT,
-            documentation TEXT,
-            repository TEXT,
-            files TEXT,
+            using_in_dashboard BOOLEAN,
             urls TEXT,
-            ssl BOOLEAN,
-            entrypoint TEXT
+            files TEXT,
+            tags TEXT
         );
         CREATE TABLE IF NOT EXISTS dashboard_layouts (
             id SERIAL PRIMARY KEY,
             name TEXT,
             layout TEXT,
-            tags TEXT,
             username TEXT,
             description TEXT,
+            tags TEXT,
             using_item_name_list TEXT
         );
     """
@@ -159,25 +159,25 @@ def insert_initial_data():
     cursor.execute(
         """
         INSERT INTO dashboard_items 
-        (name, tags, using_in_dashboard, settings_default, settings_user, documentation, repository, files, urls, ssl, entrypoint) 
+        (name, entrypoint, ssl, repository, documentation, settings_default, settings_user, using_in_dashboard, urls, files, tags) 
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """,
         (
             f"{username}_item",
-            "user, custom",
-            False,
-            json.dumps({"setting1": "value1"}),
-            json.dumps({"setting1": "value1"}),
-            "User specific documentation",
-            "",
-            "",
-            "",
-            False,
             "http://user.url:3000",
+            False,
+            "",
+            "User specific documentation",
+            json.dumps({"setting1": "value1"}),
+            json.dumps({"setting1": "value1"}),
+            False,
+            "",
+            "",
+            "user, custom",
         ),
     )
 
-    # Insert initial data for dashboard_layouts
+    # Updated INSERT statement for dashboard_layouts
     default_dashboard_layouts = [
         {
             "name": "Default Page",
@@ -192,9 +192,9 @@ def insert_initial_data():
                     ]
                 }
             ),
-            "tags": "default page template",
             "username": "admin",
             "description": "Default layout description",
+            "tags": "default page template",
             "using_item_name_list": json.dumps(["item1", "item2"]),
         }
     ]
@@ -202,15 +202,15 @@ def insert_initial_data():
         cursor.execute(
             """
             INSERT INTO dashboard_layouts 
-            (name, layout, tags, username, description, using_item_name_list) 
+            (name, layout, username, description, tags, using_item_name_list) 
             VALUES (%s, %s, %s, %s, %s, %s)
             """,
             (
                 layout["name"],
                 layout["layout"],
-                layout["tags"],
                 layout["username"],
                 layout["description"],
+                layout["tags"],
                 layout["using_item_name_list"],
             ),
         )
