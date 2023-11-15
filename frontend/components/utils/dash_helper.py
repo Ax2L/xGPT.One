@@ -4,10 +4,28 @@ import streamlit as st
 import json
 import psycopg2
 from components import xdatastore
+from components.xdatastore import DashboardLayouts, DashboardItems
+import datetime
 
 
 def init_connection():
     return xdatastore.init_connection()
+
+
+ITEM_FIELDS = [
+    "id",
+    "name",
+    "entrypoint",
+    "ssl",
+    "repository",
+    "documentation",
+    "settings_default",
+    "settings_user",
+    "using_in_dashboard",
+    "urls",
+    "files",
+    "tags",
+]
 
 
 DEFAULT_PART_VALUES = {
@@ -18,7 +36,7 @@ DEFAULT_PART_VALUES = {
     "documentation": "Sample documentation",
     "settings_default": json.dumps({"setting1": "value1"}),
     "settings_user": json.dumps({}),
-    "using_in_dashboard": "unused so far",
+    "using_in_dashboard": False,
     "urls": "http://example.com",
     "files": "file1.py, file2.py",
     "tags": "new, part",
@@ -46,17 +64,10 @@ DEFAULT_LAYOUT_VALUES = {
 
 def fetch_dashboard_parts_by_id(TABLE, part_id):
     try:
-        conn = psycopg2.connect(
-            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
-        )
+        conn = init_connection()
         cursor = conn.cursor()
-        cursor.execute(
-            "SELECT * FROM %s WHERE id = %s",
-            (
-                TABLE,
-                part_id,
-            ),
-        )
+        query = f"SELECT * FROM {TABLE} WHERE id = %s"
+        cursor.execute(query, (part_id,))
         part = cursor.fetchone()
         conn.close()
         return part
@@ -64,11 +75,21 @@ def fetch_dashboard_parts_by_id(TABLE, part_id):
         st.toast(f":red[Error fetching part by ID: {e}]")
 
 
-def edit_dashboard_part(TABLE, useID):
-    print(f"edit dashboard part {useID}")
-    fetch_part = fetch_dashboard_parts_by_id(TABLE, useID)
-    if fetch_part:
-        st.session_state[f"edit_{TABLE.lower()}"] = fetch_part
+def update_database_row_item(item_update):
+    try:
+        print(f"{item_update}")
+        # Assuming you are updating the 'dashboard_items' table
+        dashboard_item = DashboardItems(id=item_update["id"])
+        dashboard_item.load()  # Load the existing data
+
+        # Update each field
+        for key, value in item_update.items():
+            if key != "id":  # Skip updating the ID
+                dashboard_item.update(key, value)
+
+        st.toast(":green[Database row updated successfully!]")
+    except Exception as e:
+        st.toast(f":red[Error updating database: {e}]")
 
 
 def get_dashboard_parts(TABLE):
@@ -153,35 +174,24 @@ def check_and_load_or_create_part(TABLE="", partID=None):
         conn = init_connection()
         cursor = conn.cursor()
 
-        # Check if an part with the name "New Part" exists
-        cursor.execute(
-            "SELECT * FROM %s WHERE id = %s",
-            (
-                TABLE,
-                partID,
-            ),
-        )
+        # Check if a part with the given ID exists
+        query = f"SELECT * FROM {TABLE} WHERE id = %s"
+        cursor.execute(query, (partID,))
         part = cursor.fetchone()
 
         if part:
             # Part exists, load its data
             st.session_state["edit_part"] = part
             st.toast(
-                f":yellow[Part 'New Part' already exists. Loaded in the editor for editing.]"
+                f":yellow[Part with ID {partID} already exists. Loaded in the editor for editing.]"
             )
         else:
             # Part does not exist, create a new one
-            insert_new_part()
-            cursor.execute(
-                "SELECT * FROM %s WHERE id = %s",
-                (
-                    TABLE,
-                    partID,
-                ),
-            )
+            insert_new_part(TABLE)
+            cursor.execute(query, (partID,))
             new_part = cursor.fetchone()
             st.session_state["edit_part"] = new_part
-            st.toast(":green[New part 'New Part' created and loaded in the editor.]")
+            st.toast(":green[New part created and loaded in the editor.]")
 
         conn.close()
     except Exception as e:
@@ -190,23 +200,12 @@ def check_and_load_or_create_part(TABLE="", partID=None):
 
 def delete_dashboard_part(TABLE, partID):
     try:
-        conn = psycopg2.connect(
-            dbname="xgpt", user="xgpt", password="xgpt", host="localhost", port="5435"
-        )
+        conn = init_connection()
         cursor = conn.cursor()
-        cursor.execute(
-            "DELETE FROM %s WHERE id = %s",
-            (
-                TABLE,
-                partID,
-            ),
-        )
+        query = f"DELETE FROM {TABLE} WHERE id = %s"
+        cursor.execute(query, (partID,))
         conn.commit()
         conn.close()
-        st.toast(
-            f":green[Part with ID {partID} deleted successfully.]",
-        )
+        st.toast(f":green[Part with ID {partID} deleted successfully.]")
     except Exception as e:
-        st.toast(
-            f":red[Error deleting part: {e}]",
-        )
+        st.toast(f":red[Error deleting part: {e}]")

@@ -567,5 +567,5 @@ def init(page):
             height="50px",
             visibleScrollbar=False,
         )
-        xdash.xpaper()
+        xdash.configure_dash_items(page)
         # xpaper.gen_dashboard(page, item_data)
