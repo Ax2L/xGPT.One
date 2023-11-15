@@ -1,106 +1,247 @@
 import streamlit as st
-from streamlit_elements import mui
 from components.utils import dash_helper as xds
 from components.xdatastore import DashboardLayouts, DashboardItems
-import datetime
+from streamlit_elements import mui
 
 
-def edit_dashboard_part(TABLE, useID):
-    print(f"edit dashboard part {useID}")
-    fetch_part = xds.fetch_dashboard_parts_by_id(TABLE, useID)
-    if fetch_part:
-        st.session_state[f"edit_{TABLE.lower()}"] = fetch_part
-        st.toast(
-            f":green[Data loaded into edit_{TABLE.lower()} ]",
-        )
+def compile_edit_item_data():
+    # Initialize an empty dictionary to store the compiled data
+    compiled_data = {}
+
+    # Iterate over each key in the session state
+    for key in st.session_state:
+        # Check if the key starts with 'edit_item'
+        if key.startswith("edit_item"):
+            # Extract the field name from the key
+            field_name = key[len("edit_item_") :]
+            # Add the field and its value to the compiled data
+            compiled_data[field_name] = st.session_state[key]
+
+    return compiled_data
 
 
-# & ITEMS EDITOR
-def display_edit_item_form():
+def combine_items_back():
     try:
-        item = st.session_state["edit_dashboard_items"]
-        # Define a key for the save button state
-        save_button_key = "save_button_state"
+        # Initialize an empty dictionary to store the compiled data
+        itemID = st.session_state["edit_item_id"]
+        dashboard_item = DashboardItems(id=itemID)
+        dashboard_item.load()  # Load the existing data
+        # Iterate over each key in the session state
+        for key in [
+            "id",
+            "name",
+            "entrypoint",
+            "ssl",
+            "repository",
+            "documentation",
+            "settings_default",
+            "settings_user",
+            "using_in_dashboard",
+            "urls",
+            "files",
+            "tags",
+        ]:
+            # Add the field and its value to the compiled data
+            value = st.session_state[f"edit_item_{key}"]
+            if key != "id":  # Skip updating the ID
+                dashboard_item.update(key, value)
+        st.toast(":green[Database row updated successfully!]")
+    except Exception as e:
+        st.toast(f":red[Error updating database: {e}]")
 
-        # Initialize the button state to False
-        if save_button_key not in st.session_state:
-            st.session_state[save_button_key] = False
 
-        fields = xds.ITEM_FIELDS
+# def update_database_row_item_from_session():
+#    try:
+#        # Compile the data from session state
+#        item_update = compile_edit_item_data()
+#        print(f"{item_update}")
+#        # Assuming you are updating the 'dashboard_items' table
+#        dashboard_item = DashboardItems(id=item_update["id"])
+#        dashboard_item.load()  # Load the existing data
+#
+#        # Update each field
+#        for key, value in item_update.items():
+#            if key != "id":  # Skip updating the ID
+#                dashboard_item.update(key, value)
+#
+#        st.toast(":green[Database row updated successfully!]")
+#    except Exception as e:
+#        st.toast(f":red[Error updating database: {e}]")
 
-        item_dict = dict(zip(fields, item))
-        with mui.Paper():
-            # Convert datetime objects to strings for JSON serialization
-            for field in fields:
-                if isinstance(item_dict[field], datetime.datetime):
-                    item_dict[field] = item_dict[field].strftime("%Y-%m-%dT%H:%M:%S")
 
-            for field in fields[1:]:
-                if field in [
-                    "ssl",
-                    "using_in_dashboard",
-                ]:  # Add "using_in_dashboard" here
-                    item_dict[field] = mui.FormControlLabel(
-                        control=mui.Checkbox(
-                            defaultChecked=item_dict.get(field, False)
-                        ),
-                        label=field.replace("using_in_dashboard", "crrently in use")
-                        .capitalize()
-                        .upper()
-                        .replace("_", " "),
-                    )
-                else:
-                    item_dict[field] = mui.TextField(
-                        label=field.capitalize().replace("_", " "),
-                        value=item_dict.get(field, ""),
-                        variant="outlined",
-                        fullWidth=True,
-                        margin="normal",
-                    )
+def convert_tuple_to_dict(input_tuple):
+    # Define the keys for the dictionary
+    keys = xds.ITEM_FIELDS
 
-            # When the button is clicked, it should set the state to True
-            def convert_data(item_dict):
-                try:
-                    print(f"{item_dict}")
-                    # Convert back string representations of datetime objects to datetime
-                    for field in fields:
-                        if isinstance(item_dict[field], str):
-                            try:
-                                item_dict[field] = datetime.datetime.fromisoformat(
-                                    item_dict[field]
-                                )
-                            except ValueError:
-                                pass  # It's not a datetime string, do nothing
-                    return item_dict
-                except Exception as e:
-                    st.toast(f":red[Error converting before updating database: {e}]")
+    # Ensure the length of the tuple and keys match
+    if len(input_tuple) != len(keys):
+        raise ValueError("The input tuple does not match the expected format.")
 
+    # Create a dictionary from the keys and the tuple elements
+    return dict(zip(keys, input_tuple))
+
+
+# def update_onchange_database_one_item(id, key, event):
+#    try:
+#        value = event.target.value
+#        # Assuming you are updating the 'dashboard_items' table
+#        dashboard_item = DashboardItems(id=id)
+#        dashboard_item.load()  # Load the existing data
+#
+#        print(f"im a Value {value}")
+#
+#        dashboard_item.update(key, value)
+#
+#        st.success("Database row updated successfully!")
+#    except Exception as e:
+#        st.error(f"Error updating database: {e}")
+
+
+def update_database_row_item(item_update):
+    try:
+        print(f"{item_update}")
+        # Assuming you are updating the 'dashboard_items' table
+        dashboard_item = DashboardItems(id=item_update["id"])
+        dashboard_item.load()  # Load the existing data
+        # Update each field
+        for key, value in item_update.items():
+            if key != "id":  # Skip updating the ID
+                dashboard_item.update(key, value)
+        st.toast(":green[Database row updated successfully!]")
+    except Exception as e:
+        st.toast(f":red[Error updating database: {e}]")
+
+
+def edit_dashboard_part(this_id):
+    st.session_state["edit_item_id"] = this_id
+    print(f"edit dashboard part {this_id}")
+    fetch_part = DashboardItems(id=this_id)
+    fetch_part.load()
+    if fetch_part.data:
+        st.success(f"fetched {fetch_part.data}")
+        st.session_state["edit_item"] = fetch_part.data  # Change here
+        st.toast(f":green[Data loaded into edit_item]")
+
+
+def display_edit_item_form(this_id):
+    if "edit_item_id" != this_id:
+        try:
+            st.session_state["edit_item_id"] = this_id
+            fetch_part = DashboardItems(id=this_id)
+            fetch_part.load()  #
+            item = fetch_part.data
+            st.toast(f"fetched {item}")
+        except Exception as e:
+            st.error(f"Error loading data from Database: {e}")
+    else:
+        try:
+            item = fetch_part.data
+            st.success(f"no need to load {fetch_part.data}")
+
+            #    # Check if 'edit_item' is in session state and is a dictionary
+            #        st.session_state["edit_item_id"] = item["id"]
+            #        st.session_state["edit_item_name"] = item["name"]
+            #        st.session_state["edit_item_entrypoint"] = item["entrypoint"]
+            #        st.session_state["edit_item_ssl"] = item["ssl"]
+            #        st.session_state["edit_item_repository"] = item["repository"]
+            #        st.session_state["edit_item_documentation"] = item["documentation"]
+            #        st.session_state["edit_item_settings_default"] = item["settings_default"]
+            #        st.session_state["edit_item_settings_user"] = item["settings_user"]
+            #        st.session_state["edit_item_using_in_dashboard"] = item[
+            #            "using_in_dashboard"
+            #        ]
+            #        st.session_state["edit_item_urls"] = item["urls"]
+            #        st.session_state["edit_item_files"] = item["files"]
+            #        st.session_state["edit_item_tags"] = item["tags"]
+            #    else:
+            #        st.error("No item data to edit.")
+            #        return
+            #
+            def handleItemChange(event):
+                print(f"i do {event.target.label}")
+                st.session_state[
+                    event.target.label.replace(" ", "_").lower()
+                ] = event.target.value
+                print(
+                    f"{st.session_state[event.target.label.replace(' ', '_').lower()]}"
+                )
+
+            # Hardcoded input fields with onChange logic using lambda
+            mui.TextField(
+                label="ID",
+                defaultValue=st.session_state["edit_item_id"],
+                disabled=True,
+            )
+            # mui.TextField(
+            #    label="Name",
+            #    defaultValue=st.session_state["edit_item_name"],
+            #    onChange=lambda value: update_onchange_database_one_item(
+            #        item["id"], "name", value
+            #    ),
+            # )
+            mui.TextField(
+                label="Name",
+                defaultValue=st.session_state["name"],
+                onChange=handleItemChange
+                # onChange=lambda value: xds.update_field("name", value),
+            )
+            mui.TextField(
+                label="Entrypoint",
+                defaultValue=st.session_state["edit_item_entrypoint"],
+                # onChange=lambda value: xds.update_field("entrypoint", value),
+            )
+            mui.Checkbox(
+                label="SSL",
+                defaultChecked=st.session_state["edit_item_ssl"],
+                # onChange=lambda value: xds.update_field("ssl", value),
+            )
+            mui.TextField(
+                label="Repository",
+                defaultValue=st.session_state["edit_item_repository"],
+                # onChange=lambda value: xds.update_field("repository", value),
+            )
+            mui.TextField(
+                label="Documentation",
+                defaultValue=st.session_state["edit_item_documentation"],
+                # onChange=lambda value: xds.update_field("documentation", value),
+            )
+            mui.TextField(
+                label="Default Settings",
+                defaultValue=st.session_state["edit_item_settings_default"],
+                # onChange=lambda value: xds.update_field("settings_default", value),
+            )
+            mui.TextField(
+                label="User Settings",
+                defaultValue=st.session_state["edit_item_settings_user"],
+                # onChange=lambda value: xds.update_field("settings_user", value),
+            )
+            mui.TextField(
+                label="Using in Dashboard",
+                defaultValue=st.session_state["edit_item_using_in_dashboard"],
+                # onChange=lambda value: xds.update_field("using_in_dashboard", value),
+            )
+            mui.TextField(
+                label="URLs",
+                defaultValue=st.session_state["edit_item_urls"],
+                # onChange=lambda value: xds.update_field("urls", value),
+            )
+            mui.TextField(
+                label="Files",
+                defaultValue=st.session_state["edit_item_files"],
+                # onChange=lambda value: xds.update_field("files", value),
+            )
+            mui.TextField(
+                label="Tags",
+                defaultValue=st.session_state["edit_item_tags"],
+                # onChange=lambda value: xds.update_field("tags", value),
+            )
             mui.Button(
                 "Save",
-                variant="outlined",
-                color="primary",
-                onClick=lambda item_update=convert_data(item_dict): (
-                    lambda: xds.update_database_row_item(item_update)
-                )(),
-            )
-            # After the button is rendered, check if it was clicked
-            # if st.session_state[save_button_key]:
-            #    # Reset the button state to False
-            #    st.session_state[save_button_key] = False
-            #    # Convert back string representations of datetime objects to datetime
-            #    for field in fields:
-            #        if isinstance(item_dict[field], str):
-            #            try:
-            #                item_dict[field] = datetime.datetime.fromisoformat(
-            #                    item_dict[field]
-            #                )
-            #            except ValueError:
-            #                pass  # It's not a datetime string, do nothing
-
-            # update_database_row_item(item_dict)
-            # st.toast(":green[Item updated successfully!]")
-    except Exception as e:
-        st.toast(f":red[Error: {e}]")
+                # onclick=lambda: update_database_row_item_from_session()
+                onClick=(lambda: (lambda: combine_items_back()))(),
+            ),
+        except Exception as e:
+            st.error(f"Error: {e}")
 
 
 # & ITEM LIST
@@ -121,8 +262,8 @@ def dash_item_list():
                         "Edit",
                         # Corrected lambda function for Edit button
                         onClick=(
-                            lambda item_id=item_id: (
-                                lambda: edit_dashboard_part("dashboard_items", item_id)
+                            lambda this_id=item[0]: (
+                                lambda: display_edit_item_form(this_id)
                             )
                         )(),
                     ),
@@ -165,13 +306,6 @@ def dash_item_list():
             )
 
 
-def configure_dash_items(page):
-    if page == "apps":
-        dash_item_list()
-        if "edit_dashboard_items" in st.session_state and not None:
-            display_edit_item_form()
-
-
 # & LAYOUTS
 def dash_layout_list():
     layouts = xds.get_dashboard_parts("dashboard_layouts")
@@ -200,9 +334,7 @@ def dash_layout_list():
                                 with mui.TableCell():
                                     mui.Button(
                                         "Edit",
-                                        onClick=lambda: edit_dashboard_part(
-                                            "dashboard_layouts", layout[0]
-                                        ),
+                                        onClick=lambda: edit_dashboard_part(layout[0]),
                                     ),
                                     mui.Button(
                                         "Delete",
@@ -220,3 +352,10 @@ def dash_layout_list():
                 color="primary",
                 onClick=lambda: xds.check_and_load_or_create_part("dashboard_items"),
             )
+
+
+def configure_dash_items(page):
+    if page == "apps":
+        dash_item_list()
+    # if "edit_item_id" in st.session_state:
+    #    display_edit_item_form()

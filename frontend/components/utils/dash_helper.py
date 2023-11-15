@@ -12,6 +12,10 @@ def init_connection():
     return xdatastore.init_connection()
 
 
+# Define a simple update function
+def update_field(field_name, value):
+    st.session_state[f"edit_item_{field_name}"] = value
+
 ITEM_FIELDS = [
     "id",
     "name",
@@ -73,23 +77,6 @@ def fetch_dashboard_parts_by_id(TABLE, part_id):
         return part
     except Exception as e:
         st.toast(f":red[Error fetching part by ID: {e}]")
-
-
-def update_database_row_item(item_update):
-    try:
-        print(f"{item_update}")
-        # Assuming you are updating the 'dashboard_items' table
-        dashboard_item = DashboardItems(id=item_update["id"])
-        dashboard_item.load()  # Load the existing data
-
-        # Update each field
-        for key, value in item_update.items():
-            if key != "id":  # Skip updating the ID
-                dashboard_item.update(key, value)
-
-        st.toast(":green[Database row updated successfully!]")
-    except Exception as e:
-        st.toast(f":red[Error updating database: {e}]")
 
 
 def get_dashboard_parts(TABLE):
