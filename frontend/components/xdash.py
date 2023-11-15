@@ -75,25 +75,6 @@ def display_edit_item_form():
                 except Exception as e:
                     st.toast(f":red[Error converting before updating database: {e}]")
 
-
-
-            if mui.Button("Save"):
-                # Convert back string representations of datetime objects to datetime
-                for field in fields:
-                    if isinstance(item_dict[field], str):
-                        try:
-                            item_dict[field] = datetime.datetime.fromisoformat(
-                                item_dict[field]
-                            )
-                        except ValueError:
-                            pass  # It's not a datetime string, do nothing
-
-                update_database_row_item(item_dict)
-                st.toast(":green[Item updated successfully!]")
-    except Exception as e:
-        st.toast(f":red[Error: {e}]")
-
-
             mui.Button(
                 "Save",
                 variant="outlined",
