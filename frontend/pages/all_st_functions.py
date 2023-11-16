@@ -1,6 +1,6 @@
 # **** Default Page block: **********************************************
 import streamlit as st
-from components import xhelper
+from components.utils import xhelper
 from . import xheader
 
 # Constants

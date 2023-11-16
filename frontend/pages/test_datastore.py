@@ -1,5 +1,5 @@
 import streamlit as st
-from components.xdatastore import UserSettings, PageSettings
+from components.utils.postgres.xdatastore import UserSettings, PageSettings
 from streamlit_extras.switch_page_button import switch_page
 
 
@@ -7,16 +7,16 @@ page_name = "test"
 if "current_page" not in st.session_state:
     st.session_state.current_page = page_name
     switch_page("main")
-    
+
 # Initialization (only done once)
 if "initialized" not in st.session_state:
     user = UserSettings(username="admin")
     user.load()
-    
+
     # Initialize session state from data object
     st.session_state["dev_mode"] = user.data.get("dev_mode", False)
     st.session_state["openai_key"] = user.data.get("openai_key", None)
-    
+
     st.session_state["initialized"] = True
 
 
@@ -43,6 +43,3 @@ if update_button:
     user.update("openai_key", st.session_state["openai_key"])
 st.write("Session state values:")
 st.write(st.session_state)
-
-
-

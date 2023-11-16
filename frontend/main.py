@@ -1,14 +1,16 @@
 # main.py
 import json
 import streamlit as st
-from components import xhelper, xheader
-from components.xdatastore import UserSettings
+from components import xheader
+from components.utils.postgres.xdatastore import UserSettings
 from components.utils import streamlit_authenticator as stauth
 from streamlit_extras.switch_page_button import switch_page
 
+from components.utils import xhelper
+
 # Constants and Configurations
 page_name = "main"
-default_np = "apps"
+default_np = "sendChatCode"
 next_page = default_np
 
 

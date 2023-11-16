@@ -10,10 +10,10 @@ import streamlit as st
 from streamlit_elements import elements, mui
 
 # ? Local modules
-from components.xhelper import (
+from components.utilsnents.utilsnents.utilsnents.utils.xhelper import (
     display_session_data,
 )
-from components.xdatastore import ColorSettings
+from components.utils.postgres.xdatastore import ColorSettings
 from streamlit_extras.switch_page_button import switch_page
 
 # ! Initialization & Configurations
@@ -81,7 +81,7 @@ def change_page_extended(next_page):
         st.error(f"Error: {str(e)} ❌")
 
 
-#def setup_page_config(page_name, this_wide, header_state):
+# def setup_page_config(page_name, this_wide, header_state):
 #    page_icon = check_for_logo_image(LOGO_PATH)
 #    st.set_page_config(
 #        page_title=f"xGPT.{page_name}",
@@ -100,6 +100,7 @@ def reset_active_button_color():
         st.session_state[f"color_active_{item['name']}_button"] = HEADERS[
             "button_active"
         ]
+
 
 # & Subheader Buttons
 def create_subheader_buttons(menu_item):
@@ -162,7 +163,7 @@ def header_button(menu_config):
         filter=tomldata["headers--filter"],
         padding=tomldata["headers--padding"],
         textAlign=tomldata["headers--text_align"],
-        #sx=HEADERS["main"],
+        # sx=HEADERS["main"],
     ):
         with mui.AppBar(
             position="static",
@@ -181,10 +182,10 @@ def header_button(menu_config):
                     height="60",
                     width="100",
                     background="transparent",
-                    #sx={
+                    # sx={
                     #    "&:hover": {"background_color": tomldata#  ["logo--background_hover"]},
                     #    **HEADERS["logo"],
-                    #},
+                    # },
                 )
                 with mui.Grid():
                     button_elements = []
@@ -256,7 +257,6 @@ def header_button(menu_config):
                 ):
                     # Subheader navigation
                     mui.Tabs(*create_subheader_buttons(item))
-
 
 
 # ? Menu creation function

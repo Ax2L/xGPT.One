@@ -3,8 +3,8 @@ import json
 from PIL import Image
 import streamlit as st
 from streamlit_elements import elements, mui
-from components.xhelper import display_session_data
-from components.xdatastore import ColorSettings
+from components.utils.xhelper import display_session_data
+from components.utils.postgres.xdatastore import ColorSettings
 from streamlit_extras.switch_page_button import switch_page
 
 # Global Constants

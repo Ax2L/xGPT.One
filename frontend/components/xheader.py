@@ -13,8 +13,9 @@ from streamlit_extras.switch_page_button import switch_page
 
 # ? Local modules
 from components.style import stylebase as sb
-from components.xhelper import check_logged_in
-from components import xdash
+from components.utils.xhelper import check_logged_in
+
+# from components.xdash import configure_dash_items
 
 # * Initialization & Configurations
 # * Constants
@@ -567,5 +568,5 @@ def init(page):
             height="50px",
             visibleScrollbar=False,
         )
-        xdash.configure_dash_items(page)
+        # configure_dash_items(page)
         # xpaper.gen_dashboard(page, item_data)

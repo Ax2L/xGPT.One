@@ -11,7 +11,7 @@ import datetime
 
 from components import xlayout
 from streamlit_extras.switch_page_button import switch_page
-from components import xdatastore as xds
+from components.utils.postgres import xdatastore as xds
 
 # ? ==============================================
 # ?                 SETUP SECTION
@@ -102,36 +102,34 @@ if "initial_settings" not in st.session_state:
             st.session_state[key] = value
     # Settings complete
     st.session_state["initial_settings"] = True
-    
+
 # Check if there's a chat in the chat database
 if not st.session_state.chat_database:
     initial_chat_entry = {
         "chat_id": 1,
         "username": "admin",
         "start_time": str(datetime.datetime.now()),
-        "end_time": None
+        "end_time": None,
     }
     xds.save_data(username, "chats", initial_chat_entry)
-    
+
     initial_message_entry = {
         "message_id": 1,
         "chat_id": 1,
         "username": "admin",
         "content": "Initial message",
         "timestamp": str(datetime.datetime.now()),
-        "sent_by": "system"
+        "sent_by": "system",
     }
     xds.save_data(username, "messages", initial_message_entry)
 # Updated code:
 if st.session_state.chat_database:
-    current_chat_id = st.session_state.chat_database[-1]['chat_id']
+    current_chat_id = st.session_state.chat_database[-1]["chat_id"]
 else:
     current_chat_id = None  # or a default value or action
-    
+
 # Get the last chat_id from the chat_database
 current_chat = str(current_chat_id)
-
-
 
 
 with st.sidebar:
@@ -179,7 +177,9 @@ def write_data(new_chat_name=current_chat):
             st.session_state["contexts"],
         )
 
+
 ##TODO if 0 <= current_chat_index < len(st.session_state["history_chats"]):
+
 
 # Function to reset the chat name
 def reset_chat_name_fun(chat_name):
@@ -446,7 +446,9 @@ for param in default_values:
 with tap_model:
     st.markdown("OpenAI API Key (Optional)")
     st.text_input(
-        "Your OpenAI API Key", value=xds.db_get_value(user, "session_data", "openai_key"), type="password"
+        "Your OpenAI API Key",
+        value=xds.db_get_value(user, "session_data", "openai_key"),
+        type="password",
     )
     st.caption(
         "This key is only valid on the current webpage and takes precedence over the configurations in Secrets. It is for your own use only and cannot be shared with others. [Obtain from official website](https://platform.openai.com/account/api-keys)"
@@ -457,7 +459,7 @@ with tap_model:
         "Context Level",
         0,
         10,
-        1, #st.session_state["context_level" + current_chat + "value"],
+        1,  # st.session_state["context_level" + current_chat + "value"],
         1,
         on_change=callback_fun,
         key="context_level" + current_chat,

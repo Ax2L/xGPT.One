@@ -1,6 +1,10 @@
 import streamlit as st
 
-from components.xdatastore import UserSettings, PageSettings, ColorSettings
+from components.utils.postgres.xdatastore import (
+    UserSettings,
+    PageSettings,
+    ColorSettings,
+)
 from streamlit_extras.switch_page_button import switch_page
 
 # ⁡⁣⁣⁢>>>| SET PAGE PARAMETER |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<⁡
@@ -12,7 +16,7 @@ page_name = "test"  #! Important
 # If 'current_page' not in session state, initialize it and redirect to 'main'
 if "username" not in st.session_state:
     st.session_state.setdefault("current_page", page_name)
-    switch_page('main')
+    switch_page("main")
 
 # Must stay here to prevent loading without session_state.username
 
@@ -43,7 +47,7 @@ with open("style.css") as f:
 
 # ⁡⁢⁣⁡⁣⁢⁡⁣⁢⁣===| PAGE NAVIGATION SECTION |================================⁡⁡⁡
 # If the current page doesn't match and isn't None, switch to it
-current_site = st.session_state['current_page']
+current_site = st.session_state["current_page"]
 if current_site != page_name and current_site is not None:
     switch_page(current_site)
 
@@ -52,16 +56,16 @@ if current_site != page_name and current_site is not None:
 # Load Sidebar Menu, saving pressed button in session_state
 
 # Check for page change again, and execute the respective section if a change occurred.
-current_site = st.session_state['current_page']
+current_site = st.session_state["current_page"]
 if current_site != page_name and current_site is not None:
     switch_page(current_site)
     st.write("Current Page is not mine:" + current_site)
 else:
-    st.write("You clicked on the current page:" + current_site + " your page is:" + page_name)
+    st.write(
+        "You clicked on the current page:" + current_site + " your page is:" + page_name
+    )
 
 
-#? ==============================================
+# ? ==============================================
 #!                        Tests
 #! ==============================================
-
-

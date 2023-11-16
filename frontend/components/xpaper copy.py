@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_elements import elements, mui, dashboard, html
-from components.xdatastore import DashboardLayouts, DashboardItems
+from components.utils.postgres.xdatastore import DashboardLayouts, DashboardItems
 import json
 from datetime import datetime
 

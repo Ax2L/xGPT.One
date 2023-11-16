@@ -1,7 +1,8 @@
 # pages/1_apps.py --
 # ! Do not modify this section below! >>>
 import streamlit as st
-from components import xinit_page
+from components.utils.init import xinit_page
+from components.utils import xhelper
 
 # ^ Constants
 PAGE_NAME = "apps"
@@ -11,7 +12,8 @@ xinit_page.set_page_config(PAGE_NAME, "wide", "collapsed")
 #! <<< Do not modify this section above!
 
 # ? Local modules
-from components import xheader, xhelper, xdash
+from components import xheader
+from components.utils.dashboard import DashConfig
 
 
 # & Functions
@@ -48,12 +50,10 @@ with st.sidebar:
     st.text("Some Sidebar content")
 
 # ~ Main Page Content
-
+DashConfig.configure_dash_items(PAGE_NAME)
+DashConfig.configure_dash_layouts(PAGE_NAME)
+DashConfig.dashboard_test(PAGE_NAME)
 st.text("Some Main content")
-
-if "edit_item" in st.session_state and not None:
-    xdash.display_edit_item_form()
-
 
 # * Loading custom CSS at the end
 load_custom_css()

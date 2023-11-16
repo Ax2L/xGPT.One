@@ -1,6 +1,10 @@
 import streamlit as st
 
-from components.xdatastore import UserSettings, PageSettings, ColorSettings
+from components.utils.postgres.xdatastore import (
+    UserSettings,
+    PageSettings,
+    ColorSettings,
+)
 from streamlit_extras.switch_page_button import switch_page
 
 # ⁡⁣⁣⁢>>>| SET PAGE PARAMETER |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<⁡
@@ -12,7 +16,7 @@ page_name = "assistant"  #! Important
 # If 'current_page' not in session state, initialize it and redirect to 'main'
 if "username" not in st.session_state:
     st.session_state.setdefault("current_page", page_name)
-    switch_page('main')
+    switch_page("main")
 
 # Must stay here to prevent loading without session_state.username
 from components import xlayout
@@ -44,10 +48,10 @@ with open("style.css") as f:
 
 # ⁡⁢⁣⁡⁣⁢⁡⁣⁢⁣===| PAGE NAVIGATION SECTION |================================⁡⁡⁡
 # Check if a different page is selected and switch if necessary
-new_page = st.session_state['current_page']
+new_page = st.session_state["current_page"]
 
 # If the current page doesn't match and isn't None, switch to it
-current_site = st.session_state['current_page']
+current_site = st.session_state["current_page"]
 if current_site != page_name and current_site is not None:
     switch_page(current_site)
 
@@ -56,12 +60,12 @@ if current_site != page_name and current_site is not None:
 # Load Sidebar Menu, saving pressed button in session_state
 
 # Check for page change again, and execute the respective section if a change occurred.
-current_site = st.session_state['current_page']
+current_site = st.session_state["current_page"]
 if current_site != page_name and current_site is not None:
     switch_page(current_site)
 
 
-#? ==============================================
+# ? ==============================================
 #!                        Tests
 #! ==============================================
 
@@ -78,7 +82,7 @@ link1 = "http://127.0.0.1:3000"
 
 
 # Use the full screen width and height
-#components.iframe(link1, height=st.get_container_width(), width=st.get_container_width())
+# components.iframe(link1, height=st.get_container_width(), width=st.get_container_width())
 
 
 components.iframe(link1, height=1000, width=1000)

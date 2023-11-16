@@ -132,6 +132,7 @@ css-generator = "^0.1.1"
 rembg = "^2.0.52"
 selenium = "^4.15.2"
 colour = "^0.1.5"
+selenium-chrome = "^0.0.29"
 
 
 [tool.poetry.group.dev.dependencies]
