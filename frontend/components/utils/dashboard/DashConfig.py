@@ -56,18 +56,26 @@ def update_selected_dashboard(value):
     st.session_state["selected_dashboard"] = value
 
 
+def update_edit_item(item_id):
+    """Updates the session state with the selected item number for editing."""
+    try:
+        item_nr = st.session_state[f"item_count_id_{item_id}"]
+        item_nr_int = int(item_nr)  # Convert to integer
+        st.session_state["item_nr"] = item_nr_int
+        # st.info(f"Selected item number for editing: {item_nr_int}")
+    except ValueError:
+        st.error("Invalid item number. It must be an integer.")
+
+
 def dashboard_test(page):
+    print("Lets try to find the issue!")
     if page in allowed_pages:
-        with elements("dashboard_test"):
-            if page in allowed_pages:
-                selected_dashboard = mui.Autocomplete(
-                    options=dashboard_names,
-                    label="Select a Dashboard",
-                    onChange=(
-                        lambda value=page: update_selected_dashboard(value=value)
-                    ),  # Reference to the callback function
-                )
-            selected_dashboard
-            # toDO NEXT: if "selected_dashboard" in st.session_state:
-            # toDO NEXT:     # Load and display the selected dashboard
-            # toDO NEXT:     load_dashboard(st.session_state["selected_dashboard"])
+        print("page is allowedfa")
+        # with elements("dashboard_test"):
+        # selected_dashboard = mui.Autocomplete(
+        #    options=dashboard_names,
+        #    label="Select a Dashboard",
+        #    onChange=(
+        #        update_selected_dashboard("")
+        #    ),  # Reference to the callback function
+        # )

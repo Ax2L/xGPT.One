@@ -4,6 +4,7 @@ from components.utils.dashboard.DashUtils import (
     update_edit_item,
     update_edit_layout,
 )
+from components.utils.dashboard.DashHelper import delete_dashboard_part, insert_new_part
 
 
 def dash_item_list():

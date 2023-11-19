@@ -3,6 +3,7 @@
 import streamlit as st
 from components.utils.init import xinit_page
 from components.utils import xhelper
+from streamlit_elements import elements, mui
 
 # ^ Constants
 PAGE_NAME = "apps"
@@ -50,9 +51,10 @@ with st.sidebar:
     st.text("Some Sidebar content")
 
 # ~ Main Page Content
-DashConfig.configure_dash_items(PAGE_NAME)
-DashConfig.configure_dash_layouts(PAGE_NAME)
-DashConfig.dashboard_test(PAGE_NAME)
+with elements("dashboard_main"):
+    # DashConfig.configure_dash_items(PAGE_NAME)
+    # DashConfig.configure_dash_layouts(PAGE_NAME)
+    DashConfig.dashboard_test(PAGE_NAME)
 st.text("Some Main content")
 
 # * Loading custom CSS at the end

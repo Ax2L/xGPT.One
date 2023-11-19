@@ -539,7 +539,7 @@ def dashboard_test(page):
         selected_dashboard = mui.Autocomplete(
             options=dashboard_names,
             label="Select a Dashboard",
-            onChange=lambda e, value: st.session_state.update(
+            onChange=lambda value: (
                 {"selected_dashboard": value}
             ),
         )

@@ -10,7 +10,7 @@ from components.utils import xhelper
 
 # Constants and Configurations
 page_name = "main"
-default_np = "sendChatCode"
+default_np = "apps"
 next_page = default_np
 
 
