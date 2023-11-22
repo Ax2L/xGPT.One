@@ -18,6 +18,7 @@
 
 **Main Process (UI Components Creation)**
 
+
 - **create_logo**: Displays the logo using Material UI.
 - **create_tabs**: Generates tabs for the header based on `menu_config`.
 - **create_icon_buttons**: Creates icon buttons for the header.
